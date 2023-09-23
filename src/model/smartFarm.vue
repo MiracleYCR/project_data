@@ -104,7 +104,7 @@ export default {
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
-        waitTime: 3000,
+        waitTime: 4500,
         carousel: "page",
         align: ["center", "left", "center", "center"],
         columnWidth: [],

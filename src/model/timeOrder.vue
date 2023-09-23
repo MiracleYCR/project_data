@@ -43,7 +43,7 @@ export default {
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
-        waitTime: 3000,
+        waitTime: 3500,
         align: ["center", "center", "center", "center"],
         carousel: "page",
       },
