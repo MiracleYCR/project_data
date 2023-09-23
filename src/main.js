@@ -1,8 +1,13 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import dataV from "@jiaminghi/data-view";
 
-Vue.config.productionTip = false
+import App from "./App.vue";
+import "./global.css";
+
+Vue.config.productionTip = false;
+
+Vue.use(dataV);
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
