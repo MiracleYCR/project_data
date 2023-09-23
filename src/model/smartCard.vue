@@ -6,17 +6,172 @@
       height: '338px',
     }"
   >
+    <div slot="boxContent" class="smart_card_container">
+      <div class="top">
+        <div class="acount">
+          <div class="left">
+            <div class="title">商户数</div>
+            <div class="content">
+              <dv-digital-flop
+                :config="merchantNumConfig"
+                style="width: 100%; height: 28px"
+              />
+            </div>
+          </div>
+
+          <div class="right">
+            <div class="title">总交易笔数</div>
+            <div class="content">
+              <dv-digital-flop
+                :config="tradeNumConfig"
+                style="width: 100%; height: 28px"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="amt">
+          <div class="title">交易总金额 (元)</div>
+          <div class="content">
+            <dv-digital-flop
+              :config="tradeAmtConfig"
+              style="width: 100%; height: 28px"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div>
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
   </border-box>
 </template>
 
 <script>
+import { numberFormatter } from "@/utils/index";
 import BorderBox from "../components/borderBox.vue";
 
 export default {
   components: {
     BorderBox,
   },
+
+  data() {
+    return {
+      merchantNumConfig: {
+        number: [864],
+        content: "{nt}",
+        formatter: numberFormatter,
+        textAlign: "center",
+        style: {
+          fontSize: 30,
+          fill: "#00D3FF",
+        },
+      },
+
+      tradeNumConfig: {
+        number: [864],
+        content: "{nt}",
+        formatter: numberFormatter,
+        textAlign: "center",
+        style: {
+          fontSize: 30,
+          fill: "#00D3FF",
+        },
+      },
+
+      tradeAmtConfig: {
+        number: [864],
+        content: "{nt}",
+        formatter: numberFormatter,
+        textAlign: "right",
+        style: {
+          fontSize: 30,
+          fill: "#00D3FF",
+        },
+      },
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.smart_card_container {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .top {
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .acount {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .left,
+      .right {
+        height: 100%;
+        width: calc(50% - 5px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgba(0, 211, 255, 0.1);
+      }
+
+      .left {
+        padding: 0 16px 0 14px;
+      }
+
+      .right {
+        padding: 0 14px 0 16px;
+      }
+    }
+
+    .amt {
+      height: 50px;
+      align-items: center;
+      display: flex;
+      padding: 0 14px;
+      justify-content: space-between;
+      background-color: rgba(0, 211, 255, 0.1);
+
+      .title {
+        font-size: 17px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .content {
+        flex: 1;
+      }
+    }
+  }
+
+  .bottom {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .line {
+      width: 266px;
+      height: 14px;
+      background: linear-gradient(90deg, #2f9fff, #b366ff);
+    }
+  }
+}
+</style>

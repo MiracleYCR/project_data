@@ -25,20 +25,90 @@ export default {
       config: {
         header: ["排名", "商品名称", "销售数量"],
         data: [
-          ["1", "商品名称商品名称商品名称", "888"],
-          ["2", "商品名称商品名称商品名称", "777"],
-          ["3", "商品名称商品名称商品名称", "666"],
-          ["4", "商品名称商品名称商品名称", "555"],
-          ["5", "商品名称商品名称商品名称", "444"],
-          ["6", "商品名称商品名称商品名称", "333"],
-          ["7", "商品名称商品名称商品名称", "222"],
-          ["8", "商品名称商品名称商品名称", "111"],
-          ["9", "商品名称商品名称商品名称", "97"],
-          ["10", "商品名称商品名称商品名称", "50"],
+          [
+            "1",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "888",
+          ],
+          [
+            "2",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "777",
+          ],
+          [
+            "3",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "666",
+          ],
+          [
+            "4",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "555",
+          ],
+          [
+            "5",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "444",
+          ],
+          [
+            "6",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "333",
+          ],
+          [
+            "7",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "222",
+          ],
+          [
+            "8",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "111",
+          ],
+          [
+            "9",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "97",
+          ],
+          [
+            "10",
+            `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="https://images.pexels.com/photos/603030/pexels-photo-603030.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+              <span style="margin-left: 10px">商品名称商品名称商品名称</span>
+              </div>`,
+            "50",
+          ],
         ],
-        headerBGC: "#1078DC",
-        oddRowBGC: "#020837",
-        evenRowBGC: "#020837",
+        headerBGC: "rgba(0, 211, 255, 0.1)",
+        oddRowBGC: "",
+        evenRowBGC: "",
         waitTime: 3000,
         align: ["center", "left", "center"],
         columnWidth: [],
@@ -48,7 +118,7 @@ export default {
 
   mounted() {
     const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
-    this.config.columnWidth = [80, selectGoodsDomWidth - 160, 80];
+    this.config.columnWidth = [50, selectGoodsDomWidth - 130, 80];
   },
 };
 </script>
@@ -57,8 +127,8 @@ export default {
 .select_goods_container {
   position: absolute;
   top: 60px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  left: 30px;
+  right: 30px;
+  bottom: 30px;
 }
 </style>
