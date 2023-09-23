@@ -1,0 +1,10 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: PingFang;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #020837;
+}
