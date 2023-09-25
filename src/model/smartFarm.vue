@@ -1,106 +1,98 @@
 <template>
-  <border-box
-    boxTitle="智慧农贸"
-    :customStyle="{
-      width: '504px',
-      height: '338px',
-    }"
-  >
-    <div slot="boxContent" class="smart_farm_container">
-      <div class="yesterday_data">
-        <div class="data_item">
-          <div class="title">门店数量</div>
-          <dv-digital-flop
-            :config="storeNumConfig"
-            style="width: 100%; height: 34px"
-          />
+  <div class="smart_farm_container">
+    <div class="title">智慧农贸</div>
+    <div class="smart_farm_body">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <template v-else>
+        <div class="yesterday_data">
+          <div class="data_item">
+            <div class="title2">门店数量</div>
+            <dv-digital-flop
+              :config="storeNumConfig"
+              style="width: 100%; height: 32px"
+            />
+          </div>
+
+          <div class="data_item2">
+            <div class="title2">昨日交易笔数</div>
+            <dv-digital-flop
+              :config="yesterdayTradeNumConfig"
+              style="width: 100%; height: 32px"
+            />
+          </div>
+
+          <div class="data_item2">
+            <div class="title2">昨日交易营收（元）</div>
+            <dv-digital-flop
+              :config="yesterdayTradeAmtConfig"
+              style="width: 100%; height: 32px"
+            />
+          </div>
         </div>
 
-        <div class="data_item">
-          <div class="title">昨日交易笔数</div>
-          <dv-digital-flop
-            :config="storeNumConfig"
-            style="width: 100%; height: 34px"
+        <div class="yesterday_data_rank" ref="yesterdayDataRankRef">
+          <dv-scroll-board
+            style="width: 100%; height: 100%"
+            :config="boardConfig"
           />
         </div>
-
-        <div class="data_item">
-          <div class="title">昨日交易营收（元）</div>
-          <dv-digital-flop
-            :config="yesterdayTradeNumConfig"
-            style="width: 100%; height: 34px"
-          />
-        </div>
-      </div>
-
-      <div class="yesterday_data_rank" ref="yesterdayDataRankRef">
-        <dv-scroll-board
-          style="width: 100%; height: 100%"
-          :config="boardConfig"
-        />
-      </div>
+      </template>
     </div>
-  </border-box>
+  </div>
 </template>
 
 <script>
 import { numberFormatter } from "@/utils/index";
-import BorderBox from "../components/borderBox.vue";
+import { merchants, merchantsValues } from "@/mock/merchant";
 
 export default {
-  components: {
-    BorderBox,
-  },
-
   data() {
     return {
+      loading: false,
+
       storeNumConfig: {
-        number: [864],
+        number: [merchants.length],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
         style: {
-          fontSize: 34,
+          fontSize: 32,
           fill: "#00d3ff",
         },
       },
 
       yesterdayTradeNumConfig: {
-        number: [123861],
+        number: [111123861],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
         style: {
-          fontSize: 34,
+          fontSize: 32,
           fill: "#00d3ff",
         },
       },
 
       yesterdayTradeAmtConfig: {
-        number: [123451.23],
+        number: [111123861.23],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
         style: {
-          fontSize: 34,
+          fontSize: 32,
           fill: "#00d3ff",
         },
       },
 
       boardConfig: {
         header: ["排名", "门店名称", "交易笔数", "交易实收"],
-        data: [
-          ["1", "商户名太长的省略省略省略省商户", "898", "1898.98"],
-          ["2", "某某某某商户某某某某商户", "756", "1756.58"],
-          ["3", "某某某某某某商户省略省略省略", "688", "1699.40"],
-          ["4", "商户名太长的省略省略省略省商户", "555", "1573.65"],
-          ["5", "商户名太长的省略省略省略省商户", "547", "1510.06"],
-          ["6", "商户名太长的省略省略省略省商户", "521", "1421.78"],
-          ["7", "商户名太长的省略省略省略省商户", "432", "1298.65"],
-          ["8", "商户名太长的省略省略省略省商户", "416", "976.35"],
-          ["9", "商户名太长的省略省略省略省商户", "387", "886.27"],
-          ["10", "商户名太长的省略省略省略省商户", "291", "746.05"],
-        ],
+        data: merchants.map((name, index) => {
+          return [
+            `${index + 1}`,
+            name,
+            merchantsValues["order"][index],
+            merchantsValues["amt"][index],
+          ];
+        }),
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
@@ -117,10 +109,10 @@ export default {
       this.$refs.yesterdayDataRankRef.offsetWidth;
 
     this.boardConfig.columnWidth = [
-      80,
-      yesterdayDataRankRefDomWidth - 280,
-      100,
-      100,
+      60,
+      yesterdayDataRankRefDomWidth - 240,
+      90,
+      90,
     ];
   },
 };
@@ -128,6 +120,73 @@ export default {
 
 <style lang="scss" scoped>
 .smart_farm_container {
+  position: relative;
+  width: 504px;
+  height: 338px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box.png");
+
+  .title {
+    height: 20px;
+    color: #0ab8ff;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 10px;
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .title2 {
+    height: 16px;
+    line-height: 20px;
+    color: #ffffff;
+  }
+
+  .smart_farm_body {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    .yesterday_data {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .data_item {
+        width: 80px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .data_item2 {
+        width: calc((100% - 120px) / 2);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    }
+
+    .yesterday_data_rank {
+      width: 100%;
+      flex: 1;
+      margin-top: 10px;
+    }
+  }
+}
+
+.smart_farm_container2 {
   position: absolute;
   top: 60px;
   left: 20px;

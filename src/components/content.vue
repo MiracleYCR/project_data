@@ -68,28 +68,25 @@ export default {
 
 <style lang="scss" scoped>
 .app_content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 94px;
-  bottom: 0;
-  padding: 0 10px 14px 10px;
+  flex: 1;
   display: flex;
+  margin-top: -80px;
+  padding: 0 10px 14px 10px;
 
   .left {
     width: 504px;
     height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     justify-content: space-between;
   }
 
   .center {
+    margin: 0 15px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin: 0 15px;
 
     .top {
       flex: 1;

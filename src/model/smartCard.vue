@@ -1,16 +1,11 @@
 <template>
-  <border-box
-    boxTitle="智慧渝卡通"
-    :customStyle="{
-      width: '504px',
-      height: '338px',
-    }"
-  >
-    <div slot="boxContent" class="smart_card_container">
+  <div class="smart_card_container">
+    <div class="title">智慧渝卡通</div>
+    <div class="smart_card_content">
       <div class="top">
         <div class="acount">
           <div class="left">
-            <div class="title">商户数</div>
+            <div class="title2">商户数</div>
             <div class="content">
               <dv-digital-flop
                 :config="merchantNumConfig"
@@ -20,7 +15,7 @@
           </div>
 
           <div class="right">
-            <div class="title">总交易笔数</div>
+            <div class="title2">总交易笔数</div>
             <div class="content">
               <dv-digital-flop
                 :config="tradeNumConfig"
@@ -31,7 +26,7 @@
         </div>
 
         <div class="amt">
-          <div class="title">交易总金额 (元)</div>
+          <div class="title2">交易总金额 (元)</div>
           <div class="content">
             <dv-digital-flop
               :config="tradeAmtConfig"
@@ -43,19 +38,14 @@
 
       <div class="bottom" id="smart_card_chart"></div>
     </div>
-  </border-box>
+  </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
 import { numberFormatter } from "@/utils/index";
-import BorderBox from "../components/borderBox.vue";
 
 export default {
-  components: {
-    BorderBox,
-  },
-
   data() {
     return {
       merchantNumConfig: {
@@ -100,24 +90,24 @@ export default {
     const smartCardData = [
       {
         name: "订单总金额",
-        value: 17948416,
+        value: 17623311,
       },
       {
         name: "支付总金额",
-        value: 10736212,
+        value: 18231223,
       },
       {
         name: "消费券总金额",
-        value: 7212204,
+        value: 47612422,
       },
     ];
 
     const option = {
       grid: {
-        top: "20%", // 上边距
+        top: "15%", // 上边距
         bottom: "0", // 下边距
         left: "0", // 左边距
-        right: "15%",
+        right: "20%",
         containLabel: true,
       },
       xAxis: {
@@ -170,75 +160,86 @@ export default {
 
 <style lang="scss" scoped>
 .smart_card_container {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  width: 504px;
+  height: 338px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box.png");
 
-  .top {
-    height: 120px;
+  .title {
+    height: 20px;
+    color: #0ab8ff;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 10px;
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .title2 {
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .smart_card_content {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
-    .acount {
-      height: 50px;
+    .top {
+      height: 120px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
 
-      .left,
-      .right {
-        height: 100%;
-        width: calc(50% - 5px);
+      .acount {
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .left,
+        .right {
+          height: 100%;
+          width: calc(50% - 5px);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background-color: rgba(0, 211, 255, 0.1);
+        }
+
+        .left {
+          padding: 0 16px 0 14px;
+        }
+
+        .right {
+          padding: 0 14px 0 16px;
+        }
+      }
+
+      .amt {
+        height: 50px;
+        align-items: center;
+        display: flex;
+        padding: 0 14px;
+        justify-content: space-between;
         background-color: rgba(0, 211, 255, 0.1);
-      }
 
-      .left {
-        padding: 0 16px 0 14px;
-      }
-
-      .right {
-        padding: 0 14px 0 16px;
+        .content {
+          flex: 1;
+        }
       }
     }
 
-    .amt {
-      height: 50px;
-      align-items: center;
-      display: flex;
-      padding: 0 14px;
-      justify-content: space-between;
-      background-color: rgba(0, 211, 255, 0.1);
-
-      .title {
-        font-size: 17px;
-        font-weight: bold;
-        color: #ffffff;
-      }
-
-      .content {
-        flex: 1;
-      }
-    }
-  }
-
-  .bottom {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .line {
-      width: 266px;
-      height: 14px;
-      background: linear-gradient(90deg, #2f9fff, #b366ff);
+    .bottom {
+      flex: 1;
     }
   }
 }

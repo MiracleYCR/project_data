@@ -1,26 +1,23 @@
 <template>
-  <border-box
-    boxTitle="商户占比"
-    :customStyle="{
-      width: '504px',
-      height: '373px',
-    }"
-  >
-    <div slot="boxContent" class="merchant_ratio_container">
-      <div id="merchant_ratio_chart"></div>
+  <div class="merchant_ratio_container">
+    <div class="title">商户占比</div>
+
+    <div class="merchant_ratio_body">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <div v-else id="merchant_ratio_chart"></div>
     </div>
-  </border-box>
+  </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
-import BorderBox from "../components/borderBox.vue";
 
 export default {
-  components: {
-    BorderBox,
+  data() {
+    return {
+      loading: false,
+    };
   },
-
   mounted() {
     const chartDom = document.getElementById("merchant_ratio_chart");
     const merchantRatioChart = echarts.init(chartDom);
@@ -130,15 +127,35 @@ export default {
 
 <style lang="scss" scoped>
 .merchant_ratio_container {
-  position: absolute;
-  top: 60px;
-  left: 30px;
-  right: 30px;
-  bottom: 30px;
+  position: relative;
+  width: 504px;
+  height: 373px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box.png");
 
-  #merchant_ratio_chart {
-    width: 100%;
-    height: 100%;
+  .title {
+    height: 20px;
+    color: #0ab8ff;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 10px;
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .merchant_ratio_body {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    #merchant_ratio_chart {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

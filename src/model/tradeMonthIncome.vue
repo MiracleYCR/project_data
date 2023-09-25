@@ -1,26 +1,25 @@
 <template>
-  <border-box
-    boxTitle="月净交易实收"
-    :customStyle="{
-      width: '454px',
-      height: '300px',
-    }"
-  >
-    <div slot="boxContent" id="trade_month_income_container">123132</div>
-  </border-box>
+  <div class="trade_month_income_container">
+    <div class="title">月净交易实收</div>
+
+    <div class="trade_month_income_body">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <div v-else id="trade_month_income_chart"></div>
+    </div>
+  </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
-import BorderBox from "../components/borderBox.vue";
 
 export default {
-  components: {
-    BorderBox,
+  data() {
+    return {
+      loading: false,
+    };
   },
-
   mounted() {
-    const chartDom = document.getElementById("trade_month_income_container");
+    const chartDom = document.getElementById("trade_month_income_chart");
     const tradeMonthIncomeChart = echarts.init(chartDom);
 
     const option = {
@@ -35,6 +34,11 @@ export default {
         type: "value",
         axisLabel: {
           color: "rgba(57, 165, 237, 1)",
+        },
+        splitLine: {
+          lineStyle: {
+            color: "rgba(57, 165, 237, 1)",
+          },
         },
       },
       xAxis: {
@@ -58,6 +62,7 @@ export default {
         },
         axisLabel: {
           interval: 0,
+          fontSize: 12,
           color: "rgba(57, 165, 237, 1)",
           formatter: function (value) {
             return value.split("-").join("\n");
@@ -103,11 +108,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#trade_month_income_container {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 20px;
-  bottom: 10px;
+.trade_month_income_container {
+  position: relative;
+  width: 454px;
+  height: 300px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box.png");
+
+  .title {
+    height: 20px;
+    color: #0ab8ff;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 6px;
+    margin-left: 19px;
+    display: flex;
+    align-items: center;
+  }
+
+  .trade_month_income_body {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    bottom: 10px;
+
+    #trade_month_income_chart {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 </style>

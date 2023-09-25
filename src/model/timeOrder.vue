@@ -1,31 +1,26 @@
 <template>
-  <border-box
-    boxTitle="实时订单"
-    :customStyle="{
-      width: '454px',
-      height: '300px',
-    }"
-  >
-    <div slot="boxContent" class="time_order_container">
-      <dv-scroll-board
-        style="width: 100%; height: 100%"
-        ref="timeOrderBoardRef"
-        :config="config"
-      />
+  <div class="time_order_container">
+    <div class="title">实时订单</div>
+
+    <div class="time_order_body">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <div v-else id="time_order_chart">
+        <dv-scroll-board
+          style="width: 100%; height: 100%"
+          ref="timeOrderBoardRef"
+          :config="config"
+        />
+      </div>
     </div>
-  </border-box>
+  </div>
 </template>
 
 <script>
-import BorderBox from "../components/borderBox.vue";
-
 export default {
-  components: {
-    BorderBox,
-  },
-
   data() {
     return {
+      loading: false,
+
       config: {
         header: ["交易时间", "交易金额", "交易渠道", "交易方式"],
         data: [
@@ -53,10 +48,35 @@ export default {
 
 <style lang="scss" scoped>
 .time_order_container {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
+  position: relative;
+  width: 454px;
+  height: 310px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box.png");
+
+  .title {
+    height: 20px;
+    color: #0ab8ff;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 6px;
+    margin-left: 19px;
+    display: flex;
+    align-items: center;
+  }
+
+  .time_order_body {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    #time_order_chart {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 </style>

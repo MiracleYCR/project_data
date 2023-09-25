@@ -19,24 +19,21 @@ export default {
 
 <style lang="scss" scoped>
 .app_header {
-  position: absolute;
-  top: -20px;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -20px;
+  position: relative;
 
   .name {
     position: absolute;
     width: 572px;
     height: 37px;
     font-size: 38px;
-    font-family: PingFang;
     font-weight: 800;
     color: #0ab8ff;
     line-height: 32px;
-    top: 43px;
+    bottom: 110px;
   }
 
   .bg {

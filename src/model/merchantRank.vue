@@ -1,27 +1,23 @@
 <template>
-  <border-box
-    boxType="mini"
-    boxTitle="商户排行"
-    :customStyle="{
-      width: '504px',
-      height: '222px',
-    }"
-  >
-    <div slot="boxContent" class="merchant_rank_container">
-      <div id="merchant_rank_chart"></div>
+  <div class="merchant_rank_container">
+    <div class="title">商户排行</div>
+
+    <div class="merchant_rank_body">
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <div v-else id="merchant_rank_chart"></div>
     </div>
-  </border-box>
+  </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
-import BorderBox from "../components/borderBox.vue";
 
 export default {
-  components: {
-    BorderBox,
+  data() {
+    return {
+      loading: false,
+    };
   },
-
   mounted() {
     const chartDom = document.getElementById("merchant_rank_chart");
     const merchantRankChart = echarts.init(chartDom);
@@ -59,7 +55,7 @@ export default {
 
     const option = {
       grid: {
-        top: "0", // 上边距
+        top: "15%", // 上边距
         bottom: "0", // 下边距
         left: "0", // 左边距
         right: "15%",
@@ -115,15 +111,35 @@ export default {
 
 <style lang="scss" scoped>
 .merchant_rank_container {
-  position: absolute;
-  top: 60px;
-  left: 30px;
-  right: 30px;
-  bottom: 5px;
+  position: relative;
+  width: 504px;
+  height: 240px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/images/box2@2x.png");
 
-  #merchant_rank_chart {
-    width: 100%;
-    height: 100%;
+  .title {
+    height: 20px;
+    margin-top: 10px;
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #0ab8ff;
+  }
+
+  .merchant_rank_body {
+    position: absolute;
+    top: 40px;
+    left: 30px;
+    right: 30px;
+    bottom: 5px;
+
+    #merchant_rank_chart {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

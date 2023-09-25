@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       merchantNumConfig: {
-        number: [26],
+        number: [434],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "left",
@@ -71,20 +71,20 @@ export default {
 
   mounted() {
     this.timer = setInterval(() => {
-      // 0-3
-      const randomNum1 = Math.floor(Math.random() * 3);
-      this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-        number: [this.merchantNumConfig.number[0] + randomNum1],
-      });
+      // 总商户数
+      // const randomNum1 = Math.floor(Math.random() * 3);
+      // this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+      //   number: [this.merchantNumConfig.number[0] + randomNum1],
+      // });
 
-      // 200-1000
+      // 总交易额
       const randomNum2 = Math.floor(Math.random() * (1000 - 200 + 1)) + 200;
       this.totalAmtConfig = Object.assign({}, this.totalAmtConfig, {
         number: [this.totalAmtConfig.number[0] + randomNum2],
       });
 
-      // 5-20
-      const randomNum3 = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
+      // 总交易笔数
+      const randomNum3 = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
       this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
         number: [this.tradeNumConfig.number[0] + randomNum3],
       });

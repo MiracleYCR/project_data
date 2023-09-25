@@ -1,11 +1,10 @@
 * {
-  padding: 0;
-  margin: 0;
   font-family: PingFang;
   box-sizing: border-box;
 }
 
 html,
 body {
-  background-color: #020837;
+  margin: 0;
+  padding: 0;
 }
