@@ -2,15 +2,14 @@
   <div class="app_content">
     <div class="left">
       <MerchantRatio />
-
       <MerchantRank />
-
       <SmartCard />
     </div>
 
     <div class="center">
       <div class="top">
         <TotalData />
+        <FarmProportion />
       </div>
 
       <div class="bottom">
@@ -33,6 +32,8 @@ import MerchantRatio from "../model/merchantRatio.vue";
 import SmartCard from "../model/smartCard.vue";
 
 import TotalData from "../model/totalData.vue";
+import FarmProportion from "../model/farmProportion.vue";
+
 import SamrtFarm from "../model/smartFarm.vue";
 import FarmProductShow from "../model/farmProductShow.vue";
 
@@ -49,6 +50,8 @@ export default {
     MerchantRatio,
 
     TotalData,
+    FarmProportion,
+
     SamrtFarm,
     FarmProductShow,
 
@@ -90,6 +93,8 @@ export default {
 
     .top {
       flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .bottom {

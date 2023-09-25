@@ -41,18 +41,13 @@
         </div>
       </div>
 
-      <div class="bottom">
-        <div>
-          <div class="line"></div>
-          <div class="line"></div>
-          <div class="line"></div>
-        </div>
-      </div>
+      <div class="bottom" id="smart_card_chart"></div>
     </div>
   </border-box>
 </template>
 
 <script>
+import * as echarts from "echarts";
 import { numberFormatter } from "@/utils/index";
 import BorderBox from "../components/borderBox.vue";
 
@@ -96,6 +91,79 @@ export default {
         },
       },
     };
+  },
+
+  mounted() {
+    const chartDom = document.getElementById("smart_card_chart");
+    const smartCardChart = echarts.init(chartDom);
+
+    const smartCardData = [
+      {
+        name: "订单总金额",
+        value: 17948416,
+      },
+      {
+        name: "支付总金额",
+        value: 10736212,
+      },
+      {
+        name: "消费券总金额",
+        value: 7212204,
+      },
+    ];
+
+    const option = {
+      grid: {
+        top: "20%", // 上边距
+        bottom: "0", // 下边距
+        left: "0", // 左边距
+        right: "15%",
+        containLabel: true,
+      },
+      xAxis: {
+        show: false,
+        type: "value",
+      },
+      yAxis: {
+        type: "category",
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          color: "rgba(57, 165, 237, 1)",
+        },
+        data: smartCardData.map((item) => item.name).reverse(), // Y 轴刻度数据
+      },
+      series: [
+        {
+          type: "bar",
+          itemStyle: {
+            barWidth: 20,
+            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+              {
+                //只要修改前四个参数就ok
+                offset: 0,
+                color: "#2F9FFF",
+              }, //柱图渐变色
+              {
+                offset: 1,
+                color: "#B366FF",
+              },
+            ]),
+          },
+          label: {
+            show: true,
+            align: "left",
+            position: "right",
+            verticalAlign: "middle",
+            color: "rgba(0, 241, 255, 1)",
+          },
+          data: smartCardData.map((item) => item.value).reverse(), // 柱状图数据
+        },
+      ],
+    };
+
+    option && smartCardChart.setOption(option);
   },
 };
 </script>
