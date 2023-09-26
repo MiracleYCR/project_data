@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getRandomSecondsInterval } from "@/utils";
+import { getRandomSecondsInterval, generateRandomNumber } from "@/utils";
 import { tradeChannel, payment } from "@/mock/orders";
 
 export default {
@@ -28,23 +28,11 @@ export default {
 
       config: {
         header: ["交易时间", "交易金额", "交易渠道", "交易方式"],
-        data: [
-          ["09-22 09:22", "1898.98", "农产品展销", "支付宝"],
-          ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
-          ["09-22 09:22", "1898.98", "智慧农贸", "微信支付"],
-          ["09-22 09:22", "1898.98", "渝品甄选", "支付宝"],
-          ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
-          ["09-22 09:22", "1898.98", "农产品展销", "渝卡通支付"],
-          ["09-22 09:22", "1898.98", "渝品甄选", "渝卡通支付"],
-          ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
-          ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
-          ["09-22 09:22", "1898.98", "智慧农贸", "渝卡通支付"],
-        ],
+        data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
         columnWidth: [120],
-        // waitTime: 3000,
         align: ["center", "center", "center", "center"],
       },
     };
@@ -53,28 +41,32 @@ export default {
   watch: {
     realTimeList: {
       handler(n) {
-        // const updateData = n.map((item) => {
-        //   return [
-        //     item,
-        //     "1898.98",
-        //     tradeChannel[Math.floor(Math.random() * 3)],
-        //     payment[Math.floor(Math.random() * 3)],
-        //   ];
-        // });
-
-        const newData = [
-          n[n.length - 1],
-          "1898.98",
-          tradeChannel[Math.floor(Math.random() * 3)],
-          payment[Math.floor(Math.random() * 3)],
-        ];
-
-        this.$nextTick(() => {
-          this.$refs["timeOrderBoardRef"].updateRows(
-            [...this.config.data, newData],
-            0
-          );
+        const updateData = n.map((item) => {
+          return [
+            item,
+            generateRandomNumber(500, 1898),
+            tradeChannel[Math.floor(Math.random() * 3)],
+            payment[Math.floor(Math.random() * 3)],
+          ];
         });
+
+        this.config = Object.assign({}, this.config, {
+          data: updateData,
+        });
+
+        // const newData = [
+        //   n[n.length - 1],
+        //   "1898.98",
+        //   tradeChannel[Math.floor(Math.random() * 3)],
+        //   payment[Math.floor(Math.random() * 3)],
+        // ];
+
+        // this.$nextTick(() => {
+        //   this.$refs["timeOrderBoardRef"].updateRows(
+        //     [...this.config.data, newData],
+        //     0
+        //   );
+        // });
       },
       immediate: true,
     },
