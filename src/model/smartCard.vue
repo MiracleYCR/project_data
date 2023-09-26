@@ -39,9 +39,8 @@
 import * as echarts from "echarts";
 import {
   currency,
-  numberFormatter,
-  getRandomSecondsInterval,
   generateRandomNumber,
+  getRandomSecondsInterval,
 } from "@/utils/index";
 
 export default {
@@ -67,7 +66,7 @@ export default {
       merchantNumConfig: {
         number: [2344],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "right",
         style: {
           fontSize: 30,
@@ -78,7 +77,7 @@ export default {
       tradeNumConfig: {
         number: [1861],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "right",
         style: {
           fontSize: 30,
@@ -89,7 +88,8 @@ export default {
       tradeAmtConfig: {
         number: [19281281.82],
         content: "{nt}",
-        formatter: numberFormatter,
+        toFixed: 2,
+        formatter: (value) => currency(value, 2, true),
         textAlign: "right",
         style: {
           fontSize: 30,

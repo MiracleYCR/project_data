@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { currency, numberFormatter } from "@/utils/index";
+import { currency } from "@/utils/index";
 
 export default {
   data() {
@@ -46,7 +46,8 @@ export default {
       totalAmtConfig: {
         number: [5198365861.68],
         content: "{nt}",
-        formatter: numberFormatter,
+        toFixed: 2,
+        formatter: (value) => currency(value, 2, true),
         textAlign: "center",
         style: {
           fontSize: 53,

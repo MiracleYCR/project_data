@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { numberFormatter } from "@/utils/index";
+import { currency } from "@/utils/index";
 import { stores, generateStoreTop5 } from "@/mock/store";
 import { generateMerchantsValues } from "@/mock/merchant";
 
@@ -58,7 +58,7 @@ export default {
       storeNumConfig: {
         number: [stores.length],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
           fontSize: 32,
@@ -69,7 +69,7 @@ export default {
       yesterdayTradeNumConfig: {
         number: [merchantsValues.totalOrder],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
           fontSize: 32,
@@ -79,8 +79,9 @@ export default {
 
       yesterdayTradeAmtConfig: {
         number: [merchantsValues.totalAmt],
+        toFixed: 2,
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 2, true),
         textAlign: "center",
         style: {
           fontSize: 32,

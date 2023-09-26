@@ -458,9 +458,9 @@ export const generateMerchantsValues = (total) => {
   let totalOrderNumbers;
 
   for (let i = 0; i < total; i++) {
-    amtNumbers.push(parseFloat(generateRandomNumber(100, 1500, 2)));
+    amtNumbers.push(parseFloat(generateRandomNumber(127, 1499, 2)));
 
-    orderNumbers.push(parseInt(generateRandomNumber(10, 300)));
+    orderNumbers.push(parseInt(generateRandomNumber(15, 299)));
   }
 
   amtNumbers.sort((a, b) => b - a);
@@ -469,6 +469,8 @@ export const generateMerchantsValues = (total) => {
   totalAmtNumbers = amtNumbers.reduce((prev, next) => {
     return prev + next;
   }, 0);
+
+  console.log(totalAmtNumbers);
 
   totalOrderNumbers = orderNumbers.reduce((prev, next) => {
     return prev + next;

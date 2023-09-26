@@ -11,6 +11,7 @@
 
 <script>
 import * as echarts from "echarts";
+import { currency } from "@/utils";
 import {
   generateMerchantsTop6,
   generateGoodsTop6HistoryAmt,
@@ -28,7 +29,7 @@ export default {
     this.drawMerchantRankDataChart();
 
     this.timer = setInterval(() => {
-      this.updateMerchantRankData();
+      this.drawMerchantRankDataChart();
     }, 3 * 60 * 1000);
   },
 
@@ -55,7 +56,7 @@ export default {
           top: "15%", // 上边距
           bottom: "0", // 下边距
           left: "0", // 左边距
-          right: "15%",
+          right: "18%",
           containLabel: true,
         },
         xAxis: {
@@ -70,15 +71,15 @@ export default {
           axisLabel: {
             interval: 0,
             formatter: (value) => {
-              const maxChars = 8;
+              const maxChars = 7;
               if (value.length > maxChars) {
-                return value.slice(0, maxChars) + "..."; // 超过最大字符数时显示省略号
+                return value.slice(0, maxChars) + "...";
               }
               return value;
             },
             color: "rgba(57, 165, 237, 1)",
           },
-          data: merchantRankData.map((item) => item.name).reverse(), // Y 轴刻度数据
+          data: merchantRankData.map((item) => item.name).reverse(),
         },
         series: [
           {
@@ -102,6 +103,15 @@ export default {
               position: "right",
               verticalAlign: "middle",
               color: "rgba(0, 241, 255, 1)",
+              formatter: (value) => {
+                return currency(
+                  `${value.value}.${Math.floor(Math.random() * 9)}${Math.floor(
+                    Math.random() * 9
+                  )}`,
+                  2,
+                  true
+                );
+              },
             },
             data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
           },

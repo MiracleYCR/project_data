@@ -67,7 +67,7 @@ export const getRandomSecondsInterval = (callback) => {
   function randomIntervalLoop() {
     clearTimeout(timer);
 
-    const nextInterval = getRandomInterval(1, 7) * 1000;
+    const nextInterval = getRandomInterval(2, 7) * 1000;
 
     callback();
 
