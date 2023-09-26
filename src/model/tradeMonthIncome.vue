@@ -11,6 +11,7 @@
 
 <script>
 import * as echarts from "echarts";
+import { autoHover } from "@/utils";
 
 export default {
   data() {
@@ -24,6 +25,11 @@ export default {
     const tradeMonthIncomeChart = echarts.init(chartDom);
 
     const option = {
+      tooltip: {
+        trigger: "item",
+        formatter: "{c}",
+        position: "top",
+      },
       grid: {
         top: "10%",
         bottom: "10%",
@@ -91,34 +97,25 @@ export default {
               },
             ]),
           },
-          symbol: "circle",
-          symbolSize: [8, 8],
           itemStyle: {
             color: "#ffffff",
           },
-          data: [
-            621, 746, 683, 867, 912, 973, 881, 994, 1059, 1207, 1388, 1486,
-          ],
+          symbol: "circle",
+          symbolSize: 8,
+          emphasis: {
+            scale: 1.5,
+            itemStyle: {
+              color: "#0ab8ff",
+            },
+          },
+          data: [621, 746, 683, 867, 912, 973, 836, 927, 894, 1108, 1266, 1391],
         },
       ],
     };
 
     option && tradeMonthIncomeChart.setOption(option);
 
-    let index = 0;
-    this.timer = setInterval(() => {
-      tradeMonthIncomeChart.dispatchAction({
-        type: "downplay",
-        seriesIndex: 0,
-        dataIndex: index % 4,
-      });
-      index++;
-      tradeMonthIncomeChart.dispatchAction({
-        type: "highlight",
-        seriesIndex: 0,
-        dataIndex: index % 4,
-      });
-    }, 3000);
+    autoHover(tradeMonthIncomeChart, option, 12);
   },
 };
 </script>
