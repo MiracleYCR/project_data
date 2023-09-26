@@ -11,10 +11,12 @@
 
 <script>
 import * as echarts from "echarts";
+import { generateMerchantsTop6 } from "@/mock/merchant";
 
 export default {
   data() {
     return {
+      timer: null,
       loading: false,
     };
   },
@@ -22,36 +24,41 @@ export default {
     const chartDom = document.getElementById("merchant_rank_chart");
     const merchantRankChart = echarts.init(chartDom);
 
-    const merchantRankData = [
-      {
-        name: "商户名1",
+    const merchantRankData = generateMerchantsTop6().map((item) => {
+      return {
+        name: item,
         value: 17948416,
-      },
-      {
-        name: "商户名2",
-        value: 17248416,
-      },
-      {
-        name: "商户名3",
-        value: 16328416,
-      },
-      {
-        name: "商户名4",
-        value: 12128416,
-      },
-      {
-        name: "商户名5",
-        value: 1761416,
-      },
-      {
-        name: "商户名6",
-        value: 17338416,
-      },
-      {
-        name: "商户名7",
-        value: 1412416,
-      },
-    ];
+      };
+    });
+
+    console.log(merchantRankData);
+
+    // const merchantRankData1 = [
+    //   {
+    //     name: "商户名1",
+    //     value: 17948416,
+    //   },
+    //   {
+    //     name: "商户名2",
+    //     value: 17248416,
+    //   },
+    //   {
+    //     name: "商户名3",
+    //     value: 16328416,
+    //   },
+    //   {
+    //     name: "商户名4",
+    //     value: 12128416,
+    //   },
+    //   {
+    //     name: "商户名5",
+    //     value: 1761416,
+    //   },
+    //   {
+    //     name: "商户名6",
+    //     value: 17338416,
+    //   },
+    // ];
 
     const option = {
       grid: {
@@ -71,6 +78,14 @@ export default {
           show: false,
         },
         axisLabel: {
+          interval: 0,
+          formatter: (value) => {
+            const maxChars = 8;
+            if (value.length > maxChars) {
+              return value.slice(0, maxChars) + "..."; // 超过最大字符数时显示省略号
+            }
+            return value;
+          },
           color: "rgba(57, 165, 237, 1)",
         },
         data: merchantRankData.map((item) => item.name).reverse(), // Y 轴刻度数据
@@ -105,6 +120,10 @@ export default {
     };
 
     option && merchantRankChart.setOption(option);
+  },
+
+  destroyed() {
+    clearInterval(this.timer);
   },
 };
 </script>

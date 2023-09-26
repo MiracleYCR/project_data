@@ -3,7 +3,8 @@
     <div class="title">农产品展销</div>
     <div class="merchant_rank_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
-      <div v-else id="farm_product_show_chart"></div>
+      <!-- <div v-else id="farm_product_show_chart"></div> -->
+      <wordcloud3D width="356" height="258" :data="wordList" :RADIUS="160" />
     </div>
   </div>
 </template>
@@ -12,10 +13,32 @@
 import * as echarts from "echarts";
 import "echarts-wordcloud";
 
+import wordcloud3D from "@/components/wordcloud3D.vue";
+
 export default {
+  components: {
+    wordcloud3D,
+  },
+
   data() {
     return {
+      timer: null,
       loading: false,
+
+      wordList: [
+        "百丈峰蜂蜜",
+        "沧湘莲子",
+        "干货礼盒",
+        "南瓜酱",
+        "蜂蜜条",
+        "沧莲心",
+        "水北米粉",
+        "黄坑挂面",
+        "水北圆子",
+        "辣木茶简装",
+        "冰淇淋礼盒",
+        "柚子皮酱",
+      ],
     };
   },
 

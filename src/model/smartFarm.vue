@@ -43,18 +43,20 @@
 
 <script>
 import { numberFormatter } from "@/utils/index";
-import { merchants, generateMerchantsValues } from "@/mock/merchant";
+import { stores, generateStoreTop5 } from "@/mock/store";
+import { generateMerchantsValues } from "@/mock/merchant";
 
 export default {
   data() {
-    const merchantsValues = generateMerchantsValues();
+    const top5stores = generateStoreTop5();
+    const merchantsValues = generateMerchantsValues(stores.length);
 
     return {
       timer: null,
       loading: false,
 
       storeNumConfig: {
-        number: [merchants.length],
+        number: [stores.length],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
@@ -88,7 +90,7 @@ export default {
 
       boardConfig: {
         header: ["排名", "门店名称", "交易笔数", "交易实收"],
-        data: merchants.map((name, index) => {
+        data: top5stores.map((name, index) => {
           return [
             `${index + 1}`,
             name,
@@ -119,28 +121,11 @@ export default {
     ];
 
     this.timer = setInterval(() => {
-      const merchantsValues = generateMerchantsValues();
-
-      this.storeNumConfig = Object.assign({}, this.storeNumConfig, {
-        number: [merchants.length],
-      });
-      this.yesterdayTradeNumConfig = Object.assign(
-        {},
-        this.yesterdayTradeNumConfig,
-        {
-          number: [merchantsValues.totalOrder],
-        }
-      );
-      this.yesterdayTradeAmtConfig = Object.assign(
-        {},
-        this.yesterdayTradeAmtConfig,
-        {
-          number: [merchantsValues.totalAmt],
-        }
-      );
+      const top5Stores = generateStoreTop5();
+      const merchantsValues = generateMerchantsValues(stores.length);
 
       this.boardConfig = Object.assign({}, this.boardConfig, {
-        data: merchants.map((name, index) => {
+        data: top5Stores.map((name, index) => {
           return [
             `${index + 1}`,
             name,
@@ -149,7 +134,7 @@ export default {
           ];
         }),
       });
-    }, 24 * 60 * 60 * 1000);
+    }, 2 * 60 * 1000);
   },
 
   destroyed() {

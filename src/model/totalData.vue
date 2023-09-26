@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       merchantNumConfig: {
-        number: [434],
+        number: [5861],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "left",
@@ -44,7 +44,7 @@ export default {
       },
 
       totalAmtConfig: {
-        number: [26891],
+        number: [5198365861.68],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
@@ -55,7 +55,7 @@ export default {
       },
 
       tradeNumConfig: {
-        number: [31],
+        number: [65861],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "right",
@@ -78,17 +78,17 @@ export default {
       // });
 
       // 总交易额
-      const randomNum2 = Math.floor(Math.random() * (1000 - 200 + 1)) + 200;
+      const randomNum2 = Math.floor(Math.random() * (5000 - 200 + 1)) + 200;
       this.totalAmtConfig = Object.assign({}, this.totalAmtConfig, {
         number: [this.totalAmtConfig.number[0] + randomNum2],
       });
 
       // 总交易笔数
-      const randomNum3 = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+      const randomNum3 = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
       this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
         number: [this.tradeNumConfig.number[0] + randomNum3],
       });
-    }, 5000);
+    }, 30 * 1000);
   },
 
   destroyed() {

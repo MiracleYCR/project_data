@@ -17,10 +17,7 @@
           <div class="right">
             <div class="title2">总交易笔数</div>
             <div class="content">
-              <dv-digital-flop
-                :config="tradeNumConfig"
-                style="width: 100%; height: 28px"
-              />
+              <dv-digital-flop :config="tradeNumConfig" style="height: 28px" />
             </div>
           </div>
         </div>
@@ -28,10 +25,7 @@
         <div class="amt">
           <div class="title2">交易总金额 (元)</div>
           <div class="content">
-            <dv-digital-flop
-              :config="tradeAmtConfig"
-              style="width: 100%; height: 28px"
-            />
+            <dv-digital-flop :config="tradeAmtConfig" style="height: 28px" />
           </div>
         </div>
       </div>
@@ -43,16 +37,18 @@
 
 <script>
 import * as echarts from "echarts";
-import { numberFormatter } from "@/utils/index";
+import { numberFormatter, getRandomSecondsInterval } from "@/utils/index";
 
 export default {
   data() {
     return {
+      timer: null,
+
       merchantNumConfig: {
-        number: [864],
+        number: [2344],
         content: "{nt}",
         formatter: numberFormatter,
-        textAlign: "center",
+        textAlign: "right",
         style: {
           fontSize: 30,
           fill: "#00D3FF",
@@ -60,24 +56,24 @@ export default {
       },
 
       tradeNumConfig: {
-        number: [864],
-        content: "{nt}",
-        formatter: numberFormatter,
-        textAlign: "center",
-        style: {
-          fontSize: 30,
-          fill: "#00D3FF",
-        },
-      },
-
-      tradeAmtConfig: {
-        number: [864],
+        number: [1861],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "right",
         style: {
           fontSize: 30,
-          fill: "#00D3FF",
+          fill: "#0ab8ff",
+        },
+      },
+
+      tradeAmtConfig: {
+        number: [19281281.82],
+        content: "{nt}",
+        formatter: numberFormatter,
+        textAlign: "right",
+        style: {
+          fontSize: 30,
+          fill: "#0ab8ff",
         },
       },
     };
@@ -154,6 +150,25 @@ export default {
     };
 
     option && smartCardChart.setOption(option);
+
+    getRandomSecondsInterval(() => {
+      const randomTradeNum = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+
+      const randomTradeAmt =
+        (Math.floor(Math.random() * (300 - 10 + 1)) + 10) * randomTradeNum;
+
+      this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+        number: [this.tradeNumConfig.number[0] + randomTradeNum],
+      });
+
+      this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+        number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
+      });
+    });
+  },
+
+  destroyed() {
+    clearInterval(this.timer);
   },
 };
 </script>
@@ -213,6 +228,10 @@ export default {
           align-items: center;
           justify-content: space-between;
           background-color: rgba(0, 211, 255, 0.1);
+
+          .content {
+            flex: 1;
+          }
         }
 
         .left {
@@ -234,6 +253,7 @@ export default {
 
         .content {
           flex: 1;
+          text-align: right;
         }
       }
     }

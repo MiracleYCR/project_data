@@ -12,139 +12,34 @@
 </template>
 
 <script>
+import { generateGoodsTop4, generateGoodsTop4Order } from "@/mock/goods";
+
 export default {
   data() {
+    const top4goods = generateGoodsTop4();
+    const top4Orders = generateGoodsTop4Order();
+
     return {
+      timer: null,
       loading: false,
 
       config: {
         header: ["排名", "商品名称", "销售数量"],
-        data: [
-          [
-            "1",
+        rowNum: 4,
+        data: top4goods.map((item, index) => {
+          const imgUrl = require(`@/assets/images/products/${item.imgUrl}`);
+          return [
+            `${index + 1}`,
             `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/1.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">渝水优品 百丈峰蜂蜜 150g</span>
+              <img style="width: 30px; height: 30px; object-fit: cover" src="${imgUrl}">
+              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.name}</span>
               </div>`,
-            "1063",
-          ],
-          [
-            "2",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/2.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">渝水优品 百丈峰蜂蜜 360g*2</span>
-              </div>`,
-            "997",
-          ],
-          [
-            "3",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/3.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">渝水优品 百丈峰莲子 400g (莲子)*3</span>
-              </div>`,
-            "925",
-          ],
-          [
-            "4",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/4.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">渝水优品 百丈峰莲芯 230g (莲芯)*1 + 400g (莲子)*2</span>
-              </div>`,
-            "866",
-          ],
-          [
-            "5",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/5.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">嘉木科技 简装辣木茶 80g</span>
-              </div>`,
-            "708",
-          ],
-          [
-            "6",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/6.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">嘉木科技 简装辣木茶 120g</span>
-              </div>`,
-            "681",
-          ],
-          [
-            "7",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/7.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">嘉木科技 精装辣木茶 180g</span>
-              </div>`,
-            "563",
-          ],
-          [
-            "8",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/8.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">新巧美 水北米粉 500g*6</span>
-              </div>`,
-            "557",
-          ],
-          [
-            "9",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/9.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">水芳手工 水北圆子 400g</span>
-              </div>`,
-            "429",
-          ],
-          [
-            "10",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/10.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">水芳手工 南瓜酱 380g</span>
-              </div>`,
-            "406",
-          ],
-          [
-            "11",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/11.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">水芳手工 柚子酱 380g</span>
-              </div>`,
-            "385",
-          ],
-          [
-            "12",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/12.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">黄坑合昌 黄坑挂面 500g*7</span>
-              </div>`,
-            "267",
-          ],
-          [
-            "13",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/13.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">鑫苼源农业 羊奶皂 110g</span>
-              </div>`,
-            "224",
-          ],
-          [
-            "14",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/14.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">天凯乐 冰淇淋礼盒</span>
-              </div>`,
-            "168",
-          ],
-          [
-            "15",
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${require("@/assets/images/products/15.png")}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">渝水优品 干货礼盒</span>
-              </div>`,
-            "72",
-          ],
-        ],
+            `${top4Orders[index]}`,
+          ];
+        }),
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
-        waitTime: 5000,
         carousel: "page",
         align: ["center", "left", "center"],
         columnWidth: [],
@@ -156,7 +51,30 @@ export default {
     if (!this.loading) {
       const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
       this.config.columnWidth = [50, selectGoodsDomWidth - 130, 80];
+
+      this.timer = setInterval(() => {
+        const top4goods = generateGoodsTop4();
+        const top4Orders = generateGoodsTop4Order();
+
+        this.config = Object.assign({}, this.config, {
+          data: top4goods.map((item, index) => {
+            const imgUrl = require(`@/assets/images/products/${item.imgUrl}`);
+            return [
+              `${index + 1}`,
+              `<div style="display: flex; align-items: center">
+              <img style="width: 30px; height: 30px; object-fit: cover" src="${imgUrl}">
+              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.name}</span>
+              </div>`,
+              `${top4Orders[index]}`,
+            ];
+          }),
+        });
+      }, 5 * 60 * 1000);
     }
+  },
+
+  destroyed() {
+    clearInterval(this.timer);
   },
 };
 </script>

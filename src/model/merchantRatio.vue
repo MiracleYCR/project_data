@@ -15,6 +15,7 @@ import * as echarts from "echarts";
 export default {
   data() {
     return {
+      timer: null,
       loading: false,
     };
   },
@@ -25,36 +26,52 @@ export default {
     const merchantRatioData = [
       {
         name: "渝卡通",
-        value: 400,
+        value: 2344,
         children: [
-          { name: "餐饮住宿", value: 20 },
-          { name: "生鲜蔬菜店", value: 280 },
-          { name: "建材家居", value: 100 },
+          { name: "餐饮住宿", value: 468 },
+          { name: "商超百货", value: 903 },
+          { name: "电子家电", value: 102 },
+          { name: "汽油", value: 10 },
+          { name: "影院", value: 13 },
+          { name: "文旅街区", value: 3 },
+          { name: "各景区景点", value: 14 },
+          { name: "其他文旅市场", value: 6 },
+          { name: "生鲜蔬菜", value: 400 },
+          { name: "建材家居", value: 425 },
         ],
       },
       {
         name: "渝品甄选",
-        value: 150,
+        value: 586,
         children: [
-          { name: "文旅街区", value: 15 },
-          { name: "各景区景点", value: 135 },
+          { name: "自营", value: 55 },
+          { name: "品牌", value: 391 },
+          { name: "合伙", value: 140 },
         ],
       },
       {
         name: "展销馆",
-        value: 100,
+        value: 1173,
         children: [
-          { name: "影院", value: 60 },
-          { name: "其他文旅市场", value: 40 },
+          { name: "大规模生产", value: 143 },
+          { name: "小规模生产", value: 448 },
+          { name: "一般生产", value: 206 },
+          { name: "源头生产", value: 110 },
+          { name: "散户", value: 266 },
         ],
       },
       {
         name: "农贸市场",
-        value: 300,
+        value: 1758,
         children: [
-          { name: "商超百货", value: 90 },
-          { name: "电子家电", value: 150 },
-          { name: "汽油", value: 60 },
+          { name: "蔬菜瓜果", value: 228 },
+          { name: "水产品", value: 140 },
+          { name: "禽蛋", value: 346 },
+          { name: "肉类及其制品", value: 427 },
+          { name: "粮食及其制品", value: 311 },
+          { name: "豆制品", value: 129 },
+          { name: "熟食", value: 84 },
+          { name: "调味品、土特产", value: 93 },
         ],
       },
     ];
@@ -64,13 +81,20 @@ export default {
         {
           type: "pie",
           radius: [0, "50%"],
+          startAngle: 145,
           label: {
-            position: "inner",
-            fontSize: 10,
+            position: "inside",
+            fontSize: 9,
             color: "#fff",
+            formatter: (params) => {
+              return `${params.name}\n${params.percent}%`;
+            },
           },
           labelLine: {
             show: false,
+          },
+          labelLayout: {
+            hideOverlap: false,
           },
           data: merchantRatioData.map((item) => {
             return {
@@ -78,11 +102,15 @@ export default {
               value: item.value,
             };
           }),
+          animationType: "scale", // 设置动画类型为缩放
+          animationEasing: "elasticOut", // 设置动画缓动效果
+          animationDuration: 2000, // 设置动画持续时间（毫秒）
         },
 
         {
           type: "pie",
-          radius: ["60%", "80%"],
+          radius: ["65%", "80%"],
+          startAngle: 145,
           labelLine: {
             show: true,
             lineStyle: {
@@ -91,20 +119,23 @@ export default {
           },
           label: {
             alignTo: "edge",
-            minMargin: 5,
+            minMargin: 2,
             edgeDistance: 10,
-            lineHeight: 15,
+            lineHeight: 12,
             formatter: "{name|{b}}\n{number|{c}}",
             rich: {
               name: {
-                fontSize: 13,
+                fontSize: 12,
                 color: "rgba(57, 165, 237, 1)",
               },
               number: {
-                fontSize: 12,
+                fontSize: 11,
                 color: "rgba(0, 241, 255, 1)",
               },
             },
+          },
+          labelLayout: {
+            hideOverlap: true,
           },
           data: merchantRatioData.reduce((result, item) => {
             return result.concat(
@@ -121,6 +152,21 @@ export default {
     };
 
     option && merchantRatioChart.setOption(option);
+
+    let index = 0;
+    this.timer = setInterval(() => {
+      merchantRatioChart.dispatchAction({
+        type: "downplay",
+        seriesIndex: 0,
+        dataIndex: index % 4,
+      });
+      index++;
+      merchantRatioChart.dispatchAction({
+        type: "highlight",
+        seriesIndex: 0,
+        dataIndex: index % 4,
+      });
+    }, 3000);
   },
 };
 </script>
@@ -129,7 +175,7 @@ export default {
 .merchant_ratio_container {
   position: relative;
   width: 504px;
-  height: 373px;
+  height: 369px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url("../assets/images/box.png");

@@ -15,6 +15,7 @@ import * as echarts from "echarts";
 export default {
   data() {
     return {
+      timer: null,
       loading: false,
     };
   },
@@ -103,6 +104,21 @@ export default {
     };
 
     option && tradeMonthIncomeChart.setOption(option);
+
+    let index = 0;
+    this.timer = setInterval(() => {
+      tradeMonthIncomeChart.dispatchAction({
+        type: "downplay",
+        seriesIndex: 0,
+        dataIndex: index % 4,
+      });
+      index++;
+      tradeMonthIncomeChart.dispatchAction({
+        type: "highlight",
+        seriesIndex: 0,
+        dataIndex: index % 4,
+      });
+    }, 3000);
   },
 };
 </script>

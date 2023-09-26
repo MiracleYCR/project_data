@@ -1,3 +1,5 @@
+import { generateRandomNumber, getRandomElements } from "@/utils";
+
 export const merchants = [
   "小廖便利店",
   "渝水区仙来西大道农心水果铺子",
@@ -434,20 +436,18 @@ export const merchants = [
   "渝品甄选（本小程序线上商城）",
 ];
 
-export const generateMerchantsValues = () => {
-  function generateRandomNumber(min, max, digits) {
-    return digits
-      ? (Math.random() * (max - min) + min).toFixed(digits)
-      : Math.random() * (max - min) + min;
-  }
+export const generateMerchantsTop6 = () => {
+  return getRandomElements(merchants, 6);
+};
 
+export const generateMerchantsValues = (total) => {
   const amtNumbers = [];
   const orderNumbers = [];
 
   let totalAmtNumbers;
   let totalOrderNumbers;
 
-  for (let i = 0; i < 433; i++) {
+  for (let i = 0; i < total; i++) {
     amtNumbers.push(parseFloat(generateRandomNumber(100, 1500, 2)));
 
     orderNumbers.push(parseInt(generateRandomNumber(10, 300)));
