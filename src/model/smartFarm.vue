@@ -43,11 +43,14 @@
 
 <script>
 import { numberFormatter } from "@/utils/index";
-import { merchants, merchantsValues } from "@/mock/merchant";
+import { merchants, generateMerchantsValues } from "@/mock/merchant";
 
 export default {
   data() {
+    const merchantsValues = generateMerchantsValues();
+
     return {
+      timer: null,
       loading: false,
 
       storeNumConfig: {
@@ -62,7 +65,7 @@ export default {
       },
 
       yesterdayTradeNumConfig: {
-        number: [111123861],
+        number: [merchantsValues.totalOrder],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
@@ -73,7 +76,7 @@ export default {
       },
 
       yesterdayTradeAmtConfig: {
-        number: [111123861.23],
+        number: [merchantsValues.totalAmt],
         content: "{nt}",
         formatter: numberFormatter,
         textAlign: "center",
@@ -114,6 +117,43 @@ export default {
       90,
       90,
     ];
+
+    this.timer = setInterval(() => {
+      const merchantsValues = generateMerchantsValues();
+
+      this.storeNumConfig = Object.assign({}, this.storeNumConfig, {
+        number: [merchants.length],
+      });
+      this.yesterdayTradeNumConfig = Object.assign(
+        {},
+        this.yesterdayTradeNumConfig,
+        {
+          number: [merchantsValues.totalOrder],
+        }
+      );
+      this.yesterdayTradeAmtConfig = Object.assign(
+        {},
+        this.yesterdayTradeAmtConfig,
+        {
+          number: [merchantsValues.totalAmt],
+        }
+      );
+
+      this.boardConfig = Object.assign({}, this.boardConfig, {
+        data: merchants.map((name, index) => {
+          return [
+            `${index + 1}`,
+            name,
+            merchantsValues["order"][index],
+            merchantsValues["amt"][index],
+          ];
+        }),
+      });
+    }, 24 * 60 * 60 * 1000);
+  },
+
+  destroyed() {
+    clearInterval(this.timer);
   },
 };
 </script>

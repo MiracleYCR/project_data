@@ -434,7 +434,7 @@ export const merchants = [
   "渝品甄选（本小程序线上商城）",
 ];
 
-export const merchantsValues = (() => {
+export const generateMerchantsValues = () => {
   function generateRandomNumber(min, max, digits) {
     return digits
       ? (Math.random() * (max - min) + min).toFixed(digits)
@@ -443,6 +443,9 @@ export const merchantsValues = (() => {
 
   const amtNumbers = [];
   const orderNumbers = [];
+
+  let totalAmtNumbers;
+  let totalOrderNumbers;
 
   for (let i = 0; i < 433; i++) {
     amtNumbers.push(parseFloat(generateRandomNumber(100, 1500, 2)));
@@ -453,8 +456,18 @@ export const merchantsValues = (() => {
   amtNumbers.sort((a, b) => b - a);
   orderNumbers.sort((a, b) => b - a);
 
+  totalAmtNumbers = amtNumbers.reduce((prev, next) => {
+    return prev + next;
+  }, 0);
+
+  totalOrderNumbers = orderNumbers.reduce((prev, next) => {
+    return prev + next;
+  }, 0);
+
   return {
     amt: amtNumbers,
     order: orderNumbers,
+    totalAmt: totalAmtNumbers,
+    totalOrder: totalOrderNumbers,
   };
-})();
+};
