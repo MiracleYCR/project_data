@@ -295,8 +295,8 @@ export default {
 
 <style scoped>
 .cloud-bed {
-  width: 220px;
-  height: 220px;
+  width: 210px;
+  height: 210px;
   margin: auto;
 }
 .cloud-box {
@@ -316,8 +316,8 @@ export default {
   background-image: linear-gradient(to bottom, red, #fff);
   background-clip: text;
   color: transparent;
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   text-align: center;
 

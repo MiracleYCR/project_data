@@ -7,34 +7,6 @@ export function numberFormatter(number) {
   return segs.join(",").split("").reverse().join("");
 }
 
-export function generateRealTime(realTimeList) {
-  function generateRandomInterval() {
-    // 生成一个随机的时间间隔，单位为毫秒，可以根据需要调整范围
-    return Math.floor(Math.random() * 5000) + 1000; // 生成1秒到6秒之间的随机间隔
-  }
-
-  function generateNextEvent() {
-    // 生成下一个事件的时间间隔
-    const nextInterval = generateRandomInterval();
-
-    // 输出当前时间和下一个事件的时间间隔
-    const currentTime = new Date();
-
-    realTimeList.push(
-      `${(currentTime.getMonth() + 1).toString().padStart(2, "0")}-${currentTime
-        .getDay()
-        .toString()
-        .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`
-    );
-
-    // 设置定时器，在下一个事件间隔后触发 generateNextEvent 函数
-    setTimeout(generateNextEvent, nextInterval);
-  }
-
-  // 启动第一个事件生成
-  generateNextEvent();
-}
-
 // 获取数组中指定的随机元素
 export function getRandomElements(arr, count) {
   const shuffled = arr.slice(); // 复制数组

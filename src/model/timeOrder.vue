@@ -16,8 +16,7 @@
 </template>
 
 <script>
-import { generateRealTime } from "@/utils";
-
+import { getRandomSecondsInterval } from "@/utils";
 import { tradeChannel, payment } from "@/mock/orders";
 
 export default {
@@ -30,20 +29,21 @@ export default {
       config: {
         header: ["交易时间", "交易金额", "交易渠道", "交易方式"],
         data: [
-          // ["09-22 09:22", "1898.98", "农产品展销", "支付宝"],
-          // ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
-          // ["09-22 09:22", "1898.98", "智慧农贸", "微信支付"],
-          // ["09-22 09:22", "1898.98", "渝品甄选", "支付宝"],
-          // ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
-          // ["09-22 09:22", "1898.98", "农产品展销", "渝卡通支付"],
-          // ["09-22 09:22", "1898.98", "渝品甄选", "渝卡通支付"],
-          // ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
-          // ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
-          // ["09-22 09:22", "1898.98", "智慧农贸", "渝卡通支付"],
+          ["09-22 09:22", "1898.98", "农产品展销", "支付宝"],
+          ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
+          ["09-22 09:22", "1898.98", "智慧农贸", "微信支付"],
+          ["09-22 09:22", "1898.98", "渝品甄选", "支付宝"],
+          ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
+          ["09-22 09:22", "1898.98", "农产品展销", "渝卡通支付"],
+          ["09-22 09:22", "1898.98", "渝品甄选", "渝卡通支付"],
+          ["09-22 09:22", "1898.98", "智慧农贸", "支付宝"],
+          ["09-22 09:22", "1898.98", "渝品甄选", "微信支付"],
+          ["09-22 09:22", "1898.98", "智慧农贸", "渝卡通支付"],
         ],
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
+        columnWidth: [120],
         // waitTime: 3000,
         align: ["center", "center", "center", "center"],
       },
@@ -70,7 +70,10 @@ export default {
         ];
 
         this.$nextTick(() => {
-          this.$refs["timeOrderBoardRef"].updateRows(newData, n.length - 1);
+          this.$refs["timeOrderBoardRef"].updateRows(
+            [...this.config.data, newData],
+            0
+          );
         });
       },
       immediate: true,
@@ -78,7 +81,18 @@ export default {
   },
 
   mounted() {
-    generateRealTime(this.realTimeList);
+    getRandomSecondsInterval(() => {
+      const currentTime = new Date();
+
+      this.realTimeList.push(
+        `${(currentTime.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}-${currentTime
+          .getDay()
+          .toString()
+          .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`
+      );
+    });
   },
 };
 </script>
