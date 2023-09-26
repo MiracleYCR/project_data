@@ -100,22 +100,26 @@ export default {
   },
 
   mounted() {
-    getRandomSecondsInterval(() => {
-      const randomTradeNum = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+    getRandomSecondsInterval(
+      () => {
+        const randomTradeNum = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
 
-      const randomTradeAmt =
-        (Math.floor(Math.random() * (300 - 10 + 1)) + 10) * randomTradeNum;
+        const randomTradeAmt =
+          (Math.floor(Math.random() * (300 - 10 + 1)) + 10) * randomTradeNum;
 
-      this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-        number: [this.tradeNumConfig.number[0] + randomTradeNum],
-      });
+        this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+          number: [this.tradeNumConfig.number[0] + randomTradeNum],
+        });
 
-      this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-        number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
-      });
+        this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+          number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
+        });
 
-      this.drawsmartCardDataChart(randomTradeAmt);
-    });
+        this.drawsmartCardDataChart(randomTradeAmt);
+      },
+      3,
+      7
+    );
   },
 
   destroyed() {

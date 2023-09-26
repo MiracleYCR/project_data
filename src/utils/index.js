@@ -55,7 +55,7 @@ export function generateRandomNumber(min, max, digits) {
 }
 
 // 随机循环时间间隔
-export const getRandomSecondsInterval = (callback) => {
+export const getRandomSecondsInterval = (callback, start = 1, end = 3) => {
   let timer;
 
   function getRandomInterval(minSeconds, maxSeconds) {
@@ -67,7 +67,7 @@ export const getRandomSecondsInterval = (callback) => {
   function randomIntervalLoop() {
     clearTimeout(timer);
 
-    const nextInterval = getRandomInterval(2, 7) * 1000;
+    const nextInterval = getRandomInterval(start, end) * 1000;
 
     callback();
 

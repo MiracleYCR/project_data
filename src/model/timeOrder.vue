@@ -5,18 +5,40 @@
     <div class="time_order_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else id="time_order_chart">
-        <dv-scroll-board
+        <!-- <dv-scroll-board
           style="width: 100%; height: 100%"
           ref="timeOrderBoardRef"
           :config="config"
-        />
+        /> -->
+        <div class="chart_header">
+          <div>交易时间</div>
+          <div>交易金额</div>
+          <div>交易渠道</div>
+          <div>交易方式</div>
+        </div>
+
+        <vue-seamless-scroll
+          class="warp"
+          ref="timeOrderBoardRef"
+          :data="listData"
+          :class-option="classOption"
+        >
+          <ul class="item">
+            <li v-for="(item, index) in listData" :key="index">
+              <span v-text="item.date"></span>
+              <span v-text="item.amt"></span>
+              <span v-text="item.channel"></span>
+              <span v-text="item.payment"></span>
+            </li>
+          </ul>
+        </vue-seamless-scroll>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getRandomSecondsInterval, generateRandomNumber } from "@/utils";
+import { getRandomSecondsInterval, currency } from "@/utils";
 import { tradeChannel, payment } from "@/mock/orders";
 
 export default {
@@ -24,15 +46,22 @@ export default {
     return {
       loading: false,
 
+      listData: [],
       realTimeList: [],
+
+      classOption: {
+        step: 0.15,
+      },
 
       config: {
         header: ["交易时间", "交易金额", "交易渠道", "交易方式"],
         data: [],
+        rowNum: 5,
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
         columnWidth: [120],
+        waitTime: 2000,
         align: ["center", "center", "center", "center"],
       },
     };
@@ -41,32 +70,15 @@ export default {
   watch: {
     realTimeList: {
       handler(n) {
-        const updateData = n.map((item) => {
-          return [
-            item,
-            generateRandomNumber(500, 1898),
-            tradeChannel[Math.floor(Math.random() * 3)],
-            payment[Math.floor(Math.random() * 3)],
-          ];
-        });
-
-        this.config = Object.assign({}, this.config, {
-          data: updateData,
-        });
-
-        // const newData = [
-        //   n[n.length - 1],
-        //   "1898.98",
-        //   tradeChannel[Math.floor(Math.random() * 3)],
-        //   payment[Math.floor(Math.random() * 3)],
-        // ];
-
-        // this.$nextTick(() => {
-        //   this.$refs["timeOrderBoardRef"].updateRows(
-        //     [...this.config.data, newData],
-        //     0
-        //   );
-        // });
+        if (n.length > 1) {
+          this.listData.push({
+            date: n[n.length - 1],
+            amt: currency(Math.random() * (529 - 26 + 1) + 26, 2, true),
+            channel: tradeChannel[Math.floor(Math.random() * 3)],
+            payment: payment[Math.floor(Math.random() * 3)],
+          });
+          this.$refs.timeOrderBoardRef.reset();
+        }
       },
       immediate: true,
     },
@@ -119,6 +131,59 @@ export default {
     #time_order_chart {
       width: 100%;
       height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .chart_header {
+        height: 35px;
+        margin-bottom: 10px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        background-color: rgba(0, 211, 255, 0.1);
+
+        div {
+          padding: 0 10px;
+          text-align: center;
+          width: calc((100% - 120px) / 3);
+
+          &:first-child {
+            width: 120px;
+          }
+        }
+      }
+
+      .warp {
+        width: 414px;
+        height: calc(100% - 45px);
+        margin: 0 auto;
+        overflow: hidden;
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0 auto;
+
+          li {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+
+            span {
+              font-size: 14px;
+              padding: 0 10px;
+              text-align: center;
+              width: calc((100% - 120px) / 3);
+
+              &:first-child {
+                width: 120px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
