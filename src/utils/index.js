@@ -92,7 +92,9 @@ export function autoHover(myChart, option, num, time) {
 
   let count = 0;
   let timeTicket = null;
+
   timeTicket && clearInterval(timeTicket);
+
   timeTicket = setInterval(function () {
     // 如果之前被销毁就清除定时器 - 处理一个div里面需要做图形切换bug
     if (myChart.isDisposed()) {
@@ -101,7 +103,7 @@ export function autoHover(myChart, option, num, time) {
     }
     myChart.dispatchAction({
       type: "downplay",
-      seriesIndex: 0, // serieIndex的索引值   可以触发多个
+      seriesIndex: 0, // serieIndex的索引值  可以触发多个
     });
     myChart.dispatchAction({
       type: "highlight", // 高亮
@@ -118,6 +120,7 @@ export function autoHover(myChart, option, num, time) {
       count = 0;
     }
   }, time);
+
   myChart.on("mouseover", function (params) {
     clearInterval(timeTicket);
     myChart.dispatchAction({
