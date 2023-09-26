@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { numberFormatter } from "@/utils/index";
+import { currency, numberFormatter } from "@/utils/index";
 
 export default {
   data() {
@@ -35,7 +35,7 @@ export default {
       merchantNumConfig: {
         number: [5861],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "left",
         style: {
           fontSize: 36,
@@ -57,7 +57,7 @@ export default {
       tradeNumConfig: {
         number: [65861],
         content: "{nt}",
-        formatter: numberFormatter,
+        formatter: (value) => currency(value, 0, true),
         textAlign: "right",
         style: {
           fontSize: 36,

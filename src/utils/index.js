@@ -7,6 +7,29 @@ export function numberFormatter(number) {
   return segs.join(",").split("").reverse().join("");
 }
 
+export const round = (value, decimals = 2) => {
+  const pow = 10 ** decimals;
+  return Math.round(value * pow) / pow;
+};
+export const currency = (value, decimals = 2, thousands = true) => {
+  value = parseFloat(value);
+  if (!isFinite(value) || (!value && value !== 0)) return "";
+  let t =
+    decimals > -1
+      ? round(value, decimals).toFixed(decimals)
+      : parseFloat(value.toFixed(8)) + "";
+  if (!t.includes(".")) {
+    t += ".";
+  }
+  if (thousands) {
+    t = t.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
+      return $1 + ",";
+    });
+  }
+  t = t.replace(/\.$/, "");
+  return t;
+};
+
 // 获取数组中指定的随机元素
 export function getRandomElements(arr, count) {
   const shuffled = arr.slice(); // 复制数组
@@ -27,7 +50,7 @@ export function getRandomElements(arr, count) {
 // 取返回随机数
 export function generateRandomNumber(min, max, digits) {
   return digits
-    ? (Math.random() * (max - min) + min).toFixed(digits)
+    ? Number((Math.random() * (max - min) + min).toFixed(digits))
     : Math.random() * (max - min) + min;
 }
 

@@ -440,6 +440,16 @@ export const generateMerchantsTop6 = () => {
   return getRandomElements(merchants, 6);
 };
 
+export const generateGoodsTop6HistoryAmt = (count = 6) => {
+  const orderList = [];
+
+  for (let i = 0; i < count; i++) {
+    orderList.push(parseInt(generateRandomNumber(7212204, 17948416)));
+  }
+
+  return orderList.sort((a, b) => b - a);
+};
+
 export const generateMerchantsValues = (total) => {
   const amtNumbers = [];
   const orderNumbers = [];

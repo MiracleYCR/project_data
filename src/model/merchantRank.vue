@@ -11,7 +11,10 @@
 
 <script>
 import * as echarts from "echarts";
-import { generateMerchantsTop6 } from "@/mock/merchant";
+import {
+  generateMerchantsTop6,
+  generateGoodsTop6HistoryAmt,
+} from "@/mock/merchant";
 
 export default {
   data() {
@@ -20,110 +23,93 @@ export default {
       loading: false,
     };
   },
+
   mounted() {
-    const chartDom = document.getElementById("merchant_rank_chart");
-    const merchantRankChart = echarts.init(chartDom);
+    this.drawMerchantRankDataChart();
 
-    const merchantRankData = generateMerchantsTop6().map((item) => {
-      return {
-        name: item,
-        value: 17948416,
-      };
-    });
-
-    console.log(merchantRankData);
-
-    // const merchantRankData1 = [
-    //   {
-    //     name: "商户名1",
-    //     value: 17948416,
-    //   },
-    //   {
-    //     name: "商户名2",
-    //     value: 17248416,
-    //   },
-    //   {
-    //     name: "商户名3",
-    //     value: 16328416,
-    //   },
-    //   {
-    //     name: "商户名4",
-    //     value: 12128416,
-    //   },
-    //   {
-    //     name: "商户名5",
-    //     value: 1761416,
-    //   },
-    //   {
-    //     name: "商户名6",
-    //     value: 17338416,
-    //   },
-    // ];
-
-    const option = {
-      grid: {
-        top: "15%", // 上边距
-        bottom: "0", // 下边距
-        left: "0", // 左边距
-        right: "15%",
-        containLabel: true,
-      },
-      xAxis: {
-        show: false,
-        type: "value",
-      },
-      yAxis: {
-        type: "category",
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          interval: 0,
-          formatter: (value) => {
-            const maxChars = 8;
-            if (value.length > maxChars) {
-              return value.slice(0, maxChars) + "..."; // 超过最大字符数时显示省略号
-            }
-            return value;
-          },
-          color: "rgba(57, 165, 237, 1)",
-        },
-        data: merchantRankData.map((item) => item.name).reverse(), // Y 轴刻度数据
-      },
-      series: [
-        {
-          type: "bar",
-          itemStyle: {
-            barWidth: 20,
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-              {
-                //只要修改前四个参数就ok
-                offset: 0,
-                color: "#2F9FFF",
-              }, //柱图渐变色
-              {
-                offset: 1,
-                color: "#B366FF",
-              },
-            ]),
-          },
-          label: {
-            show: true,
-            align: "left",
-            position: "right",
-            verticalAlign: "middle",
-            color: "rgba(0, 241, 255, 1)",
-          },
-          data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
-        },
-      ],
-    };
-
-    option && merchantRankChart.setOption(option);
+    this.timer = setInterval(() => {
+      this.updateMerchantRankData();
+    }, 3 * 60 * 1000);
   },
 
   destroyed() {
     clearInterval(this.timer);
+  },
+
+  methods: {
+    drawMerchantRankDataChart() {
+      const chartDom = document.getElementById("merchant_rank_chart");
+      const merchantRankChart = echarts.init(chartDom);
+
+      const merchantAmtTop6 = generateGoodsTop6HistoryAmt();
+
+      const merchantRankData = generateMerchantsTop6().map((item, index) => {
+        return {
+          name: item,
+          value: merchantAmtTop6[index],
+        };
+      });
+
+      const option = {
+        grid: {
+          top: "15%", // 上边距
+          bottom: "0", // 下边距
+          left: "0", // 左边距
+          right: "15%",
+          containLabel: true,
+        },
+        xAxis: {
+          show: false,
+          type: "value",
+        },
+        yAxis: {
+          type: "category",
+          axisTick: {
+            show: false,
+          },
+          axisLabel: {
+            interval: 0,
+            formatter: (value) => {
+              const maxChars = 8;
+              if (value.length > maxChars) {
+                return value.slice(0, maxChars) + "..."; // 超过最大字符数时显示省略号
+              }
+              return value;
+            },
+            color: "rgba(57, 165, 237, 1)",
+          },
+          data: merchantRankData.map((item) => item.name).reverse(), // Y 轴刻度数据
+        },
+        series: [
+          {
+            type: "bar",
+            itemStyle: {
+              barWidth: 20,
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                {
+                  offset: 0,
+                  color: "#2F9FFF",
+                },
+                {
+                  offset: 1,
+                  color: "#B366FF",
+                },
+              ]),
+            },
+            label: {
+              show: true,
+              align: "left",
+              position: "right",
+              verticalAlign: "middle",
+              color: "rgba(0, 241, 255, 1)",
+            },
+            data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
+          },
+        ],
+      };
+
+      option && merchantRankChart.setOption(option);
+    },
   },
 };
 </script>

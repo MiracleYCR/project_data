@@ -37,12 +37,32 @@
 
 <script>
 import * as echarts from "echarts";
-import { numberFormatter, getRandomSecondsInterval } from "@/utils/index";
+import {
+  currency,
+  numberFormatter,
+  getRandomSecondsInterval,
+  generateRandomNumber,
+} from "@/utils/index";
 
 export default {
   data() {
     return {
       timer: null,
+
+      smartCardData: [
+        {
+          name: "订单总金额",
+          value: 17948416,
+        },
+        {
+          name: "支付总金额",
+          value: 10736212,
+        },
+        {
+          name: "消费券总金额",
+          value: 7212204,
+        },
+      ],
 
       merchantNumConfig: {
         number: [2344],
@@ -80,77 +100,6 @@ export default {
   },
 
   mounted() {
-    const chartDom = document.getElementById("smart_card_chart");
-    const smartCardChart = echarts.init(chartDom);
-
-    const smartCardData = [
-      {
-        name: "订单总金额",
-        value: 17623311,
-      },
-      {
-        name: "支付总金额",
-        value: 18231223,
-      },
-      {
-        name: "消费券总金额",
-        value: 47612422,
-      },
-    ];
-
-    const option = {
-      grid: {
-        top: "15%", // 上边距
-        bottom: "0", // 下边距
-        left: "0", // 左边距
-        right: "20%",
-        containLabel: true,
-      },
-      xAxis: {
-        show: false,
-        type: "value",
-      },
-      yAxis: {
-        type: "category",
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          color: "rgba(57, 165, 237, 1)",
-        },
-        data: smartCardData.map((item) => item.name).reverse(), // Y 轴刻度数据
-      },
-      series: [
-        {
-          type: "bar",
-          itemStyle: {
-            barWidth: 20,
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-              {
-                //只要修改前四个参数就ok
-                offset: 0,
-                color: "#2F9FFF",
-              }, //柱图渐变色
-              {
-                offset: 1,
-                color: "#B366FF",
-              },
-            ]),
-          },
-          label: {
-            show: true,
-            align: "left",
-            position: "right",
-            verticalAlign: "middle",
-            color: "rgba(0, 241, 255, 1)",
-          },
-          data: smartCardData.map((item) => item.value).reverse(), // 柱状图数据
-        },
-      ],
-    };
-
-    option && smartCardChart.setOption(option);
-
     getRandomSecondsInterval(() => {
       const randomTradeNum = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
 
@@ -164,11 +113,81 @@ export default {
       this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
         number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
       });
+
+      this.drawsmartCardDataChart(randomTradeAmt);
     });
   },
 
   destroyed() {
     clearInterval(this.timer);
+  },
+
+  methods: {
+    drawsmartCardDataChart(randomTradeAmt) {
+      const chartDom = document.getElementById("smart_card_chart");
+      const smartCardChart = echarts.init(chartDom);
+
+      this.smartCardData.forEach((item) => {
+        item.value += parseFloat(
+          generateRandomNumber(randomTradeAmt, randomTradeAmt + 500)
+        );
+      });
+
+      const option = {
+        grid: {
+          top: "15%", // 上边距
+          bottom: "0", // 下边距
+          left: "0", // 左边距
+          right: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          show: false,
+          type: "value",
+        },
+        yAxis: {
+          type: "category",
+          axisTick: {
+            show: false,
+          },
+          axisLabel: {
+            color: "rgba(57, 165, 237, 1)",
+          },
+          data: this.smartCardData.map((item) => item.name).reverse(),
+        },
+        series: [
+          {
+            type: "bar",
+            itemStyle: {
+              barWidth: 20,
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                {
+                  offset: 0,
+                  color: "#2F9FFF",
+                },
+                {
+                  offset: 1,
+                  color: "#B366FF",
+                },
+              ]),
+            },
+            label: {
+              show: true,
+              align: "left",
+              position: "right",
+              verticalAlign: "middle",
+              color: "rgba(0, 241, 255, 1)",
+              formatter: (value) => {
+                return currency(value.data, 2, true);
+              },
+            },
+            data: this.smartCardData.map((item) => item.value).reverse(),
+          },
+        ],
+      };
+
+      option && smartCardChart.setOption(option);
+    },
   },
 };
 </script>
