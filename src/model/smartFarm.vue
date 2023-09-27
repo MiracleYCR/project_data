@@ -56,7 +56,7 @@ export default {
       loading: false,
 
       storeNumConfig: {
-        number: [stores.length],
+        number: [1758],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -67,7 +67,7 @@ export default {
       },
 
       yesterdayTradeNumConfig: {
-        number: [merchantsValues.totalOrder],
+        number: [18254],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -78,7 +78,7 @@ export default {
       },
 
       yesterdayTradeAmtConfig: {
-        number: [merchantsValues.totalAmt],
+        number: [323562.25],
         toFixed: 2,
         content: "{nt}",
         formatter: (value) => currency(value, 2, true),
@@ -208,6 +208,10 @@ export default {
       width: 100%;
       flex: 1;
       margin-top: 10px;
+
+      ::v-deep(.dv-scroll-board .rows .row-item) {
+        color: #0ab8ff;
+      }
     }
   }
 }

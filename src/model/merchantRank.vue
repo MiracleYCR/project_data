@@ -56,7 +56,7 @@ export default {
           top: "15%", // 上边距
           bottom: "0", // 下边距
           left: "0", // 左边距
-          right: "18%",
+          right: "13%",
           containLabel: true,
         },
         xAxis: {

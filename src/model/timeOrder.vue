@@ -5,11 +5,6 @@
     <div class="time_order_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else id="time_order_chart">
-        <!-- <dv-scroll-board
-          style="width: 100%; height: 100%"
-          ref="timeOrderBoardRef"
-          :config="config"
-        /> -->
         <div class="chart_header">
           <div>交易时间</div>
           <div>交易金额</div>
@@ -25,10 +20,10 @@
         >
           <ul class="item">
             <li v-for="(item, index) in listData" :key="index">
-              <span v-text="item.date"></span>
-              <span v-text="item.amt"></span>
-              <span v-text="item.channel"></span>
-              <span v-text="item.payment"></span>
+              <span style="color: #0ab8ff" v-text="item.date"></span>
+              <span style="color: #0ab8ff" v-text="item.amt"></span>
+              <span style="color: #0ab8ff" v-text="item.channel"></span>
+              <span style="color: #0ab8ff" v-text="item.payment"></span>
             </li>
           </ul>
         </vue-seamless-scroll>
@@ -50,19 +45,7 @@ export default {
       realTimeList: [],
 
       classOption: {
-        step: 0.15,
-      },
-
-      config: {
-        header: ["交易时间", "交易金额", "交易渠道", "交易方式"],
-        data: [],
-        rowNum: 5,
-        headerBGC: "rgba(0, 211, 255, 0.1)",
-        oddRowBGC: "",
-        evenRowBGC: "",
-        columnWidth: [120],
-        waitTime: 2000,
-        align: ["center", "center", "center", "center"],
+        step: 0.12,
       },
     };
   },

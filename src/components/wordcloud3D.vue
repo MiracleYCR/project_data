@@ -22,7 +22,7 @@ export default {
       radius: 0, // 词云球体面积大小
       dtr: Math.PI / 180, //鼠标滑过球体转动速度
       active: false, // 默认加载是否开启转动
-      lasta: 0, // 上下转动
+      lasta: 0.2, // 上下转动
       lastb: 0.5, // 左右转动
       distr: true,
       tspeed: 0, // 鼠标移动上去时球体转动
@@ -39,7 +39,7 @@ export default {
       cosC: "",
       dataList: [
         {
-          name: "百丈峰蜂蜜",
+          name: "蜂蜜",
           value: 11,
           color: "#FFB3F6",
           bgColor: "rgb(57, 193, 207,0.12)",
@@ -93,13 +93,13 @@ export default {
           bgColor: "rgb(57, 193, 207,0.12)",
         },
         {
-          name: "辣木茶简装",
+          name: "辣木茶",
           value: 11,
           color: "#FFBF4D",
           bgColor: "rgb(57, 193, 207,0.12)",
         },
         {
-          name: "冰淇淋礼盒",
+          name: "冰淇淋",
           value: 12,
           color: "#00F1FF",
           bgColor: "rgb(57, 193, 207,0.12)",
@@ -127,6 +127,7 @@ export default {
     getDataInfo(item) {
       console.log(item, "item");
     },
+
     initWordCloud() {
       this.cloudContent = document.querySelector(".cloud-box");
       this.tagContent = this.cloudContent.getElementsByTagName("span");
@@ -250,6 +251,7 @@ export default {
       this.doPosition();
       this.depthSort();
     },
+
     doPosition() {
       let len = this.cloudContent.offsetWidth / 2;
       let height = this.cloudContent.offsetHeight / 2;
@@ -265,7 +267,7 @@ export default {
           this.tagAttrList[i].offsetHeight / 2 +
           "px";
         this.tagContent[i].style.fontSize =
-          Math.ceil((12 * this.tagAttrList[i].scale) / 2) + 2 + "px";
+          Math.ceil((12 * this.tagAttrList[i].scale) / 2) + 10 + "px";
         this.tagContent[i].style.filter =
           "alpha(opacity=" + 100 * this.tagAttrList[i].alpha + ")";
         this.tagContent[i].style.opacity = this.tagAttrList[i].alpha;
@@ -316,8 +318,8 @@ export default {
   background-image: linear-gradient(to bottom, red, #fff);
   background-clip: text;
   color: transparent;
-  width: 75px;
-  height: 75px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   text-align: center;
 

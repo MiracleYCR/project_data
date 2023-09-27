@@ -33,7 +33,7 @@ export default {
             `<div style="display: flex; align-items: center">
               <img style="width: 30px; height: 30px; object-fit: cover" src="${imgUrl}">
               <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.name}</span>
-              </div>`,
+            </div>`,
             `${top4Orders[index]}`,
           ];
         }),
@@ -109,6 +109,9 @@ export default {
     #select_goods_chart {
       width: 100%;
       height: 100%;
+      ::v-deep(.dv-scroll-board .rows .row-item) {
+        color: #0ab8ff;
+      }
     }
   }
 }

@@ -44,7 +44,7 @@ export default {
       },
 
       totalAmtConfig: {
-        number: [5198365861.68],
+        number: [98365861.68],
         content: "{nt}",
         toFixed: 2,
         formatter: (value) => currency(value, 2, true),

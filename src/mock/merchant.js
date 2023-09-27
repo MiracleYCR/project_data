@@ -444,7 +444,7 @@ export const generateGoodsTop6HistoryAmt = (count = 6) => {
   const orderList = [];
 
   for (let i = 0; i < count; i++) {
-    orderList.push(parseInt(generateRandomNumber(7212204, 17948416)));
+    orderList.push(parseInt(generateRandomNumber(1212204, 8948416)));
   }
 
   return orderList.sort((a, b) => b - a);
