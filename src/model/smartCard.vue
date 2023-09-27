@@ -115,6 +115,8 @@ export default {
           number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
         });
 
+        this.smartCardData[0].value = this.tradeAmtConfig.number[0];
+
         this.drawsmartCardDataChart(randomTradeAmt);
       },
       3,
@@ -131,10 +133,12 @@ export default {
       const chartDom = document.getElementById("smart_card_chart");
       const smartCardChart = echarts.init(chartDom);
 
-      this.smartCardData.forEach((item) => {
-        item.value += parseFloat(
-          generateRandomNumber(randomTradeAmt, randomTradeAmt + 500)
-        );
+      this.smartCardData.forEach((item, index) => {
+        if (index !== 0) {
+          item.value += parseFloat(
+            generateRandomNumber(randomTradeAmt, randomTradeAmt + 500)
+          );
+        }
       });
 
       const option = {

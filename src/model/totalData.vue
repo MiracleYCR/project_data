@@ -2,26 +2,17 @@
   <div class="total_data_container">
     <div class="left">
       <div class="title">总商户数量</div>
-      <dv-digital-flop
-        :config="merchantNumConfig"
-        style="width: 100%; height: 36px"
-      />
+      <div class="merchantNumer">{{ formatMerchantNumer }}</div>
     </div>
 
     <div class="center">
       <div class="title">交易总金额（元）</div>
-      <dv-digital-flop
-        :config="totalAmtConfig"
-        style="width: 100%; height: 53px"
-      />
+      <div class="totalAmtNumber">{{ formatTotalAmt }}</div>
     </div>
 
     <div class="right">
       <div class="title">交易总笔数</div>
-      <dv-digital-flop
-        :config="tradeNumConfig"
-        style="width: 100%; height: 36px"
-      />
+      <div class="tradeNumber">{{ formatTradeNumber }}</div>
     </div>
   </div>
 </template>
@@ -30,66 +21,37 @@
 import { currency } from "@/utils/index";
 
 export default {
+  computed: {
+    formatTotalAmt() {
+      return currency(this.totalAmt, 2, true);
+    },
+    formatTradeNumber() {
+      return currency(this.tradeNumber, 0, true);
+    },
+    formatMerchantNumer() {
+      return currency(this.merchantNumer, 0, true);
+    },
+  },
+
   data() {
     return {
-      merchantNumConfig: {
-        number: [5861],
-        content: "{nt}",
-        formatter: (value) => currency(value, 0, true),
-        textAlign: "left",
-        style: {
-          fontSize: 36,
-          fill: "#00d3ff",
-        },
-      },
-
-      totalAmtConfig: {
-        number: [98365861.68],
-        content: "{nt}",
-        toFixed: 2,
-        formatter: (value) => currency(value, 2, true),
-        textAlign: "center",
-        style: {
-          fontSize: 53,
-          fill: "#00d3ff",
-        },
-      },
-
-      tradeNumConfig: {
-        number: [65861],
-        content: "{nt}",
-        formatter: (value) => currency(value, 0, true),
-        textAlign: "right",
-        style: {
-          fontSize: 36,
-          fill: "#00d3ff",
-        },
-      },
-
       timer: null,
+      merchantNumer: 5861,
+      totalAmt: 198461374.68,
+      tradeNumber: 6813706,
     };
   },
 
   mounted() {
     this.timer = setInterval(() => {
-      // 总商户数
-      // const randomNum1 = Math.floor(Math.random() * 3);
-      // this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-      //   number: [this.merchantNumConfig.number[0] + randomNum1],
-      // });
-
       // 总交易额
-      const randomNum2 = Math.floor(Math.random() * (5000 - 200 + 1)) + 200;
-      this.totalAmtConfig = Object.assign({}, this.totalAmtConfig, {
-        number: [this.totalAmtConfig.number[0] + randomNum2],
-      });
+      const randomNum2 = Math.random() * (999 - 1 + 1) + 1;
+      this.totalAmt += randomNum2;
 
       // 总交易笔数
-      const randomNum3 = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
-      this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-        number: [this.tradeNumConfig.number[0] + randomNum3],
-      });
-    }, 30 * 1000);
+      const randomNum3 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+      this.tradeNumber += randomNum3;
+    }, 4000);
   },
 
   destroyed() {
@@ -101,7 +63,7 @@ export default {
 <style lang="scss" scoped>
 .total_data_container {
   height: 100px;
-  margin: 20px 34px 0;
+  margin: 20px 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -119,6 +81,15 @@ export default {
       text-align: center;
       margin-bottom: 5px;
     }
+
+    .totalAmtNumber {
+      height: 53px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 53px;
+      color: #00d3ff;
+    }
   }
 
   .left,
@@ -135,6 +106,26 @@ export default {
       color: #ffffff;
       text-align: center;
       margin-bottom: 5px;
+    }
+
+    .merchantNumer {
+      width: 100%;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 36px;
+      color: #00d3ff;
+    }
+
+    .tradeNumber {
+      width: 100%;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 36px;
+      color: #00d3ff;
     }
   }
 
