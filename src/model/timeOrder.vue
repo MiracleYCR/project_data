@@ -160,8 +160,8 @@ export default {
 
           li {
             display: block;
-            height: 40px;
-            line-height: 40px;
+            height: 37px;
+            line-height: 37px;
             display: flex;
             justify-content: space-between;
             font-size: 15px;
