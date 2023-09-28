@@ -30,7 +30,7 @@ export default {
 
     this.timer = setInterval(() => {
       this.drawMerchantRankDataChart();
-    }, 3 * 60 * 1000);
+    }, 30 * 1000);
   },
 
   destroyed() {
