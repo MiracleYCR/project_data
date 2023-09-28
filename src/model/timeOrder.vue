@@ -33,53 +33,65 @@
 </template>
 
 <script>
-import { getRandomSecondsInterval, currency } from "@/utils";
+import { currency, getRandomSecondsInterval } from "@/utils";
 import { tradeChannel, payment } from "@/mock/orders";
 
 export default {
   data() {
     return {
+      timer: null,
       loading: false,
 
       listData: [],
-      realTimeList: [],
 
       classOption: {
-        step: 0.12,
+        step: 0,
       },
     };
   },
 
-  watch: {
-    realTimeList: {
-      handler(n) {
-        if (n.length > 1) {
-          this.listData.push({
-            date: n[n.length - 1],
-            amt: currency(Math.random() * (529 - 26 + 1) + 26, 2, true),
-            channel: tradeChannel[Math.floor(Math.random() * 3)],
-            payment: payment[Math.floor(Math.random() * 3)],
-          });
-          this.$refs.timeOrderBoardRef.reset();
-        }
-      },
-      immediate: true,
-    },
+  mounted() {
+    getRandomSecondsInterval(this.initData, 20, 25);
   },
 
-  mounted() {
-    getRandomSecondsInterval(() => {
+  methods: {
+    initData() {
       const currentTime = new Date();
+      const curChannelIndex = this.generateChannelRandomNumber();
+      const curPaymentIndex = this.generatePaymentRandomNumber();
 
-      this.realTimeList.push(
-        `${(currentTime.getMonth() + 1)
+      this.listData.unshift({
+        date: `${(currentTime.getMonth() + 1)
           .toString()
           .padStart(2, "0")}-${currentTime
           .getDate()
           .toString()
-          .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`
-      );
-    });
+          .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`,
+        amt: currency(Math.random() * (99 - 1 + 1) + 1, 2, true),
+        channel: tradeChannel[curChannelIndex],
+        payment: payment[curPaymentIndex],
+      });
+
+      this.$refs.timeOrderBoardRef.reset();
+    },
+
+    generateChannelRandomNumber() {
+      const randomValue = Math.random();
+      if (randomValue < 0.7) {
+        return 2;
+      } else {
+        return Math.random() < 0.6 ? 0 : 1;
+      }
+    },
+
+    generatePaymentRandomNumber() {
+      const randomValue = Math.random();
+      if (randomValue < 0.3) {
+        return 2;
+      } else {
+        return Math.random() < 0.5 ? 0 : 1;
+      }
+    },
   },
 };
 </script>

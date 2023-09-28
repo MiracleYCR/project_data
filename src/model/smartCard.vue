@@ -37,11 +37,7 @@
 
 <script>
 import * as echarts from "echarts";
-import {
-  currency,
-  generateRandomNumber,
-  getRandomSecondsInterval,
-} from "@/utils/index";
+import { currency, generateRandomNumber } from "@/utils/index";
 
 export default {
   data() {
@@ -100,28 +96,11 @@ export default {
   },
 
   mounted() {
-    getRandomSecondsInterval(
-      () => {
-        const randomTradeNum = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+    this.settingData();
 
-        const randomTradeAmt =
-          (Math.floor(Math.random() * (300 - 10 + 1)) + 10) * randomTradeNum;
-
-        this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-          number: [this.tradeNumConfig.number[0] + randomTradeNum],
-        });
-
-        this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-          number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
-        });
-
-        this.smartCardData[0].value = this.tradeAmtConfig.number[0];
-
-        this.drawsmartCardDataChart(randomTradeAmt);
-      },
-      3,
-      7
-    );
+    this.timer = setInterval(() => {
+      this.settingData();
+    }, 15 * 1000);
   },
 
   destroyed() {
@@ -129,6 +108,25 @@ export default {
   },
 
   methods: {
+    settingData() {
+      const randomTradeNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+
+      const randomTradeAmt =
+        (Math.floor(Math.random() * (300 - 1 + 1)) + 1) * randomTradeNum;
+
+      this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+        number: [this.tradeNumConfig.number[0] + randomTradeNum],
+      });
+
+      this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+        number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
+      });
+
+      this.smartCardData[0].value = this.tradeAmtConfig.number[0];
+
+      this.drawsmartCardDataChart(randomTradeAmt);
+    },
+
     drawsmartCardDataChart(randomTradeAmt) {
       const chartDom = document.getElementById("smart_card_chart");
       const smartCardChart = echarts.init(chartDom);

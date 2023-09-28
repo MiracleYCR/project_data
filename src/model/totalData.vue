@@ -46,13 +46,13 @@ export default {
   mounted() {
     this.timer = setInterval(() => {
       // 总交易额
-      const randomNum2 = Math.random() * (999 - 1 + 1) + 1;
+      const randomNum2 = Math.random() * (300 - 1 + 1) + 1;
       this.totalAmt += randomNum2;
 
       // 总交易笔数
-      const randomNum3 = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+      const randomNum3 = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
       this.tradeNumber += randomNum3;
-    }, 4000);
+    }, 15 * 1000);
   },
 
   destroyed() {

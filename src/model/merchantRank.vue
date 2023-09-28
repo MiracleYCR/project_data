@@ -1,6 +1,9 @@
 <template>
   <div class="merchant_rank_container">
-    <div class="title">商户排行</div>
+    <div class="title">
+      <span>商户排行</span>
+      <span>（历史销售额/元）</span>
+    </div>
 
     <div class="merchant_rank_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
@@ -56,7 +59,7 @@ export default {
           top: "15%", // 上边距
           bottom: "0", // 下边距
           left: "0", // 左边距
-          right: "13%",
+          right: "15%",
           containLabel: true,
         },
         xAxis: {
@@ -142,6 +145,12 @@ export default {
     font-size: 20px;
     font-weight: 800;
     color: #0ab8ff;
+
+    span {
+      &:last-child {
+        font-size: 15px;
+      }
+    }
   }
 
   .merchant_rank_body {

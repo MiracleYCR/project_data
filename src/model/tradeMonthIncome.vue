@@ -1,6 +1,9 @@
 <template>
   <div class="trade_month_income_container">
-    <div class="title">月净交易实收</div>
+    <div class="title">
+      <span>月净交易实收</span>
+      <span>（万元）</span>
+    </div>
 
     <div class="trade_month_income_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
@@ -61,8 +64,6 @@ export default {
           "8-月",
           "9-月",
           "10-月",
-          "11-月",
-          "12-月",
         ],
         axisTick: {
           show: false,
@@ -108,14 +109,14 @@ export default {
               color: "#0ab8ff",
             },
           },
-          data: [621, 746, 683, 867, 912, 973, 836, 927, 894, 1108, 1266, 1391],
+          data: [621, 746, 683, 867, 912, 973, 836, 927, 894, 1108],
         },
       ],
     };
 
     option && tradeMonthIncomeChart.setOption(option);
 
-    autoHover(tradeMonthIncomeChart, option, 12);
+    autoHover(tradeMonthIncomeChart, option, 10);
   },
 };
 </script>
@@ -138,6 +139,12 @@ export default {
     margin-left: 19px;
     display: flex;
     align-items: center;
+
+    span {
+      &:last-child {
+        font-size: 15px;
+      }
+    }
   }
 
   .trade_month_income_body {
