@@ -86,10 +86,10 @@ export default {
 
     generatePaymentRandomNumber() {
       const randomValue = Math.random();
-      if (randomValue < 0.3) {
-        return 2;
-      } else {
+      if (randomValue < 0.7) {
         return Math.random() < 0.5 ? 0 : 1;
+      } else {
+        return 2;
       }
     },
   },
