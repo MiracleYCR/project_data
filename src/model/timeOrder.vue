@@ -75,7 +75,7 @@ export default {
         `${(currentTime.getMonth() + 1)
           .toString()
           .padStart(2, "0")}-${currentTime
-          .getDay()
+          .getDate()
           .toString()
           .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`
       );
