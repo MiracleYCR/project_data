@@ -125,7 +125,7 @@ export default {
 .trade_month_income_container {
   position: relative;
   width: 454px;
-  height: 300px;
+  height: 305px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url("../assets/images/box.png");
@@ -143,6 +143,7 @@ export default {
     span {
       &:last-child {
         font-size: 15px;
+        margin-top: -2px;
       }
     }
   }
