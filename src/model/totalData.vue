@@ -37,9 +37,9 @@ export default {
   data() {
     return {
       timer: null,
-      merchantNumer: 5861,
-      totalAmt: 198461374.68,
-      tradeNumber: 6813706,
+      merchantNumer: 415,
+      totalAmt: 79354543.89,
+      tradeNumber: 869352,
     };
   },
 
