@@ -47,20 +47,20 @@ export default {
       smartCardData: [
         {
           name: "订单总金额",
-          value: 19064938.42,
+          value: 5578819.8,
         },
         {
           name: "支付总金额",
-          value: 15143882.24,
+          value: 5578819.8,
         },
         {
           name: "消费券总金额",
-          value: 3920704.77,
+          value: 5490203.23,
         },
       ],
 
       merchantNumConfig: {
-        number: [2344],
+        number: [85],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "right",
@@ -71,7 +71,7 @@ export default {
       },
 
       tradeNumConfig: {
-        number: [163197],
+        number: [106008],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "right",
@@ -82,7 +82,7 @@ export default {
       },
 
       tradeAmtConfig: {
-        number: [19064938.42],
+        number: [5578819.8],
         content: "{nt}",
         toFixed: 2,
         formatter: (value) => currency(value, 2, true),

@@ -15,10 +15,12 @@
 <script>
 import * as echarts from "echarts";
 import { currency } from "@/utils";
-import {
-  generateMerchantsTop6,
-  generateGoodsTop6HistoryAmt,
-} from "@/mock/merchant";
+// import {
+//   generateMerchantsTop6,
+//   generateGoodsTop6HistoryAmt,
+// } from "@/mock/merchant";
+
+import { generateMerchantsTop6 } from "@/mock/merchant2";
 
 export default {
   data() {
@@ -45,12 +47,18 @@ export default {
       const chartDom = document.getElementById("merchant_rank_chart");
       const merchantRankChart = echarts.init(chartDom);
 
-      const merchantAmtTop6 = generateGoodsTop6HistoryAmt();
+      // const merchantAmtTop6 = generateGoodsTop6HistoryAmt();
+      // const merchantRankData = generateMerchantsTop6().map((item, index) => {
+      //   return {
+      //     name: item,
+      //     value: merchantAmtTop6[index],
+      //   };
+      // });
 
-      const merchantRankData = generateMerchantsTop6().map((item, index) => {
+      const merchantRankData = generateMerchantsTop6().map((item) => {
         return {
-          name: item,
-          value: merchantAmtTop6[index],
+          name: item.name,
+          value: item.amt,
         };
       });
 

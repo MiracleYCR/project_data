@@ -43,20 +43,23 @@
 
 <script>
 import { currency } from "@/utils/index";
-import { stores, generateStoreTop5 } from "@/mock/store";
-import { generateMerchantsValues } from "@/mock/merchant";
+import { generateStoreTop5 } from "@/mock/store2";
+// import { stores, generateStoreTop5 } from "@/mock/store";
+// import { generateMerchantsValues } from "@/mock/merchant";
 
 export default {
   data() {
+    // const top5stores = generateStoreTop5();
+    // const merchantsValues = generateMerchantsValues(stores.length);
+
     const top5stores = generateStoreTop5();
-    const merchantsValues = generateMerchantsValues(stores.length);
 
     return {
       timer: null,
       loading: false,
 
       storeNumConfig: {
-        number: [1758],
+        number: [273],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -67,7 +70,7 @@ export default {
       },
 
       yesterdayTradeNumConfig: {
-        number: [18254],
+        number: [1713],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -78,7 +81,7 @@ export default {
       },
 
       yesterdayTradeAmtConfig: {
-        number: [323562.25],
+        number: [120337.1],
         toFixed: 2,
         content: "{nt}",
         formatter: (value) => currency(value, 2, true),
@@ -91,13 +94,16 @@ export default {
 
       boardConfig: {
         header: ["排名", "门店名称", "交易笔数", "交易实收"],
-        data: top5stores.map((name, index) => {
-          return [
-            `${index + 1}`,
-            name,
-            merchantsValues["order"][index],
-            merchantsValues["amt"][index],
-          ];
+        // data: top5stores.map((name, index) => {
+        //   return [
+        //     `${index + 1}`,
+        //     name,
+        //     merchantsValues["order"][index],
+        //     merchantsValues["amt"][index],
+        //   ];
+        // }),
+        data: top5stores.map((item, index) => {
+          return [`${index + 1}`, item.name, item.orders, item.amt];
         }),
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
@@ -122,17 +128,22 @@ export default {
     ];
 
     this.timer = setInterval(() => {
+      // const top5Stores = generateStoreTop5();
+      // const merchantsValues = generateMerchantsValues(stores.length);
+
       const top5Stores = generateStoreTop5();
-      const merchantsValues = generateMerchantsValues(stores.length);
 
       this.boardConfig = Object.assign({}, this.boardConfig, {
-        data: top5Stores.map((name, index) => {
-          return [
-            `${index + 1}`,
-            name,
-            merchantsValues["order"][index],
-            merchantsValues["amt"][index],
-          ];
+        // data: top5Stores.map((name, index) => {
+        //   return [
+        //     `${index + 1}`,
+        //     name,
+        //     merchantsValues["order"][index],
+        //     merchantsValues["amt"][index],
+        //   ];
+        // }),
+        data: top5Stores.map((item, index) => {
+          return [`${index + 1}`, item.name, item.orders, item.amt];
         }),
       });
     }, 30 * 1000);
