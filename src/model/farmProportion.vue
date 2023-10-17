@@ -15,9 +15,9 @@ export default {
     const farmProportionChart = echarts.init(chartDom);
 
     const option = {
-      tooltip: {
-        trigger: "item",
-      },
+      // tooltip: {
+      //   trigger: "item",
+      // },
       visualMap: {
         top: "middle",
         right: 20,
