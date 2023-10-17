@@ -53,10 +53,10 @@ export default {
           name: "支付总金额",
           value: 5578819.8,
         },
-        {
-          name: "消费券总金额",
-          value: 5490203.23,
-        },
+        // {
+        //   name: "消费券总金额",
+        //   value: 5490203.23,
+        // },
       ],
 
       merchantNumConfig: {
