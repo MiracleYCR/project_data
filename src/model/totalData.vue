@@ -26,7 +26,6 @@ export default {
       return currency(this.totalAmt, 2, true);
     },
     formatTradeNumber() {
-      console.log(currency(this.tradeNumber, 0, true));
       return currency(this.tradeNumber, 0, true);
     },
     formatMerchantNumer() {

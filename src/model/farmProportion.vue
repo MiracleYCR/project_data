@@ -15,9 +15,6 @@ export default {
     const farmProportionChart = echarts.init(chartDom);
 
     const option = {
-      // tooltip: {
-      //   trigger: "item",
-      // },
       visualMap: {
         top: "middle",
         right: 20,
@@ -34,10 +31,10 @@ export default {
       },
       radar: {
         indicator: [
-          { text: "智慧农贸", max: 400, min: 30 },
-          { text: "渝品甄选", max: 400, min: 40 },
-          { text: "农产品展销", max: 400, min: 50 },
-          { text: "智慧渝卡通", max: 400, min: 60 },
+          { text: "智慧农贸", max: 1000 },
+          { text: "渝品甄选", max: 1000 },
+          { text: "农产品展销", max: 1000 },
+          { text: "智慧渝卡通", max: 1000 },
         ],
         splitLine: {
           lineStyle: {
@@ -71,11 +68,10 @@ export default {
             data: [
               {
                 value: [
-                  (40 - i) * 10,
-                  (38 - i) * 4 + 60,
-                  i * 5 + 10,
-                  i * 9,
-                  (i * i) / 2,
+                  (40 - i) * 20,
+                  (38 - i) * 4 + 500,
+                  i * 20 + 100,
+                  i * 10,
                 ],
                 name: i + 2000 + "",
               },
