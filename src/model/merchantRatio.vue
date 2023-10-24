@@ -88,7 +88,7 @@ export default {
               {
                 type: "pie",
                 radius: [0, "50%"],
-                startAngle: -280,
+                startAngle: -250,
                 label: {
                   position: "inside",
                   fontSize: 9,
@@ -117,7 +117,7 @@ export default {
               {
                 type: "pie",
                 radius: ["65%", "80%"],
-                startAngle: -280,
+                startAngle: -250,
                 labelLine: {
                   show: true,
                   lineStyle: {

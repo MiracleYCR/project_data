@@ -60,7 +60,7 @@ export default {
         const { data: totalData } = await yuSmartcard_API.fetchTotalData();
         this.totalAmt = totalData.totalAmt;
         this.tradeNumber = totalData.tradeNumber;
-        this.merchantNumer = totalData.merchantNumer;
+        this.merchantNumer = totalData.merchantNumer + 330;
       } catch (err) {
         this.totalAmt = 0;
         this.tradeNumber = 0;
