@@ -33,8 +33,13 @@
 </template>
 
 <script>
-import { currency, getRandomSecondsInterval } from "@/utils";
-import { tradeChannel, payment } from "@/mock/orders";
+import {
+  currency,
+  // getRandomSecondsInterval
+} from "@/utils";
+// import { tradeChannel, payment } from "@/mock/orders";
+
+import yuSmartcard_API from "@/api/yuSmartcard";
 
 export default {
   data() {
@@ -51,47 +56,72 @@ export default {
   },
 
   mounted() {
-    getRandomSecondsInterval(this.initData, 20, 25);
+    this.getTimeOrderData();
+
+    this.timer = setInterval(() => {
+      this.getTimeOrderData();
+    }, 30 * 1000);
+
+    // getRandomSecondsInterval(this.initData, 20, 25);
+  },
+
+  destroyed() {
+    clearInterval(this.timer);
   },
 
   methods: {
-    initData() {
-      const currentTime = new Date();
-      const curChannelIndex = this.generateChannelRandomNumber();
-      const curPaymentIndex = this.generatePaymentRandomNumber();
+    async getTimeOrderData() {
+      const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
 
-      this.listData.unshift({
-        date: `${(currentTime.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}-${currentTime
-          .getDate()
-          .toString()
-          .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`,
-        amt: currency(Math.random() * (99 - 1 + 1) + 1, 2, true),
-        channel: tradeChannel[curChannelIndex],
-        payment: payment[curPaymentIndex],
+      this.listData = yuSmartcard.map((item) => {
+        return {
+          date: item.tradeDate,
+          amt: currency(item.tradeAmt, 2, true),
+          channel: item.tradeChannel,
+          payment: item.payment,
+        };
       });
 
-      this.$refs.timeOrderBoardRef.reset();
+      console.log(yuSmartcard);
     },
 
-    generateChannelRandomNumber() {
-      const randomValue = Math.random();
-      if (randomValue < 0.7) {
-        return 2;
-      } else {
-        return Math.random() < 0.6 ? 0 : 1;
-      }
-    },
+    // initData() {
+    //   const currentTime = new Date();
+    //   const curChannelIndex = this.generateChannelRandomNumber();
+    //   const curPaymentIndex = this.generatePaymentRandomNumber();
 
-    generatePaymentRandomNumber() {
-      const randomValue = Math.random();
-      if (randomValue < 0.7) {
-        return Math.random() < 0.5 ? 0 : 1;
-      } else {
-        return 2;
-      }
-    },
+    //   this.listData.unshift({
+    //     date: `${(currentTime.getMonth() + 1)
+    //       .toString()
+    //       .padStart(2, "0")}-${currentTime
+    //       .getDate()
+    //       .toString()
+    //       .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`,
+    //     amt: currency(Math.random() * (99 - 1 + 1) + 1, 2, true),
+    //     channel: tradeChannel[curChannelIndex],
+    //     payment: payment[curPaymentIndex],
+    //   });
+
+    //   this.$refs.timeOrderBoardRef.reset();
+    // },
+
+    // generateChannelRandomNumber() {
+    //   const randomValue = Math.random();
+    //   if (randomValue < 0.7) {
+    //     return 2;
+    //   } else {
+    //     return Math.random() < 0.6 ? 0 : 1;
+    //   }
+    // },
+
+    // generatePaymentRandomNumber() {
+    //   const randomValue = Math.random();
+    //   if (randomValue < 0.7) {
+    //     return Math.random() < 0.5 ? 0 : 1;
+    //   } else {
+    //     return 2;
+    //   }
+    // },
   },
 };
 </script>

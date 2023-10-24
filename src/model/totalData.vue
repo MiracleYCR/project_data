@@ -19,6 +19,7 @@
 
 <script>
 import { currency } from "@/utils/index";
+import yuSmartcard_API from "@/api/yuSmartcard";
 
 export default {
   computed: {
@@ -36,26 +37,30 @@ export default {
   data() {
     return {
       timer: null,
-      merchantNumer: 415,
-      totalAmt: 79354543.89,
-      tradeNumber: 869352,
+      totalAmt: 0,
+      tradeNumber: 0,
+      merchantNumer: 0,
     };
   },
 
   mounted() {
-    this.timer = setInterval(() => {
-      // 总交易额
-      const randomNum2 = Math.random() * (300 - 1 + 1) + 1;
-      this.totalAmt += randomNum2;
-
-      // 总交易笔数
-      const randomNum3 = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-      this.tradeNumber += randomNum3;
+    this.getTotalData();
+    this.timer = setInterval(async () => {
+      await this.getTotalData();
     }, 15 * 1000);
   },
 
   destroyed() {
     clearInterval(this.timer);
+  },
+
+  methods: {
+    async getTotalData() {
+      const resp = await yuSmartcard_API.fetchTotalData();
+      this.totalAmt = resp.data.totalAmt;
+      this.tradeNumber = resp.data.tradeNumber;
+      this.merchantNumer = resp.data.merchantNumer;
+    },
   },
 };
 </script>

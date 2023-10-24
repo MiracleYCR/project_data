@@ -37,30 +37,16 @@
 
 <script>
 import * as echarts from "echarts";
-import { currency, generateRandomNumber } from "@/utils/index";
+import { currency } from "@/utils/index";
+import yuSmartcard_API from "@/api/yuSmartcard";
 
 export default {
   data() {
     return {
       timer: null,
 
-      smartCardData: [
-        {
-          name: "订单总金额",
-          value: 5578819.8,
-        },
-        {
-          name: "支付总金额",
-          value: 5578819.8,
-        },
-        // {
-        //   name: "消费券总金额",
-        //   value: 5490203.23,
-        // },
-      ],
-
       merchantNumConfig: {
-        number: [85],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "right",
@@ -71,7 +57,7 @@ export default {
       },
 
       tradeNumConfig: {
-        number: [106008],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "right",
@@ -82,7 +68,7 @@ export default {
       },
 
       tradeAmtConfig: {
-        number: [5578819.8],
+        number: [0],
         content: "{nt}",
         toFixed: 2,
         formatter: (value) => currency(value, 2, true),
@@ -96,10 +82,10 @@ export default {
   },
 
   mounted() {
-    this.settingData();
+    this.getSmartCardData();
 
     this.timer = setInterval(() => {
-      this.settingData();
+      this.getSmartCardData();
     }, 15 * 1000);
   },
 
@@ -108,91 +94,87 @@ export default {
   },
 
   methods: {
-    settingData() {
-      const randomTradeNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+    async getSmartCardData() {
+      const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
-      const randomTradeAmt =
-        (Math.floor(Math.random() * (300 - 1 + 1)) + 1) * randomTradeNum;
+      this.$nextTick(() => {
+        const chartDom = document.getElementById("smart_card_chart");
+        const smartCardChart = echarts.init(chartDom);
 
-      this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-        number: [this.tradeNumConfig.number[0] + randomTradeNum],
-      });
+        this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+          number: [smartCard.merchantNumer],
+        });
 
-      this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-        number: [this.tradeAmtConfig.number[0] + randomTradeAmt],
-      });
+        this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+          number: [smartCard.tradeNumber],
+        });
 
-      this.smartCardData[0].value = this.tradeAmtConfig.number[0];
+        this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+          number: [smartCard.tradeAmt],
+        });
 
-      this.drawsmartCardDataChart(randomTradeAmt);
-    },
+        const smartCardChartData = smartCard.channelAmt.map((item) => {
+          return {
+            name: item.channel,
+            value: item.amt,
+          };
+        });
 
-    drawsmartCardDataChart(randomTradeAmt) {
-      const chartDom = document.getElementById("smart_card_chart");
-      const smartCardChart = echarts.init(chartDom);
-
-      this.smartCardData.forEach((item, index) => {
-        if (index !== 0) {
-          item.value += parseFloat(
-            generateRandomNumber(randomTradeAmt, randomTradeAmt + 500)
-          );
-        }
-      });
-
-      const option = {
-        grid: {
-          top: "15%", // 上边距
-          bottom: "0", // 下边距
-          left: "0", // 左边距
-          right: "20%",
-          containLabel: true,
-        },
-        xAxis: {
-          show: false,
-          type: "value",
-        },
-        yAxis: {
-          type: "category",
-          axisTick: {
+        const option = {
+          grid: {
+            top: "15%", // 上边距
+            bottom: "0", // 下边距
+            left: "0", // 左边距
+            right: "20%",
+            containLabel: true,
+          },
+          xAxis: {
             show: false,
+            type: "value",
           },
-          axisLabel: {
-            color: "rgba(57, 165, 237, 1)",
-          },
-          data: this.smartCardData.map((item) => item.name).reverse(),
-        },
-        series: [
-          {
-            type: "bar",
-            itemStyle: {
-              barWidth: 20,
-              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                {
-                  offset: 0,
-                  color: "#2F9FFF",
-                },
-                {
-                  offset: 1,
-                  color: "#B366FF",
-                },
-              ]),
+          yAxis: {
+            type: "category",
+            axisTick: {
+              show: false,
             },
-            label: {
-              show: true,
-              align: "left",
-              position: "right",
-              verticalAlign: "middle",
-              color: "rgba(0, 241, 255, 1)",
-              formatter: (value) => {
-                return currency(value.data, 2, true);
+            axisLabel: {
+              color: "rgba(57, 165, 237, 1)",
+            },
+            data: smartCardChartData.map((item) => item.name).reverse(),
+          },
+          series: [
+            {
+              type: "bar",
+              itemStyle: {
+                barWidth: 20,
+                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                  {
+                    offset: 0,
+                    color: "#2F9FFF",
+                  },
+                  {
+                    offset: 1,
+                    color: "#B366FF",
+                  },
+                ]),
               },
+              label: {
+                show: true,
+                align: "left",
+                position: "right",
+                verticalAlign: "middle",
+                color: "rgba(0, 241, 255, 1)",
+                formatter: (value) => {
+                  return currency(value.data, 2, true);
+                },
+              },
+              data: smartCardChartData.map((item) => item.value).reverse(),
             },
-            data: this.smartCardData.map((item) => item.value).reverse(),
-          },
-        ],
-      };
+          ],
+        };
 
-      option && smartCardChart.setOption(option);
+        option && smartCardChart.setOption(option);
+      });
     },
   },
 };
