@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       timer: null,
-      loading: false,
+      loading: true,
     };
   },
 
@@ -39,93 +39,95 @@ export default {
 
   methods: {
     async getMerchantRankData() {
-      this.loading = true;
+      try {
+        const { data: merchantData } =
+          await yuSmartcard_API.fetchMerchantRank();
 
-      const { data: merchantData } = await yuSmartcard_API.fetchMerchantRank();
+        this.loading = false;
 
-      this.loading = false;
+        this.$nextTick(() => {
+          const chartDom = document.getElementById("merchant_rank_chart");
+          const merchantRankChart = echarts.init(chartDom);
 
-      this.$nextTick(() => {
-        console.log(merchantData);
-        const chartDom = document.getElementById("merchant_rank_chart");
-        const merchantRankChart = echarts.init(chartDom);
+          const merchantRankData = merchantData.slice(0, 6).map((item) => {
+            return {
+              name: item.merchant,
+              value: item.salesAmt,
+            };
+          });
 
-        const merchantRankData = merchantData.slice(0, 6).map((item) => {
-          return {
-            name: item.merchant,
-            value: item.salesAmt,
-          };
-        });
-
-        const option = {
-          grid: {
-            top: "15%", // 上边距
-            bottom: "0", // 下边距
-            left: "0", // 左边距
-            right: "15%",
-            containLabel: true,
-          },
-          xAxis: {
-            show: false,
-            type: "value",
-          },
-          yAxis: {
-            type: "category",
-            axisTick: {
+          const option = {
+            grid: {
+              top: "15%", // 上边距
+              bottom: "0", // 下边距
+              left: "0", // 左边距
+              right: "15%",
+              containLabel: true,
+            },
+            xAxis: {
               show: false,
+              type: "value",
             },
-            axisLabel: {
-              interval: 0,
-              formatter: (value) => {
-                const maxChars = 7;
-                if (value.length > maxChars) {
-                  return value.slice(0, maxChars) + "...";
-                }
-                return value;
+            yAxis: {
+              type: "category",
+              axisTick: {
+                show: false,
               },
-              color: "rgba(57, 165, 237, 1)",
-            },
-            data: merchantRankData.map((item) => item.name).reverse(),
-          },
-          series: [
-            {
-              type: "bar",
-              itemStyle: {
-                barWidth: 20,
-                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                  {
-                    offset: 0,
-                    color: "#2F9FFF",
-                  },
-                  {
-                    offset: 1,
-                    color: "#B366FF",
-                  },
-                ]),
-              },
-              label: {
-                show: true,
-                align: "left",
-                position: "right",
-                verticalAlign: "middle",
-                color: "rgba(0, 241, 255, 1)",
+              axisLabel: {
+                interval: 0,
                 formatter: (value) => {
-                  return currency(
-                    `${value.value}.${Math.floor(
-                      Math.random() * 9
-                    )}${Math.floor(Math.random() * 9)}`,
-                    2,
-                    true
-                  );
+                  const maxChars = 7;
+                  if (value.length > maxChars) {
+                    return value.slice(0, maxChars) + "...";
+                  }
+                  return value;
                 },
+                color: "rgba(57, 165, 237, 1)",
               },
-              data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
+              data: merchantRankData.map((item) => item.name).reverse(),
             },
-          ],
-        };
+            series: [
+              {
+                type: "bar",
+                itemStyle: {
+                  barWidth: 20,
+                  color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                    {
+                      offset: 0,
+                      color: "#2F9FFF",
+                    },
+                    {
+                      offset: 1,
+                      color: "#B366FF",
+                    },
+                  ]),
+                },
+                label: {
+                  show: true,
+                  align: "left",
+                  position: "right",
+                  verticalAlign: "middle",
+                  color: "rgba(0, 241, 255, 1)",
+                  formatter: (value) => {
+                    return currency(
+                      `${value.value}.${Math.floor(
+                        Math.random() * 9
+                      )}${Math.floor(Math.random() * 9)}`,
+                      2,
+                      true
+                    );
+                  },
+                },
+                data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
+              },
+            ],
+          };
 
-        option && merchantRankChart.setOption(option);
-      });
+          option && merchantRankChart.setOption(option);
+        });
+      } catch (err) {
+        this.loading = true;
+      }
     },
   },
 };

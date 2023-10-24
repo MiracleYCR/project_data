@@ -1,36 +1,42 @@
 <template>
   <div class="smart_card_container">
     <div class="title">智慧渝卡通</div>
+
     <div class="smart_card_content">
-      <div class="top">
-        <div class="acount">
-          <div class="left">
-            <div class="title2">商户数</div>
-            <div class="content">
-              <dv-digital-flop
-                :config="merchantNumConfig"
-                style="width: 100%; height: 28px"
-              />
+      <dv-loading v-if="loading">Loading...</dv-loading>
+      <template v-else>
+        <div class="top">
+          <div class="acount">
+            <div class="left">
+              <div class="title2">商户数</div>
+              <div class="content">
+                <dv-digital-flop
+                  :config="merchantNumConfig"
+                  style="width: 100%; height: 28px"
+                />
+              </div>
+            </div>
+
+            <div class="right">
+              <div class="title2">总交易笔数</div>
+              <div class="content">
+                <dv-digital-flop
+                  :config="tradeNumConfig"
+                  style="height: 28px"
+                />
+              </div>
             </div>
           </div>
 
-          <div class="right">
-            <div class="title2">总交易笔数</div>
+          <div class="amt">
+            <div class="title2">交易总金额 (元)</div>
             <div class="content">
-              <dv-digital-flop :config="tradeNumConfig" style="height: 28px" />
+              <dv-digital-flop :config="tradeAmtConfig" style="height: 28px" />
             </div>
           </div>
         </div>
-
-        <div class="amt">
-          <div class="title2">交易总金额 (元)</div>
-          <div class="content">
-            <dv-digital-flop :config="tradeAmtConfig" style="height: 28px" />
-          </div>
-        </div>
-      </div>
-
-      <div class="bottom" id="smart_card_chart"></div>
+        <div class="bottom" id="smart_card_chart"></div>
+      </template>
     </div>
   </div>
 </template>
@@ -44,6 +50,7 @@ export default {
   data() {
     return {
       timer: null,
+      loading: true,
 
       merchantNumConfig: {
         number: [0],
@@ -95,86 +102,92 @@ export default {
 
   methods: {
     async getSmartCardData() {
-      const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
+      try {
+        const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
-      this.$nextTick(() => {
-        const chartDom = document.getElementById("smart_card_chart");
-        const smartCardChart = echarts.init(chartDom);
+        this.loading = false;
 
-        this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-          number: [smartCard.merchantNumer],
-        });
+        this.$nextTick(() => {
+          const chartDom = document.getElementById("smart_card_chart");
+          const smartCardChart = echarts.init(chartDom);
 
-        this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-          number: [smartCard.tradeNumber],
-        });
+          this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+            number: [smartCard.merchantNumer],
+          });
 
-        this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-          number: [smartCard.tradeAmt],
-        });
+          this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+            number: [smartCard.tradeNumber],
+          });
 
-        const smartCardChartData = smartCard.channelAmt.map((item) => {
-          return {
-            name: item.channel,
-            value: item.amt,
-          };
-        });
+          this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+            number: [smartCard.tradeAmt],
+          });
 
-        const option = {
-          grid: {
-            top: "15%", // 上边距
-            bottom: "0", // 下边距
-            left: "0", // 左边距
-            right: "20%",
-            containLabel: true,
-          },
-          xAxis: {
-            show: false,
-            type: "value",
-          },
-          yAxis: {
-            type: "category",
-            axisTick: {
+          const smartCardChartData = smartCard.channelAmt.map((item) => {
+            return {
+              name: item.channel,
+              value: item.amt,
+            };
+          });
+
+          const option = {
+            grid: {
+              top: "15%", // 上边距
+              bottom: "0", // 下边距
+              left: "0", // 左边距
+              right: "20%",
+              containLabel: true,
+            },
+            xAxis: {
               show: false,
+              type: "value",
             },
-            axisLabel: {
-              color: "rgba(57, 165, 237, 1)",
-            },
-            data: smartCardChartData.map((item) => item.name).reverse(),
-          },
-          series: [
-            {
-              type: "bar",
-              itemStyle: {
-                barWidth: 20,
-                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                  {
-                    offset: 0,
-                    color: "#2F9FFF",
-                  },
-                  {
-                    offset: 1,
-                    color: "#B366FF",
-                  },
-                ]),
+            yAxis: {
+              type: "category",
+              axisTick: {
+                show: false,
               },
-              label: {
-                show: true,
-                align: "left",
-                position: "right",
-                verticalAlign: "middle",
-                color: "rgba(0, 241, 255, 1)",
-                formatter: (value) => {
-                  return currency(value.data, 2, true);
+              axisLabel: {
+                color: "rgba(57, 165, 237, 1)",
+              },
+              data: smartCardChartData.map((item) => item.name).reverse(),
+            },
+            series: [
+              {
+                type: "bar",
+                itemStyle: {
+                  barWidth: 20,
+                  color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                    {
+                      offset: 0,
+                      color: "#2F9FFF",
+                    },
+                    {
+                      offset: 1,
+                      color: "#B366FF",
+                    },
+                  ]),
                 },
+                label: {
+                  show: true,
+                  align: "left",
+                  position: "right",
+                  verticalAlign: "middle",
+                  color: "rgba(0, 241, 255, 1)",
+                  formatter: (value) => {
+                    return currency(value.data, 2, true);
+                  },
+                },
+                data: smartCardChartData.map((item) => item.value).reverse(),
               },
-              data: smartCardChartData.map((item) => item.value).reverse(),
-            },
-          ],
-        };
+            ],
+          };
 
-        option && smartCardChart.setOption(option);
-      });
+          option && smartCardChart.setOption(option);
+        });
+      } catch (err) {
+        this.loading = true;
+      }
     },
   },
 };

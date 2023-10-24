@@ -3,8 +3,7 @@
     <div class="title">实时订单</div>
 
     <div class="time_order_body">
-      <dv-loading v-if="loading">Loading...</dv-loading>
-      <div v-else id="time_order_chart">
+      <div id="time_order_chart">
         <div class="chart_header">
           <div>交易时间</div>
           <div>交易金额</div>
@@ -12,7 +11,10 @@
           <div>交易方式</div>
         </div>
 
+        <dv-loading v-if="loading">Loading...</dv-loading>
+
         <vue-seamless-scroll
+          v-else
           class="warp"
           ref="timeOrderBoardRef"
           :data="listData"
@@ -45,13 +47,10 @@ export default {
   data() {
     return {
       timer: null,
-      loading: false,
+      loading: true,
 
       listData: [],
-
-      classOption: {
-        step: 0,
-      },
+      classOption: { step: 0 },
     };
   },
 
@@ -71,18 +70,24 @@ export default {
 
   methods: {
     async getTimeOrderData() {
-      const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
+      try {
+        this.loading = true;
 
-      this.listData = yuSmartcard.map((item) => {
-        return {
-          date: item.tradeDate,
-          amt: currency(item.tradeAmt, 2, true),
-          channel: item.tradeChannel,
-          payment: item.payment,
-        };
-      });
+        const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
 
-      console.log(yuSmartcard);
+        this.listData = yuSmartcard.map((item) => {
+          return {
+            date: item.tradeDate,
+            amt: currency(item.tradeAmt, 2, true),
+            channel: item.tradeChannel,
+            payment: item.payment,
+          };
+        });
+
+        this.loading = false;
+      } catch (err) {
+        this.loading = true;
+      }
     },
 
     // initData() {

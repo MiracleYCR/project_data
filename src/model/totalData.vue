@@ -56,10 +56,16 @@ export default {
 
   methods: {
     async getTotalData() {
-      const resp = await yuSmartcard_API.fetchTotalData();
-      this.totalAmt = resp.data.totalAmt;
-      this.tradeNumber = resp.data.tradeNumber;
-      this.merchantNumer = resp.data.merchantNumer;
+      try {
+        const { data: totalData } = await yuSmartcard_API.fetchTotalData();
+        this.totalAmt = totalData.totalAmt;
+        this.tradeNumber = totalData.tradeNumber;
+        this.merchantNumer = totalData.merchantNumer;
+      } catch (err) {
+        this.totalAmt = 0;
+        this.tradeNumber = 0;
+        this.merchantNumer = 0;
+      }
     },
   },
 };
