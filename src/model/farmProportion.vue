@@ -1,88 +1,112 @@
 <template>
-  <div class="farm_proportion_container" id="farmProportionContainer"></div>
+  <div class="farm_proportion_container">
+    <dv-loading v-if="loading">Loading...</dv-loading>
+    <div id="farmProportionContainer"></div>
+  </div>
 </template>
 
 <script>
 import * as echarts from "echarts";
+import yuSmartcard_API from "@/api/yuSmartcard";
 
 export default {
   data() {
-    return {};
+    return {
+      loading: true,
+    };
   },
 
   mounted() {
-    const chartDom = document.getElementById("farmProportionContainer");
-    const farmProportionChart = echarts.init(chartDom);
+    this.getFarmProportionData();
+  },
 
-    const option = {
-      visualMap: {
-        top: "middle",
-        right: 20,
-        color: [
-          "rgba(248, 165, 115, 1)",
-          "rgba(225, 99, 135, 1)",
-          "rgba(47, 159, 255, 1)",
-        ],
-        textStyle: {
-          color: "#fff",
-        },
-        backgroundColor: "rgba(0, 0, 0, 0)",
-        calculable: true,
-      },
-      radar: {
-        indicator: [
-          { text: "智慧农贸", max: 1000 },
-          { text: "渝品甄选", max: 1000 },
-          { text: "农产品展销", max: 1000 },
-          { text: "智慧渝卡通", max: 1000 },
-        ],
-        splitLine: {
-          lineStyle: {
-            width: 2,
-            color: "rgba(10, 184, 255, 1)",
-          },
-        },
-        splitArea: {
-          areaStyle: {
-            color: "rgba(0, 0, 0, 0)",
-          },
-        },
-      },
-      textStyle: {
-        fontSize: 17,
-      },
-      series: (function () {
-        var series = [];
-        for (var i = 0; i <= 20; i++) {
-          series.push({
-            type: "radar",
-            symbol: "none",
-            lineStyle: {
-              width: 1,
+  methods: {
+    async getFarmProportionData() {
+      try {
+        const { data: yuSmartcard } =
+          await yuSmartcard_API.fetchTradeMonthIncome();
+
+        this.loading = false;
+
+        this.$nextTick(() => {
+          const chartDom = document.getElementById("farmProportionContainer");
+          const farmProportionChart = echarts.init(chartDom);
+
+          const dateList = yuSmartcard.map((item) => item.monthStr);
+
+          const option = {
+            visualMap: {
+              top: "middle",
+              right: 20,
+              color: [
+                "rgba(248, 165, 115, 1)",
+                "rgba(225, 99, 135, 1)",
+                "#0ab8ff",
+              ],
+              textStyle: {
+                color: "#fff",
+              },
+              backgroundColor: "rgba(0, 0, 0, 0)",
+              calculable: true,
             },
-            emphasis: {
-              areaStyle: {
-                color: "#00F1FF",
+            radar: {
+              indicator: [
+                { text: "智慧农贸" },
+                { text: "渝品甄选" },
+                { text: "农产品展销" },
+                { text: "智慧渝卡通" },
+              ],
+              splitLine: {
+                lineStyle: {
+                  width: 1,
+                  color: "rgba(0, 211, 255, 0.5)",
+                },
+              },
+              splitArea: {
+                areaStyle: {
+                  color: "rgba(0, 0, 0, 0)",
+                },
               },
             },
-            data: [
-              {
-                value: [
-                  (40 - i) * 20,
-                  (38 - i) * 4 + 500,
-                  i * 20 + 100,
-                  i * 10,
-                ],
-                name: i + 2000 + "",
-              },
-            ],
-          });
-        }
-        return series;
-      })(),
-    };
+            textStyle: {
+              fontSize: 17,
+            },
+            series: (function () {
+              return dateList.map((date, index) => {
+                return {
+                  type: "radar",
+                  symbol: "none",
+                  lineStyle: {
+                    width: 1.5,
+                  },
+                  emphasis: {
+                    areaStyle: {
+                      color: "#00F1FF",
+                    },
+                  },
+                  data: [
+                    {
+                      value: [
+                        yuSmartcard[index].incomeAmt,
+                        (40 - index) * 200,
+                        (38 - index) * 4 + 500,
+                        index * 20 + 20,
+                        index * 10,
+                      ],
+                      name: date,
+                    },
+                  ],
+                };
+              });
+            })(),
+          };
 
-    option && farmProportionChart.setOption(option);
+          option && farmProportionChart.setOption(option);
+        });
+      } catch (err) {
+        this.loading = true;
+      }
+    },
   },
 };
 </script>
@@ -91,5 +115,10 @@ export default {
 .farm_proportion_container {
   width: 100%;
   height: 100%;
+
+  #farmProportionContainer {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
