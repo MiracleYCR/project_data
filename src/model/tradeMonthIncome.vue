@@ -2,7 +2,7 @@
   <div class="trade_month_income_container">
     <div class="title">
       <span>月净交易实收</span>
-      <span>（万元）</span>
+      <span>（元）</span>
     </div>
 
     <div class="trade_month_income_body">

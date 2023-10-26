@@ -71,8 +71,6 @@ export default {
   methods: {
     async getTimeOrderData() {
       try {
-        this.loading = true;
-
         const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
 
         this.listData = yuSmartcard.map((item) => {
