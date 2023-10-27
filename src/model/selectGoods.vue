@@ -12,31 +12,22 @@
 </template>
 
 <script>
-import { generateGoodsTop4, generateGoodsTop4Order } from "@/mock/goods";
+import yuSelection_API from "@/api/yuSelection";
+// import { generateGoodsTop4, generateGoodsTop4Order } from "@/mock/goods";
 
 export default {
   data() {
-    const top4goods = generateGoodsTop4();
-    const top4Orders = generateGoodsTop4Order();
+    // const top4goods = generateGoodsTop4();
+    // const top4Orders = generateGoodsTop4Order();
 
     return {
       timer: null,
-      loading: false,
+      loading: true,
 
       config: {
         header: ["排名", "商品名称", "销售数量"],
         rowNum: 4,
-        data: top4goods.map((item, index) => {
-          const imgUrl = require(`@/assets/images/products/${item.imgUrl}`);
-          return [
-            `${index + 1}`,
-            `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${imgUrl}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.name}</span>
-            </div>`,
-            `${top4Orders[index]}`,
-          ];
-        }),
+        data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
         evenRowBGC: "",
@@ -48,33 +39,46 @@ export default {
   },
 
   mounted() {
-    if (!this.loading) {
-      const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
-      this.config.columnWidth = [50, selectGoodsDomWidth - 130, 80];
+    this.getSelectedProduction();
 
-      this.timer = setInterval(() => {
-        const top4goods = generateGoodsTop4();
-        const top4Orders = generateGoodsTop4Order();
-
-        this.config = Object.assign({}, this.config, {
-          data: top4goods.map((item, index) => {
-            const imgUrl = require(`@/assets/images/products/${item.imgUrl}`);
-            return [
-              `${index + 1}`,
-              `<div style="display: flex; align-items: center">
-              <img style="width: 30px; height: 30px; object-fit: cover" src="${imgUrl}">
-              <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.name}</span>
-              </div>`,
-              `${top4Orders[index]}`,
-            ];
-          }),
-        });
-      }, 30 * 1000);
-    }
+    setInterval(() => {
+      this.getSelectedProduction();
+    }, 30 * 1000);
   },
 
   destroyed() {
     clearInterval(this.timer);
+  },
+
+  methods: {
+    async getSelectedProduction() {
+      try {
+        const { data: yuSelectionData } =
+          await yuSelection_API.fetchSelectedProduction();
+
+        this.loading = false;
+
+        this.$nextTick(() => {
+          const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
+          this.config.columnWidth = [50, selectGoodsDomWidth - 130, 80];
+
+          this.config = Object.assign({}, this.config, {
+            data: yuSelectionData.data.map((item, index) => {
+              return [
+                `${index + 1}`,
+                `<div style="display: flex; align-items: center">
+                  <img style="width: 30px; height: 30px; object-fit: cover" src="${item.productImage}">
+                  <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.productName}</span>
+                </div>`,
+                `${item.orderNumber}`,
+              ];
+            }),
+          });
+        });
+      } catch (err) {
+        this.loading = true;
+      }
+    },
   },
 };
 </script>

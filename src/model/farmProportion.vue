@@ -8,6 +8,7 @@
 <script>
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import yuSelection_API from "@/api/yuSelection";
 
 export default {
   data() {
@@ -25,6 +26,11 @@ export default {
       try {
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
+
+        const { data: yuSelection } =
+          await yuSelection_API.fetchTradeMonthIncome();
+
+        console.log(yuSelection);
 
         this.loading = false;
 
@@ -51,10 +57,10 @@ export default {
             },
             radar: {
               indicator: [
-                { text: "智慧农贸" },
-                { text: "渝品甄选" },
-                { text: "农产品展销" },
-                { text: "智慧渝卡通" },
+                { text: "智慧农贸", min: 0 },
+                { text: "渝品甄选", min: 0 },
+                { text: "农产品展销", min: 0 },
+                { text: "智慧渝卡通", min: 0 },
               ],
               splitLine: {
                 lineStyle: {
@@ -77,7 +83,7 @@ export default {
                   type: "radar",
                   symbol: "none",
                   lineStyle: {
-                    width: 1.5,
+                    width: 1.2,
                   },
                   emphasis: {
                     areaStyle: {
@@ -87,11 +93,10 @@ export default {
                   data: [
                     {
                       value: [
+                        (40 - index) * 500,
+                        yuSelection["data"][index].totalAmt,
+                        index * 20 + 200,
                         yuSmartcard[index].incomeAmt,
-                        (40 - index) * 200,
-                        (38 - index) * 4 + 500,
-                        index * 20 + 20,
-                        index * 10,
                       ],
                       name: date,
                     },

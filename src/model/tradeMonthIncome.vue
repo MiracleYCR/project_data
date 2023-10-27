@@ -16,6 +16,7 @@
 import * as echarts from "echarts";
 import { autoHover } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import yuSelection_API from "@/api/yuSelection";
 
 export default {
   data() {
@@ -32,8 +33,24 @@ export default {
   methods: {
     async getTradeMonthIncomeData() {
       try {
+        // 渝卡通
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
+
+        // 渝品甄选
+        const { data: yuSelection } =
+          await yuSelection_API.fetchTradeMonthIncome();
+
+        // 展示月份
+        const monthList = yuSmartcard.map((item) => item.monthStr);
+
+        // 展示数据
+        const dataList = monthList.map((date, index) => {
+          return this.calculator.plus(
+            yuSmartcard[index].incomeAmt,
+            yuSelection["data"][index].incomeAmt
+          );
+        });
 
         this.loading = false;
 
@@ -67,7 +84,7 @@ export default {
             },
             xAxis: {
               type: "category",
-              data: yuSmartcard.map((item) => item.monthStr),
+              data: monthList,
               axisTick: {
                 show: false,
               },
@@ -113,7 +130,7 @@ export default {
                     color: "#0ab8ff",
                   },
                 },
-                data: yuSmartcard.map((item) => item.incomeAmt),
+                data: dataList,
               },
             ],
           };

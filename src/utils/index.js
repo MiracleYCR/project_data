@@ -11,6 +11,7 @@ export const round = (value, decimals = 2) => {
   const pow = 10 ** decimals;
   return Math.round(value * pow) / pow;
 };
+
 export const currency = (value, decimals = 2, thousands = true) => {
   value = parseFloat(value);
   if (!isFinite(value) || (!value && value !== 0)) return "";

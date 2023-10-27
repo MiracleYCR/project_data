@@ -39,9 +39,9 @@ import {
   currency,
   // getRandomSecondsInterval
 } from "@/utils";
-// import { tradeChannel, payment } from "@/mock/orders";
 
 import yuSmartcard_API from "@/api/yuSmartcard";
+import yuSelection_API from "@/api/yuSelection";
 
 export default {
   data() {
@@ -71,16 +71,23 @@ export default {
   methods: {
     async getTimeOrderData() {
       try {
+        // 渝卡通
         const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
+        // 渝品甄选
+        const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
 
-        this.listData = yuSmartcard.map((item) => {
-          return {
-            date: item.tradeDate,
-            amt: currency(item.tradeAmt, 2, true),
-            channel: item.tradeChannel,
-            payment: item.payment,
-          };
-        });
+        // 数据排序
+        this.listData = [...yuSmartcard, ...yuSelection.data]
+          .map((item) => {
+            return {
+              date: item.tradeDate,
+              amt: currency(item.tradeAmt, 2, true),
+              channel: item.tradeChannel,
+              payment: item.payment,
+              timestamp: item.timestamp,
+            };
+          })
+          .sort((a, b) => b.timestamp - a.timestamp);
 
         this.loading = false;
       } catch (err) {

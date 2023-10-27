@@ -1,5 +1,6 @@
 import request from "./http";
 
+// 渝卡通
 export default {
   // 顶部全部数据
   fetchTotalData() {

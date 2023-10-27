@@ -20,6 +20,7 @@
 <script>
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import yuSelection_API from "@/api/yuSelection";
 
 export default {
   computed: {
@@ -57,10 +58,22 @@ export default {
   methods: {
     async getTotalData() {
       try {
-        const { data: totalData } = await yuSmartcard_API.fetchTotalData();
-        this.totalAmt = totalData.totalAmt;
-        this.tradeNumber = totalData.tradeNumber;
-        this.merchantNumer = totalData.merchantNumer + 330;
+        // 渝卡通
+        const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
+        // 渝品甄选
+        const { data: yuSelection } = await yuSelection_API.fetchTotalData();
+
+        this.totalAmt = this.calculator.plus(
+          yuSamrtcard.totalAmt,
+          yuSelection["data"][0].totalAmt
+        );
+
+        this.tradeNumber = this.calculator.plus(
+          yuSamrtcard.tradeNumber,
+          yuSelection["data"][0].tradeNumber
+        );
+
+        this.merchantNumer = yuSamrtcard.merchantNumer + 1 + 329;
       } catch (err) {
         this.totalAmt = 0;
         this.tradeNumber = 0;

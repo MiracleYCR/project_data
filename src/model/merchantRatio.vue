@@ -49,12 +49,8 @@ export default {
             },
             {
               name: "渝品甄选",
-              value: 9,
-              children: [
-                { name: "自营", value: 2 },
-                { name: "品牌", value: 3 },
-                { name: "合伙", value: 4 },
-              ],
+              value: 1,
+              children: [{ name: "渝品甄选商城", value: 1 }],
             },
             {
               name: "展销馆",
@@ -88,7 +84,7 @@ export default {
               {
                 type: "pie",
                 radius: [0, "50%"],
-                startAngle: -250,
+                startAngle: -280,
                 label: {
                   position: "inside",
                   fontSize: 9,
@@ -117,7 +113,7 @@ export default {
               {
                 type: "pie",
                 radius: ["65%", "80%"],
-                startAngle: -250,
+                startAngle: -280,
                 labelLine: {
                   show: true,
                   lineStyle: {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const http = axios.create({
   baseURL: "",
-  timeout: 10 * 1000,
+  timeout: 20000,
 });
 
 http.interceptors.request.use(
