@@ -42,6 +42,8 @@ export default {
 
           const option = {
             visualMap: {
+              min: 0,
+              max: 50,
               top: "middle",
               right: 20,
               color: [
