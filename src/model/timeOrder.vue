@@ -178,12 +178,16 @@ export default {
         background-color: rgba(0, 211, 255, 0.1);
 
         div {
-          padding: 0 10px;
+          padding: 0 5px;
           text-align: center;
-          width: calc((100% - 120px) / 3);
+          width: calc((100% - 220px) / 2);
 
           &:first-child {
-            width: 120px;
+            width: 110px;
+          }
+
+          &:last-child {
+            width: 110px;
           }
         }
       }
@@ -207,13 +211,17 @@ export default {
             font-size: 15px;
 
             span {
-              font-size: 14px;
-              padding: 0 10px;
+              font-size: 13px;
+              padding: 0 5px;
               text-align: center;
-              width: calc((100% - 120px) / 3);
+              width: calc((100% - 220px) / 2);
 
               &:first-child {
-                width: 120px;
+                width: 110px;
+              }
+
+              &:last-child {
+                width: 110px;
               }
             }
           }

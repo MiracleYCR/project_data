@@ -16,6 +16,7 @@
 import * as echarts from "echarts";
 import { currency } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import yuSelection_API from "@/api/yuSelection";
 
 export default {
   data() {
@@ -40,8 +41,12 @@ export default {
   methods: {
     async getMerchantRankData() {
       try {
-        const { data: merchantData } =
-          await yuSmartcard_API.fetchMerchantRank();
+        const { data: yuSamrtcard } = await yuSmartcard_API.fetchMerchantRank();
+
+        // 渝品甄选
+        const { data: yuSelection } = await yuSelection_API.fetchTotalData();
+
+        console.log(yuSelection);
 
         this.loading = false;
 
@@ -49,19 +54,32 @@ export default {
           const chartDom = document.getElementById("merchant_rank_chart");
           const merchantRankChart = echarts.init(chartDom);
 
-          const merchantRankData = merchantData.slice(0, 6).map((item) => {
-            return {
-              name: item.merchant,
-              value: item.salesAmt,
-            };
-          });
+          const allMerchantRankData = [
+            ...yuSamrtcard.slice(0, 8),
+            {
+              merchant: "渝品甄选商城",
+              salesAmt: yuSelection["data"][0].totalAmt,
+            },
+          ];
+
+          const merchantRankData = allMerchantRankData
+            .map((item) => {
+              return {
+                name: item.merchant,
+                value: item.salesAmt,
+              };
+            })
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 8);
+
+          console.log(merchantRankData);
 
           const option = {
             grid: {
-              top: "15%", // 上边距
+              top: "12%", // 上边距
               bottom: "0", // 下边距
               left: "0", // 左边距
-              right: "15%",
+              right: "18%",
               containLabel: true,
             },
             xAxis: {
@@ -118,7 +136,7 @@ export default {
                     );
                   },
                 },
-                data: merchantRankData.map((item) => item.value).reverse(), // 柱状图数据
+                data: merchantRankData.map((item) => item.value).reverse(),
               },
             ],
           };
