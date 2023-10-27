@@ -30,7 +30,7 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
-        console.log(yuSelection);
+        console.log(yuSmartcard, yuSelection);
 
         this.loading = false;
 
@@ -38,12 +38,12 @@ export default {
           const chartDom = document.getElementById("farmProportionContainer");
           const farmProportionChart = echarts.init(chartDom);
 
-          const dateList = yuSmartcard.map((item) => item.monthStr);
+          // const dateList = yuSmartcard.map((item) => item.monthStr);
 
           const option = {
             visualMap: {
               min: 0,
-              max: 50,
+              max: 200000,
               top: "middle",
               right: 20,
               color: [
@@ -59,10 +59,10 @@ export default {
             },
             radar: {
               indicator: [
-                { text: "智慧农贸", min: 0 },
-                { text: "渝品甄选", min: 0 },
-                { text: "农产品展销", min: 0 },
-                { text: "智慧渝卡通", min: 0 },
+                { text: "智慧农贸" },
+                { text: "渝品甄选" },
+                { text: "农产品展销" },
+                { text: "智慧渝卡通" },
               ],
               splitLine: {
                 lineStyle: {
@@ -80,12 +80,13 @@ export default {
               fontSize: 17,
             },
             series: (function () {
-              return dateList.map((date, index) => {
-                return {
+              const series = [];
+              for (let i = 1; i <= 30; i++) {
+                series.push({
                   type: "radar",
                   symbol: "none",
                   lineStyle: {
-                    width: 1.2,
+                    width: 1,
                   },
                   emphasis: {
                     areaStyle: {
@@ -95,16 +96,44 @@ export default {
                   data: [
                     {
                       value: [
-                        (40 - index) * 500,
-                        yuSelection["data"][index].totalAmt,
-                        index * 20 + 200,
-                        yuSmartcard[index].incomeAmt,
+                        ((i * i) / 2) * 1000,
+                        (40 - i) * 10 * 1000,
+                        ((38 - i) * 4 + 60) * 1000,
+                        (i * 5 + 10) * 1000,
                       ],
-                      name: date,
+                      name: i,
                     },
                   ],
-                };
-              });
+                });
+              }
+
+              return series;
+
+              // return dateList.map((date, index) => {
+              //   return {
+              //     type: "radar",
+              //     symbol: "none",
+              // lineStyle: {
+              //   width: 1.2,
+              // },
+              // emphasis: {
+              //   areaStyle: {
+              //     color: "#00F1FF",
+              //   },
+              // },
+              //     data: [
+              //       {
+              //         value: [
+              //           (40 - index) * 500,
+              //           yuSelection["data"][index].totalAmt,
+              //           index * 20 + 200,
+              //           yuSmartcard[index].incomeAmt,
+              //         ],
+              //         name: date,
+              //       },
+              //     ],
+              //   };
+              // });
             })(),
           };
 
