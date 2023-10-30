@@ -24,13 +24,15 @@ export default {
   methods: {
     async getFarmProportionData() {
       try {
+        const self = this;
+
         const { data: yuSmartcard } =
-          await yuSmartcard_API.fetchTradeMonthIncome();
+          await yuSmartcard_API.fetchTradeDaysIncome();
 
         const { data: yuSelection } =
-          await yuSelection_API.fetchTradeMonthIncome();
+          await yuSelection_API.fetchTradeDaysIncome();
 
-        console.log(yuSmartcard, yuSelection);
+        const dateList = yuSmartcard.map((item) => item.dayStr);
 
         this.loading = false;
 
@@ -38,17 +40,22 @@ export default {
           const chartDom = document.getElementById("farmProportionContainer");
           const farmProportionChart = echarts.init(chartDom);
 
-          // const dateList = yuSmartcard.map((item) => item.monthStr);
-
           const option = {
+            textStyle: {
+              fontSize: 17,
+            },
             visualMap: {
-              min: 0,
-              max: 200000,
               top: "middle",
               right: 20,
+              min: 0,
+              max: 20,
               color: [
-                "rgba(248, 165, 115, 1)",
-                "rgba(225, 99, 135, 1)",
+                "#AC3B2A",
+                "#AA069F",
+                "#FD0100",
+                "#FC7D02",
+                "#FBDB0F",
+                "#93CE07",
                 "#0ab8ff",
               ],
               textStyle: {
@@ -59,10 +66,22 @@ export default {
             },
             radar: {
               indicator: [
-                { text: "智慧农贸" },
-                { text: "渝品甄选" },
-                { text: "农产品展销" },
-                { text: "智慧渝卡通" },
+                {
+                  name: "智慧农贸",
+                  max: 100,
+                },
+                {
+                  name: "渝品甄选",
+                  max: 20,
+                },
+                {
+                  name: "农产品展销",
+                  max: 10,
+                },
+                {
+                  name: "智慧渝卡通",
+                  max: 20,
+                },
               ],
               splitLine: {
                 lineStyle: {
@@ -71,17 +90,33 @@ export default {
                 },
               },
               splitArea: {
-                areaStyle: {
-                  color: "rgba(0, 0, 0, 0)",
-                },
+                show: false,
               },
             },
-            textStyle: {
-              fontSize: 17,
-            },
-            series: (function () {
+            series: (() => {
               const series = [];
-              for (let i = 1; i <= 30; i++) {
+
+              dateList.forEach((date, index) => {
+                const a = 100000 + 10000 * (Math.random() * (5 - 1) + 1);
+                const b = 1000 * (Math.random() * (5 - 1) + 1);
+
+                const total = self.calculator.plus(
+                  a,
+                  yuSelection["data"][index].totalAmt,
+                  b,
+                  yuSmartcard[index].incomeAmt
+                );
+
+                console.log(
+                  self.calculator.divide(a, total),
+                  self.calculator.divide(
+                    yuSelection["data"][index].totalAmt,
+                    total
+                  ),
+                  self.calculator.divide(b, total),
+                  self.calculator.divide(yuSmartcard[index].incomeAmt, total)
+                );
+
                 series.push({
                   type: "radar",
                   symbol: "none",
@@ -90,50 +125,30 @@ export default {
                   },
                   emphasis: {
                     areaStyle: {
-                      color: "#00F1FF",
+                      color: "rgba(0,250,0,0.3)",
                     },
                   },
                   data: [
                     {
                       value: [
-                        ((i * i) / 2) * 1000,
-                        (40 - i) * 10 * 1000,
-                        ((38 - i) * 4 + 60) * 1000,
-                        (i * 5 + 10) * 1000,
+                        self.calculator.divide(a, total) * 100,
+                        self.calculator.divide(
+                          yuSelection["data"][index].totalAmt,
+                          total
+                        ) * 100,
+                        self.calculator.divide(b, total) * 100,
+                        self.calculator.divide(
+                          yuSmartcard[index].incomeAmt,
+                          total
+                        ) * 100,
                       ],
-                      name: i,
+                      name: date,
                     },
                   ],
                 });
-              }
+              });
 
               return series;
-
-              // return dateList.map((date, index) => {
-              //   return {
-              //     type: "radar",
-              //     symbol: "none",
-              // lineStyle: {
-              //   width: 1.2,
-              // },
-              // emphasis: {
-              //   areaStyle: {
-              //     color: "#00F1FF",
-              //   },
-              // },
-              //     data: [
-              //       {
-              //         value: [
-              //           (40 - index) * 500,
-              //           yuSelection["data"][index].totalAmt,
-              //           index * 20 + 200,
-              //           yuSmartcard[index].incomeAmt,
-              //         ],
-              //         name: date,
-              //       },
-              //     ],
-              //   };
-              // });
             })(),
           };
 
