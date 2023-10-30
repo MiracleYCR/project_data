@@ -34,6 +34,24 @@ export default {
 
         const dateList = yuSmartcard.map((item) => item.dayStr);
 
+        // const maxYuSmartcard = yuSmartcard
+        //   .slice()
+        //   .sort((a, b) => b.incomeAmt - a.incomeAmt)[0].incomeAmt;
+
+        // const maxYuSelection = yuSelection.data
+        //   .slice()
+        //   .sort((a, b) => b.totalAmt - a.totalAmt)[0].totalAmt;
+
+        // const maxA = 150000;
+        // const maxB = 5000;
+
+        // const maxTotal = self.calculator.plus(
+        //   maxYuSmartcard,
+        //   maxYuSelection,
+        //   150000,
+        //   5000
+        // );
+
         this.loading = false;
 
         this.$nextTick(() => {
@@ -41,6 +59,9 @@ export default {
           const farmProportionChart = echarts.init(chartDom);
 
           const option = {
+            tooltip: {
+              trigger: "item",
+            },
             textStyle: {
               fontSize: 17,
             },
@@ -49,15 +70,7 @@ export default {
               right: 20,
               min: 0,
               max: 20,
-              color: [
-                "#AC3B2A",
-                "#AA069F",
-                "#FD0100",
-                "#FC7D02",
-                "#FBDB0F",
-                "#93CE07",
-                "#0ab8ff",
-              ],
+              color: ["#F8A573", "#E16387", "#2F9FFF"],
               textStyle: {
                 color: "#fff",
               },
@@ -68,7 +81,7 @@ export default {
               indicator: [
                 {
                   name: "智慧农贸",
-                  max: 100,
+                  max: 95,
                 },
                 {
                   name: "渝品甄选",
@@ -76,7 +89,7 @@ export default {
                 },
                 {
                   name: "农产品展销",
-                  max: 10,
+                  max: 20,
                 },
                 {
                   name: "智慧渝卡通",
@@ -108,13 +121,14 @@ export default {
                 );
 
                 console.log(
-                  self.calculator.divide(a, total),
+                  self.calculator.divide(a, total) * 100,
                   self.calculator.divide(
                     yuSelection["data"][index].totalAmt,
                     total
-                  ),
-                  self.calculator.divide(b, total),
-                  self.calculator.divide(yuSmartcard[index].incomeAmt, total)
+                  ) * 100,
+                  self.calculator.divide(b, total) * 100,
+                  self.calculator.divide(yuSmartcard[index].incomeAmt, total) *
+                    100
                 );
 
                 series.push({
@@ -125,7 +139,7 @@ export default {
                   },
                   emphasis: {
                     areaStyle: {
-                      color: "rgba(0,250,0,0.3)",
+                      color: "rgba(0, 250, 0, 0.3)",
                     },
                   },
                   data: [
@@ -142,6 +156,18 @@ export default {
                           total
                         ) * 100,
                       ],
+                      // value: [
+                      //   self.calculator.divide(a, maxA) * 100,
+                      //   self.calculator.divide(
+                      //     yuSelection["data"][index].totalAmt,
+                      //     maxYuSelection
+                      //   ) * 100,
+                      //   self.calculator.divide(b, maxB) * 100,
+                      //   self.calculator.divide(
+                      //     yuSmartcard[index].incomeAmt,
+                      //     maxYuSmartcard
+                      //   ) * 100,
+                      // ],
                       name: date,
                     },
                   ],
