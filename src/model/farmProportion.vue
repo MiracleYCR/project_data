@@ -156,18 +156,6 @@ export default {
                           total
                         ) * 100,
                       ],
-                      // value: [
-                      //   self.calculator.divide(a, maxA) * 100,
-                      //   self.calculator.divide(
-                      //     yuSelection["data"][index].totalAmt,
-                      //     maxYuSelection
-                      //   ) * 100,
-                      //   self.calculator.divide(b, maxB) * 100,
-                      //   self.calculator.divide(
-                      //     yuSmartcard[index].incomeAmt,
-                      //     maxYuSmartcard
-                      //   ) * 100,
-                      // ],
                       name: date,
                     },
                   ],
