@@ -68,14 +68,21 @@ export default {
             visualMap: {
               top: "middle",
               right: 20,
-              min: 0,
-              max: 20,
+              min: 5,
+              max: 15,
               color: ["#F8A573", "#E16387", "#2F9FFF"],
               textStyle: {
                 color: "#fff",
               },
               backgroundColor: "rgba(0, 0, 0, 0)",
               calculable: true,
+              formatter: function (value) {
+                if (value === 5) return 0;
+                if (value === 15) return 20;
+                return self.calculator
+                  .mapNumberToRange(value, 5, 15, 0, 20)
+                  .toFixed(4);
+              },
             },
             radar: {
               indicator: [

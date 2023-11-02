@@ -93,6 +93,16 @@ class Calculator {
     const base = Math.pow(10, ratio);
     return this.divide(Math.round(this.times(num, base)), base);
   }
+
+  mapNumberToRange(number, inMin, inMax, outMin, outMax) {
+    return this.plus(
+      this.divide(
+        this.times(this.minus(number, inMin), this.minus(outMax, outMin)),
+        this.minus(inMax, inMin)
+      ),
+      outMin
+    );
+  }
 }
 
 export default new Calculator();

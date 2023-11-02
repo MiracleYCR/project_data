@@ -164,3 +164,7 @@ export function autoHover(myChart, option, num, time) {
     }, 2000);
   });
 }
+
+export const mapNumberToRange = (number, inMin, inMax, outMin, outMax) => {
+  return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+};
