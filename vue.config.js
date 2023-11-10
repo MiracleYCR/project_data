@@ -16,7 +16,7 @@ module.exports = defineConfig({
         target: "https://yyx.haomianjie.com",
         changeOrigin: true,
         pathRewrite: {
-          "^/api_yuselection": "", // 重写路径，如果后端接口不包含 '/api' 前缀，可以去掉
+          "^/api_yuselection": "",
         },
       },
     },

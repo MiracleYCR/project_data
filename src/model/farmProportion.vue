@@ -10,6 +10,8 @@ import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 
+// import { autoHover } from "@/utils";
+
 export default {
   data() {
     return {
@@ -58,9 +60,93 @@ export default {
           const chartDom = document.getElementById("farmProportionContainer");
           const farmProportionChart = echarts.init(chartDom);
 
+          console.log(dateList);
+
           const option = {
             tooltip: {
               trigger: "item",
+              formatter: function (params) {
+                console.log(params.componentIndex);
+
+                const a = 100000 + 10000 * (Math.random() * (5 - 1) + 1);
+                const b = 1000 * (Math.random() * (5 - 1) + 1);
+
+                const total = self.calculator.plus(
+                  a,
+                  yuSelection["data"][params.componentIndex].totalAmt,
+                  b,
+                  yuSmartcard[params.componentIndex].incomeAmt
+                );
+
+                return `
+                <div>
+                  <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px">
+                    ${params.marker}
+                    <span>${params.name}</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span style="margin-right: 50px">智慧农贸</span>
+                    <span>${self.calculator
+                      .divide(
+                        self.calculator.times(params.value[0], total),
+                        1000000
+                      )
+                      .toFixed(2)}万元</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span>渝品甄选</span>
+                    <span>${self.calculator
+                      .divide(
+                        self.calculator.times(params.value[1], total),
+                        1000000
+                      )
+                      .toFixed(2)}万元</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span>农产品展销</span>
+                    <span>${self.calculator
+                      .divide(
+                        self.calculator.times(params.value[2], total),
+                        1000000
+                      )
+                      .toFixed(2)}万元</span>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                    "
+                  >
+                    <span>智慧渝卡通</span>
+                    <span>${self.calculator
+                      .divide(
+                        self.calculator.times(params.value[3], total),
+                        1000000
+                      )
+                      .toFixed(2)}万元</span>
+                  </div>
+                </div>
+                `;
+              },
             },
             textStyle: {
               fontSize: 17,
@@ -81,7 +167,7 @@ export default {
                 if (value === 15) return 20;
                 return self.calculator
                   .mapNumberToRange(value, 5, 15, 0, 20)
-                  .toFixed(4);
+                  .toFixed(2);
               },
             },
             radar: {
@@ -174,6 +260,8 @@ export default {
           };
 
           option && farmProportionChart.setOption(option);
+
+          // autoHover(farmProportionChart, option, 30);
         });
       } catch (err) {
         this.loading = true;

@@ -226,41 +226,4 @@ export default {
     }
   }
 }
-
-.smart_farm_container2 {
-  position: absolute;
-  top: 60px;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
-
-  .yesterday_data {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .data_item {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      .title {
-        height: 16px;
-        line-height: 16px;
-        color: #ffffff;
-      }
-    }
-  }
-
-  .yesterday_data_rank {
-    width: 100%;
-    flex: 1;
-    margin-top: 10px;
-  }
-}
 </style>
