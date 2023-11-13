@@ -24,7 +24,7 @@
           </div>
 
           <div class="data_item3">
-            <div class="title2">交易总金额 (元)</div>
+            <div class="title2">交易总金额(元)</div>
             <dv-digital-flop
               :config="tradeAmtConfig"
               style="width: 100%; height: 32px"
@@ -39,40 +39,6 @@
           />
         </div>
       </template>
-
-      <!-- <template v-else>
-        <div class="top">
-          <div class="acount">
-            <div class="left">
-              <div class="title2">商户数</div>
-              <div class="content">
-                <dv-digital-flop
-                  :config="merchantNumConfig"
-                  style="width: 100%; height: 28px"
-                />
-              </div>
-            </div>
-
-            <div class="right">
-              <div class="title2">总交易笔数</div>
-              <div class="content">
-                <dv-digital-flop
-                  :config="tradeNumConfig"
-                  style="height: 28px"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="amt">
-            <div class="title2">交易总金额 (元)</div>
-            <div class="content">
-              <dv-digital-flop :config="tradeAmtConfig" style="height: 28px" />
-            </div>
-          </div>
-        </div>
-        <div class="bottom" id="smart_card_chart"></div>
-      </template> -->
     </div>
   </div>
 </template>
@@ -96,22 +62,20 @@ export default {
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
-          fontSize: 30,
+          fontSize: 26,
           fill: "#00D3FF",
         },
       },
-
       tradeNumConfig: {
         number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
-          fontSize: 30,
+          fontSize: 26,
           fill: "#0ab8ff",
         },
       },
-
       tradeAmtConfig: {
         number: [0],
         content: "{nt}",
@@ -119,7 +83,7 @@ export default {
         formatter: (value) => currency(value, 2, true),
         textAlign: "center",
         style: {
-          fontSize: 30,
+          fontSize: 26,
           fill: "#0ab8ff",
         },
       },
@@ -158,23 +122,20 @@ export default {
         this.loading = false;
 
         this.$nextTick(() => {
-          const smartCardDataRankRefDomWidth =
-            this.$refs.smartCardDataRankRef.offsetWidth;
-
-          // const chartDom = document.getElementById("smart_card_chart");
-          // const smartCardChart = echarts.init(chartDom);
-
+          // 汇总数据
           this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
             number: [smartCard.merchantNumer],
           });
-
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
             number: [smartCard.tradeNumber],
           });
-
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
             number: [smartCard.tradeAmt],
           });
+
+          // 表格
+          const smartCardDataRankRefDomWidth =
+            this.$refs.smartCardDataRankRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartCardDataRankRefDomWidth - 240, 90, 90],
@@ -182,68 +143,6 @@ export default {
               return [`${index + 1}`, item.name, item.orders, item.amt];
             }),
           });
-
-          // const smartCardChartData = smartCard.channelAmt.map((item) => {
-          //   return {
-          //     name: item.channel,
-          //     value: item.amt,
-          //   };
-          // });
-
-          // const option = {
-          //   grid: {
-          //     top: "15%", // 上边距
-          //     bottom: "0", // 下边距
-          //     left: "0", // 左边距
-          //     right: "20%",
-          //     containLabel: true,
-          //   },
-          //   xAxis: {
-          //     show: false,
-          //     type: "value",
-          //   },
-          //   yAxis: {
-          //     type: "category",
-          //     axisTick: {
-          //       show: false,
-          //     },
-          //     axisLabel: {
-          //       color: "rgba(57, 165, 237, 1)",
-          //     },
-          //     data: smartCardChartData.map((item) => item.name).reverse(),
-          //   },
-          //   series: [
-          //     {
-          //       type: "bar",
-          //       itemStyle: {
-          //         barWidth: 20,
-          //         color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-          //           {
-          //             offset: 0,
-          //             color: "#2F9FFF",
-          //           },
-          //           {
-          //             offset: 1,
-          //             color: "#B366FF",
-          //           },
-          //         ]),
-          //       },
-          //       label: {
-          //         show: true,
-          //         align: "left",
-          //         position: "right",
-          //         verticalAlign: "middle",
-          //         color: "rgba(0, 241, 255, 1)",
-          //         formatter: (value) => {
-          //           return currency(value.data, 2, true);
-          //         },
-          //       },
-          //       data: smartCardChartData.map((item) => item.value).reverse(),
-          //     },
-          //   ],
-          // };
-
-          // option && smartCardChart.setOption(option);
         });
       } catch (err) {
         this.loading = true;
@@ -281,10 +180,10 @@ export default {
 
   .smart_card_content {
     position: absolute;
-    top: 60px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
+    top: 55px;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
     display: flex;
     flex-direction: column;
 
@@ -296,7 +195,7 @@ export default {
       justify-content: space-between;
 
       .data_item {
-        width: 80px;
+        width: 100px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -305,7 +204,7 @@ export default {
       }
 
       .data_item2 {
-        width: 160px;
+        width: 170px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -314,7 +213,7 @@ export default {
       }
 
       .data_item3 {
-        width: calc(100% - 240px);
+        width: calc(100% - 270px);
         height: 100%;
         display: flex;
         align-items: center;
@@ -332,60 +231,6 @@ export default {
         color: #0ab8ff;
       }
     }
-
-    // .top {
-    //   height: 120px;
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-
-    //   .acount {
-    //     height: 50px;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: space-between;
-
-    //     .left,
-    //     .right {
-    //       height: 100%;
-    //       width: calc(50% - 5px);
-    //       display: flex;
-    //       align-items: center;
-    //       justify-content: space-between;
-    //       background-color: rgba(0, 211, 255, 0.1);
-
-    //       .content {
-    //         flex: 1;
-    //       }
-    //     }
-
-    //     .left {
-    //       padding: 0 10px;
-    //     }
-
-    //     .right {
-    //       padding: 0 10px;
-    //     }
-    //   }
-
-    //   .amt {
-    //     height: 50px;
-    //     align-items: center;
-    //     display: flex;
-    //     padding: 0 14px;
-    //     justify-content: space-between;
-    //     background-color: rgba(0, 211, 255, 0.1);
-
-    //     .content {
-    //       flex: 1;
-    //       text-align: right;
-    //     }
-    //   }
-    // }
-
-    // .bottom {
-    //   flex: 1;
-    // }
   }
 }
 </style>

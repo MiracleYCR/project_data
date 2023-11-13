@@ -6,7 +6,7 @@
       <template v-else>
         <div class="yesterday_data">
           <div class="data_item">
-            <div class="title2">门店数量</div>
+            <div class="title2">门店数</div>
             <dv-digital-flop
               :config="storeNumConfig"
               style="width: 100%; height: 32px"
@@ -14,15 +14,15 @@
           </div>
 
           <div class="data_item2">
-            <div class="title2">昨日交易笔数</div>
+            <div class="title2">总交易笔数</div>
             <dv-digital-flop
               :config="yesterdayTradeNumConfig"
               style="width: 100%; height: 32px"
             />
           </div>
 
-          <div class="data_item2">
-            <div class="title2">昨日交易营收（元）</div>
+          <div class="data_item3">
+            <div class="title2">交易总金额(元)</div>
             <dv-digital-flop
               :config="yesterdayTradeAmtConfig"
               style="width: 100%; height: 32px"
@@ -64,22 +64,20 @@ export default {
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
-          fontSize: 32,
+          fontSize: 26,
           fill: "#00d3ff",
         },
       },
-
       yesterdayTradeNumConfig: {
         number: [1713],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
-          fontSize: 32,
+          fontSize: 26,
           fill: "#00d3ff",
         },
       },
-
       yesterdayTradeAmtConfig: {
         number: [120337.1],
         toFixed: 2,
@@ -87,21 +85,13 @@ export default {
         formatter: (value) => currency(value, 2, true),
         textAlign: "center",
         style: {
-          fontSize: 32,
+          fontSize: 26,
           fill: "#00d3ff",
         },
       },
 
       boardConfig: {
         header: ["排名", "门店名称", "交易笔数", "交易实收"],
-        // data: top5stores.map((name, index) => {
-        //   return [
-        //     `${index + 1}`,
-        //     name,
-        //     merchantsValues["order"][index],
-        //     merchantsValues["amt"][index],
-        //   ];
-        // }),
         data: top5stores.map((item, index) => {
           return [`${index + 1}`, item.name, item.orders, item.amt];
         }),
@@ -158,7 +148,7 @@ export default {
 <style lang="scss" scoped>
 .smart_farm_container {
   position: relative;
-  width: 504px;
+  width: 456px;
   height: 338px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -183,10 +173,10 @@ export default {
 
   .smart_farm_body {
     position: absolute;
-    top: 60px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
+    top: 55px;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
     display: flex;
     flex-direction: column;
     .yesterday_data {
@@ -206,7 +196,16 @@ export default {
       }
 
       .data_item2 {
-        width: calc((100% - 120px) / 2);
+        width: 180px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .data_item3 {
+        width: calc(100% - 260px);
         height: 100%;
         display: flex;
         align-items: center;

@@ -139,7 +139,7 @@ export default {
 <style lang="scss" scoped>
 .time_order_container {
   position: relative;
-  width: 454px;
+  width: 462px;
   height: 310px;
   background-size: 100% 100%;
   background-repeat: no-repeat;

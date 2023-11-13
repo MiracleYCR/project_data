@@ -150,7 +150,7 @@ export default {
 <style lang="scss" scoped>
 .trade_month_income_container {
   position: relative;
-  width: 454px;
+  width: 462px;
   height: 305px;
   background-size: 100% 100%;
   background-repeat: no-repeat;

@@ -1,7 +1,14 @@
 <template>
-  <div class="farm_proportion_container">
+  <div class="farmProportion_container">
+    <div class="title">
+      <div class="circle">
+        <div class="inner"></div>
+      </div>
+      <span class="text">平台助农</span>
+    </div>
+
     <dv-loading v-if="loading">Loading...</dv-loading>
-    <div id="farmProportionContainer"></div>
+    <div v-else id="farmProportionChart"></div>
   </div>
 </template>
 
@@ -9,8 +16,6 @@
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-
-// import { autoHover } from "@/utils";
 
 export default {
   data() {
@@ -34,234 +39,310 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeDaysIncome();
 
-        const dateList = yuSmartcard.map((item) => item.dayStr);
-
-        // const maxYuSmartcard = yuSmartcard
-        //   .slice()
-        //   .sort((a, b) => b.incomeAmt - a.incomeAmt)[0].incomeAmt;
-
-        // const maxYuSelection = yuSelection.data
-        //   .slice()
-        //   .sort((a, b) => b.totalAmt - a.totalAmt)[0].totalAmt;
-
-        // const maxA = 150000;
-        // const maxB = 5000;
-
-        // const maxTotal = self.calculator.plus(
-        //   maxYuSmartcard,
-        //   maxYuSelection,
-        //   150000,
-        //   5000
-        // );
-
         this.loading = false;
 
         this.$nextTick(() => {
-          const chartDom = document.getElementById("farmProportionContainer");
+          const chartDom = document.getElementById("farmProportionChart");
           const farmProportionChart = echarts.init(chartDom);
 
-          console.log(dateList);
+          const totalAmt = [
+            self.calculator.plus(
+              yuSmartcard[27].incomeAmt,
+              yuSelection["data"][27].incomeAmt,
+              3271,
+              128888
+            ),
+            self.calculator.plus(
+              yuSmartcard[28].incomeAmt,
+              yuSelection["data"][28].incomeAmt,
+              2667,
+              114218
+            ),
+            self.calculator.plus(
+              yuSmartcard[29].incomeAmt,
+              yuSelection["data"][29].incomeAmt,
+              1896,
+              98721
+            ),
+          ];
 
           const option = {
             tooltip: {
               trigger: "item",
               formatter: function (params) {
-                console.log(params.componentIndex);
-
-                const a = 100000 + 10000 * (Math.random() * (5 - 1) + 1);
-                const b = 1000 * (Math.random() * (5 - 1) + 1);
-
-                const total = self.calculator.plus(
-                  a,
-                  yuSelection["data"][params.componentIndex].totalAmt,
-                  b,
-                  yuSmartcard[params.componentIndex].incomeAmt
-                );
-
                 return `
-                <div>
-                  <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px">
-                    ${params.marker}
-                    <span>${params.name}</span>
+                  <div>
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px">
+                      <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:orange;"></span>
+                      <span>${params.name}</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span style="margin-right: 50px">智慧农贸</span>
+                      <span>${self.calculator
+                        .divide(
+                          self.calculator.times(
+                            params.value[0],
+                            totalAmt[params.dataIndex]
+                          ),
+                          1000000
+                        )
+                        .toFixed(2)}万元</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span>渝品甄选</span>
+                      <span>${self.calculator
+                        .divide(
+                          self.calculator.times(
+                            params.value[1],
+                            totalAmt[params.dataIndex]
+                          ),
+                          1000000
+                        )
+                        .toFixed(2)}万元</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span>农产品展销</span>
+                      <span>${self.calculator
+                        .divide(
+                          self.calculator.times(
+                            params.value[2],
+                            totalAmt[params.dataIndex]
+                          ),
+                          1000000
+                        )
+                        .toFixed(2)}万元</span>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <span>智慧渝卡通</span>
+                      <span>${self.calculator
+                        .divide(
+                          self.calculator.times(
+                            params.value[3],
+                            totalAmt[params.dataIndex]
+                          ),
+                          1000000
+                        )
+                        .toFixed(2)}万元</span>
+                    </div>
                   </div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                    "
-                  >
-                    <span style="margin-right: 50px">智慧农贸</span>
-                    <span>${self.calculator
-                      .divide(
-                        self.calculator.times(params.value[0], total),
-                        1000000
-                      )
-                      .toFixed(2)}万元</span>
-                  </div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                    "
-                  >
-                    <span>渝品甄选</span>
-                    <span>${self.calculator
-                      .divide(
-                        self.calculator.times(params.value[1], total),
-                        1000000
-                      )
-                      .toFixed(2)}万元</span>
-                  </div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                    "
-                  >
-                    <span>农产品展销</span>
-                    <span>${self.calculator
-                      .divide(
-                        self.calculator.times(params.value[2], total),
-                        1000000
-                      )
-                      .toFixed(2)}万元</span>
-                  </div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                    "
-                  >
-                    <span>智慧渝卡通</span>
-                    <span>${self.calculator
-                      .divide(
-                        self.calculator.times(params.value[3], total),
-                        1000000
-                      )
-                      .toFixed(2)}万元</span>
-                  </div>
-                </div>
-                `;
+                  `;
               },
             },
+
             textStyle: {
               fontSize: 17,
-            },
-            visualMap: {
-              top: "middle",
-              right: 20,
-              min: 5,
-              max: 15,
-              color: ["#F8A573", "#E16387", "#2F9FFF"],
-              textStyle: {
-                color: "#fff",
-              },
-              backgroundColor: "rgba(0, 0, 0, 0)",
-              calculable: true,
-              formatter: function (value) {
-                if (value === 5) return 0;
-                if (value === 15) return 20;
-                return self.calculator
-                  .mapNumberToRange(value, 5, 15, 0, 20)
-                  .toFixed(2);
-              },
             },
             radar: {
               indicator: [
                 {
                   name: "智慧农贸",
-                  max: 95,
+                  max: 100,
                 },
                 {
                   name: "渝品甄选",
-                  max: 20,
+                  max: 1,
                 },
                 {
                   name: "农产品展销",
-                  max: 20,
+                  max: 80,
                 },
                 {
                   name: "智慧渝卡通",
-                  max: 20,
+                  max: 70,
                 },
               ],
               splitLine: {
                 lineStyle: {
                   width: 1,
-                  color: "rgba(0, 211, 255, 0.5)",
+                  color: "rgba(0, 211, 255, 0.4)",
                 },
               },
               splitArea: {
                 show: false,
               },
             },
-            series: (() => {
-              const series = [];
-
-              dateList.forEach((date, index) => {
-                const a = 100000 + 10000 * (Math.random() * (5 - 1) + 1);
-                const b = 1000 * (Math.random() * (5 - 1) + 1);
-
-                const total = self.calculator.plus(
-                  a,
-                  yuSelection["data"][index].totalAmt,
-                  b,
-                  yuSmartcard[index].incomeAmt
-                );
-
-                console.log(
-                  self.calculator.divide(a, total) * 100,
-                  self.calculator.divide(
-                    yuSelection["data"][index].totalAmt,
-                    total
-                  ) * 100,
-                  self.calculator.divide(b, total) * 100,
-                  self.calculator.divide(yuSmartcard[index].incomeAmt, total) *
-                    100
-                );
-
-                series.push({
-                  type: "radar",
-                  symbol: "none",
-                  lineStyle: {
-                    width: 1,
+            legend: {
+              orient: "vertical",
+              right: 20,
+              y: "center",
+              itemWidth: 40,
+              textStyle: {
+                color: "#fff",
+                fontWeight: 500,
+                padding: [0, 0, 0, 10],
+              },
+              data: [
+                {
+                  name: "八月",
+                  itemStyle: {
+                    color: "rgb(255,127,80)",
                   },
-                  emphasis: {
+                },
+                {
+                  name: "九月",
+                  itemStyle: {
+                    color: "rgb(127,255,0)",
+                  },
+                },
+                {
+                  name: "十月",
+                  itemStyle: {
+                    color: "rgb(0,255,255)",
+                  },
+                },
+              ],
+            },
+            series: [
+              {
+                type: "radar",
+                data: [
+                  {
+                    name: "八月",
                     areaStyle: {
-                      color: "rgba(0, 250, 0, 0.3)",
+                      color: "rgba(255,127,80,0.4)",
                     },
+                    symbolSize: 10,
+                    itemStyle: {
+                      normal: {
+                        color: "#fff",
+                      },
+                    },
+                    lineStyle: {
+                      color: "rgb(255,127,80)",
+                    },
+                    value: [
+                      self.calculator.times(
+                        self.calculator.divide(128888, totalAmt[0]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSelection["data"][27].incomeAmt,
+                          totalAmt[0]
+                        ),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(3271, totalAmt[0]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSmartcard[27].incomeAmt,
+                          totalAmt[0]
+                        ),
+                        100
+                      ),
+                    ],
                   },
-                  data: [
-                    {
-                      value: [
-                        self.calculator.divide(a, total) * 100,
-                        self.calculator.divide(
-                          yuSelection["data"][index].totalAmt,
-                          total
-                        ) * 100,
-                        self.calculator.divide(b, total) * 100,
-                        self.calculator.divide(
-                          yuSmartcard[index].incomeAmt,
-                          total
-                        ) * 100,
-                      ],
-                      name: date,
+                  {
+                    name: "九月",
+                    areaStyle: {
+                      color: "rgba(127,255,0,0.4)",
                     },
-                  ],
-                });
-              });
-
-              return series;
-            })(),
+                    symbolSize: 10,
+                    itemStyle: {
+                      normal: {
+                        color: "#fff",
+                      },
+                    },
+                    lineStyle: {
+                      color: "rgb(127,255,0)",
+                    },
+                    value: [
+                      self.calculator.times(
+                        self.calculator.divide(114218, totalAmt[1]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSelection["data"][28].incomeAmt,
+                          totalAmt[1]
+                        ),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(2667, totalAmt[1]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSmartcard[28].incomeAmt,
+                          totalAmt[1]
+                        ),
+                        100
+                      ),
+                    ],
+                  },
+                  {
+                    name: "十月",
+                    areaStyle: {
+                      color: "rgba(0,255,255,0.4)",
+                    },
+                    symbolSize: 10,
+                    itemStyle: {
+                      normal: {
+                        color: "#fff",
+                      },
+                    },
+                    lineStyle: {
+                      color: "rgb(0,255,255)",
+                    },
+                    value: [
+                      self.calculator.times(
+                        self.calculator.divide(108726, totalAmt[2]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSelection["data"][29].incomeAmt,
+                          totalAmt[2]
+                        ),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(1896, totalAmt[2]),
+                        100
+                      ),
+                      self.calculator.times(
+                        self.calculator.divide(
+                          yuSmartcard[29].incomeAmt,
+                          totalAmt[2]
+                        ),
+                        100
+                      ),
+                    ],
+                  },
+                ],
+              },
+            ],
           };
 
           option && farmProportionChart.setOption(option);
-
-          // autoHover(farmProportionChart, option, 30);
         });
       } catch (err) {
         this.loading = true;
@@ -272,11 +353,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.farm_proportion_container {
+.farmProportion_container {
   width: 100%;
   height: 100%;
+  position: relative;
 
-  #farmProportionContainer {
+  .title {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 160px;
+    height: 45px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    border: 1px solid #0ab8ff;
+    z-index: 100;
+
+    .circle {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 2px solid #00d3ff;
+      background-color: transparent;
+      .inner {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: #00d3ff;
+      }
+    }
+
+    .text {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 5px;
+      color: #00d3ff;
+    }
+  }
+
+  #farmProportionChart {
     width: 100%;
     height: 100%;
   }

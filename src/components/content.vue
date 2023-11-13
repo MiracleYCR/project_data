@@ -9,7 +9,7 @@
     <div class="center">
       <div class="top">
         <TotalData />
-        <FarmProportion />
+        <MainContentChart />
       </div>
 
       <div class="bottom">
@@ -32,7 +32,7 @@ import MerchantRatio from "../model/merchantRatio.vue";
 import SmartCard from "../model/smartCard.vue";
 
 import TotalData from "../model/totalData.vue";
-import FarmProportion from "../model/farmProportion.vue";
+import MainContentChart from "../model/mainContentChart.vue";
 
 import SamrtFarm from "../model/smartFarm.vue";
 import FarmProductShow from "../model/farmProductShow.vue";
@@ -50,7 +50,7 @@ export default {
     MerchantRatio,
 
     TotalData,
-    FarmProportion,
+    MainContentChart,
 
     SamrtFarm,
     FarmProductShow,
@@ -74,7 +74,7 @@ export default {
   padding: 0 10px 14px 10px;
 
   .left {
-    width: 504px;
+    width: 500px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -83,7 +83,7 @@ export default {
   }
 
   .center {
-    margin: 0 15px;
+    margin: 0 9px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -102,7 +102,7 @@ export default {
   }
 
   .right {
-    width: 454px;
+    width: 462px;
     height: 100%;
     display: flex;
     flex-direction: column;
