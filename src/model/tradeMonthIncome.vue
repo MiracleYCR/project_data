@@ -137,7 +137,7 @@ export default {
 
           option && tradeMonthIncomeChart.setOption(option);
 
-          autoHover(tradeMonthIncomeChart, option, 10);
+          autoHover(tradeMonthIncomeChart, option, 12);
         });
       } catch (err) {
         this.loading = true;

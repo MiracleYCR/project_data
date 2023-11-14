@@ -18,14 +18,14 @@ export default {
   data() {
     return {
       timer: null,
-      toggleType: false,
+      toggleType: true,
     };
   },
 
   mounted() {
     this.timer = setInterval(() => {
       this.toggleChangeMainContentChart();
-    }, 60 * 1000);
+    }, 600 * 1000);
   },
 
   destroyed() {
