@@ -14,6 +14,8 @@
 
 <script>
 import * as echarts from "echarts";
+import { autoHover } from "@/utils";
+
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 
@@ -69,11 +71,20 @@ export default {
           const option = {
             tooltip: {
               trigger: "item",
+              padding: 10,
+              textStyle: {
+                color: "#ffffff",
+              },
+              borderColor: "rgba(0, 0, 0, 0.6)",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: function (params) {
+                console.log(params);
                 return `
                   <div>
                     <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px">
-                      <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:orange;"></span>
+                      <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${
+                        params.color
+                      };"></span>
                       <span>${params.name}</span>
                     </div>
                     <div
@@ -155,6 +166,7 @@ export default {
 
             textStyle: {
               fontSize: 17,
+              color: "#ffffff",
             },
             radar: {
               indicator: [
@@ -225,10 +237,10 @@ export default {
                     areaStyle: {
                       color: "rgba(255,127,80,0.4)",
                     },
-                    symbolSize: 10,
+                    symbolSize: 8,
                     itemStyle: {
                       normal: {
-                        color: "#fff",
+                        color: "#ffffff",
                       },
                     },
                     lineStyle: {
@@ -264,10 +276,10 @@ export default {
                     areaStyle: {
                       color: "rgba(127,255,0,0.4)",
                     },
-                    symbolSize: 10,
+                    symbolSize: 8,
                     itemStyle: {
                       normal: {
-                        color: "#fff",
+                        color: "#ffffff",
                       },
                     },
                     lineStyle: {
@@ -303,10 +315,10 @@ export default {
                     areaStyle: {
                       color: "rgba(0,255,255,0.4)",
                     },
-                    symbolSize: 10,
+                    symbolSize: 8,
                     itemStyle: {
                       normal: {
-                        color: "#fff",
+                        color: "#ffffff",
                       },
                     },
                     lineStyle: {
@@ -343,6 +355,8 @@ export default {
           };
 
           option && farmProportionChart.setOption(option);
+
+          autoHover(farmProportionChart, option, 3);
         });
       } catch (err) {
         this.loading = true;

@@ -9,6 +9,8 @@
 import IncomeForce from "./incomeForce.vue";
 import FarmProportion from "./farmProportion.vue";
 
+import common_API from "@/api/common";
+
 export default {
   components: {
     IncomeForce,
@@ -18,14 +20,18 @@ export default {
   data() {
     return {
       timer: null,
-      toggleType: true,
+      toggleType: false,
     };
   },
 
   mounted() {
+    common_API.fetchIncomeForceData().then((res) => {
+      console.log(res);
+    });
+
     this.timer = setInterval(() => {
       this.toggleChangeMainContentChart();
-    }, 600 * 1000);
+    }, 60 * 1000);
   },
 
   destroyed() {

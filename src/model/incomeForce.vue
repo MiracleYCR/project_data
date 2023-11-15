@@ -40,8 +40,8 @@ export default {
               textStyle: {
                 color: "#ffffff",
               },
-              borderColor: "rgba(0, 0, 0, 0.8)",
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              borderColor: "rgba(0, 0, 0, 0.6)",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: (params) => {
                 console.log(params);
                 return `
