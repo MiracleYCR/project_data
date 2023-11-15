@@ -13,10 +13,16 @@ export default {
   // 渝品甄选产品
   fetchSelectedProduction() {
     return request({
-      url: "/api_yuselection/api/qstData/products",
+      url: "/api_yuselection/api/qstData/info",
       method: "GET",
     });
   },
+  // fetchSelectedProduction() {
+  //   return request({
+  //     url: "/api_yuselection/api/qstData/products",
+  //     method: "GET",
+  //   });
+  // },
 
   // 月净交易实收
   fetchTradeMonthIncome() {

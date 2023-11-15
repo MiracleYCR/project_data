@@ -120,18 +120,28 @@ export default {
         this.loading = false;
 
         this.$nextTick(() => {
+          this.farmGoodsNumConfig = Object.assign({}, this.farmGoodsNumConfig, {
+            number: [yuSelectionData.data.goodsNumber],
+          });
+          this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+            number: [yuSelectionData.data.tradeNumber],
+          });
+          this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+            number: [yuSelectionData.data.tradeAmt],
+          });
+
           const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [50, selectGoodsDomWidth - 230, 75, 105],
-            data: yuSelectionData.data.map((item, index) => {
+            data: yuSelectionData.data.goodsRankList.map((item, index) => {
               return [
                 `${index + 1}`,
                 `<div style="display: flex; align-items: center">
                   <img style="width: 30px; height: 30px; object-fit: cover" src="${item.productImage}">
                   <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.productName}</span>
                 </div>`,
-                `单价`,
+                `${item.price}`,
                 `${item.orderNumber}`,
               ];
             }),

@@ -44,11 +44,8 @@
 </template>
 
 <script>
-// import * as echarts from "echarts";
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
-
-import { generateStoreTop5 } from "@/mock/store2";
 
 export default {
   data() {
@@ -119,6 +116,8 @@ export default {
       try {
         const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
+        console.log(smartCard);
+
         this.loading = false;
 
         this.$nextTick(() => {
@@ -133,14 +132,21 @@ export default {
             number: [smartCard.tradeAmt],
           });
 
+          console.log(smartCard.merchantRankList.slice(0, 5));
+
           // 表格
           const smartCardDataRankRefDomWidth =
             this.$refs.smartCardDataRankRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartCardDataRankRefDomWidth - 260, 90, 110],
-            data: generateStoreTop5().map((item, index) => {
-              return [`${index + 1}`, item.name, item.orders, item.amt];
+            data: smartCard.merchantRankList.slice(0, 5).map((item, index) => {
+              return [
+                `${index + 1}`,
+                item.name,
+                item.tradeNumber,
+                item.tradeAmt,
+              ];
             }),
           });
         });

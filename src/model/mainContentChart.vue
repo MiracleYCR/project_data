@@ -12,6 +12,8 @@
 import IncomeForce from "./incomeForce.vue";
 import FarmProportion from "./farmProportion.vue";
 
+import { monthDataMap } from "@/config/datamap";
+
 import common_API from "@/api/common";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
@@ -26,9 +28,15 @@ export default {
     return {
       timer: null,
       loading: true,
-      toggleType: false,
+      toggleType: true,
       incomeForceData: [],
       farmProportionData: [],
+
+      mockData: {
+        9: [128888, 3271],
+        10: [114218, 2667],
+        11: [98721, 1896],
+      },
     };
   },
 
@@ -37,7 +45,6 @@ export default {
 
     this.timer = setInterval(() => {
       this.toggleType = !this.toggleType;
-      this.toggleChangeMainContentChart();
     }, 15 * 1000);
   },
 
@@ -50,31 +57,68 @@ export default {
       try {
         const { data: supply } = await common_API.fetchIncomeForceData();
 
+        // 渝卡通
         const { data: yuSmartcard } =
-          await yuSmartcard_API.fetchTradeDaysIncome();
+          await yuSmartcard_API.fetchTradeMonthIncome();
 
+        console.log(yuSmartcard);
+
+        // 渝品甄选
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
-        console.log(yuSmartcard, yuSelection);
+        // 增收推力
+        const incomeForceData = {
+          total: [],
+          part: [],
+        };
 
-        const incomeForceTotalData = supply.map((item, index) => {
-          return [
-            item.month,
-            this.calculator.plus(
-              item.totalAmt,
-              yuSelection["data"][index].incomeAmt
-            ),
-          ];
+        // 平台助农
+        const farmProportionData = [];
+
+        supply.forEach((item, index) => {
+          // 增收推力
+          const totalAmt = this.calculator.plus(
+            item.totalAmt,
+            yuSmartcard[index].incomeAmt,
+            yuSelection["data"][index].incomeAmt
+          );
+          const partAmt = this.calculator.plus(
+            yuSmartcard[index].incomeAmt,
+            yuSelection["data"][index].incomeAmt
+          );
+          incomeForceData.total.push([item.month, totalAmt]);
+          incomeForceData.part.push([item.month, partAmt]);
+
+          // 平台助农
+          if (index > supply.length - 4) {
+            const curObj = {
+              month: monthDataMap[item.month.split("-")[1]],
+              totalAmt: this.calculator.plus(
+                this.mockData[index][0] * 30,
+                yuSmartcard[index].incomeAmt,
+                this.mockData[index][1] * 30,
+                yuSelection["data"][index].incomeAmt
+              ),
+              partProportion: [
+                this.mockData[index][0] * 30,
+                yuSelection["data"][index].incomeAmt,
+                this.mockData[index][1] * 30,
+                yuSmartcard[index].incomeAmt,
+              ],
+            };
+
+            farmProportionData.push(curObj);
+          }
         });
 
-        const incomeForcePartData = yuSelection.data.map((item) => {
-          return [item.monthStr, this.calculator.plus(item.incomeAmt, 0)];
-        });
+        // 增收推力格式化数据
+        this.incomeForceData = [incomeForceData.total, incomeForceData.partAmt];
 
-        this.incomeForceData = [incomeForceTotalData, incomeForcePartData];
+        // 平台助农格式化数据
+        this.farmProportionData = farmProportionData;
 
-        this.farmProportionData = supply;
+        console.log(this.farmProportionData);
 
         this.loading = false;
       } catch (err) {

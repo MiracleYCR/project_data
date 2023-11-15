@@ -6,9 +6,7 @@
       </div>
       <span class="text">平台助农</span>
     </div>
-
-    <dv-loading v-if="loading">Loading...</dv-loading>
-    <div v-else id="farmProportionChart"></div>
+    <div id="farmProportionChart"></div>
   </div>
 </template>
 
@@ -16,14 +14,16 @@
 import * as echarts from "echarts";
 import { autoHover } from "@/utils";
 
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
-
 export default {
+  props: {
+    chartData: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data() {
-    return {
-      loading: true,
-    };
+    return {};
   },
 
   mounted() {
@@ -35,38 +35,30 @@ export default {
       try {
         const self = this;
 
-        const { data: yuSmartcard } =
-          await yuSmartcard_API.fetchTradeDaysIncome();
-
-        const { data: yuSelection } =
-          await yuSelection_API.fetchTradeDaysIncome();
-
-        this.loading = false;
-
         this.$nextTick(() => {
           const chartDom = document.getElementById("farmProportionChart");
           const farmProportionChart = echarts.init(chartDom);
 
-          const totalAmt = [
-            self.calculator.plus(
-              yuSmartcard[27].incomeAmt,
-              yuSelection["data"][27].incomeAmt,
-              3271,
-              128888
-            ),
-            self.calculator.plus(
-              yuSmartcard[28].incomeAmt,
-              yuSelection["data"][28].incomeAmt,
-              2667,
-              114218
-            ),
-            self.calculator.plus(
-              yuSmartcard[29].incomeAmt,
-              yuSelection["data"][29].incomeAmt,
-              1896,
-              98721
-            ),
-          ];
+          console.log(
+            self.chartData[0].partProportion.map((amt) => {
+              return self.calculator.times(
+                self.calculator.divide(amt, self.chartData[0].totalAmt),
+                100
+              );
+            }),
+            self.chartData[1].partProportion.map((amt) => {
+              return self.calculator.times(
+                self.calculator.divide(amt, self.chartData[1].totalAmt),
+                100
+              );
+            }),
+            self.chartData[2].partProportion.map((amt) => {
+              return self.calculator.times(
+                self.calculator.divide(amt, self.chartData[2].totalAmt),
+                100
+              );
+            })
+          );
 
           const option = {
             tooltip: {
@@ -100,7 +92,7 @@ export default {
                         .divide(
                           self.calculator.times(
                             params.value[0],
-                            totalAmt[params.dataIndex]
+                            self.chartData[params.dataIndex].totalAmt
                           ),
                           1000000
                         )
@@ -118,7 +110,7 @@ export default {
                         .divide(
                           self.calculator.times(
                             params.value[1],
-                            totalAmt[params.dataIndex]
+                            self.chartData[params.dataIndex].totalAmt
                           ),
                           1000000
                         )
@@ -136,7 +128,7 @@ export default {
                         .divide(
                           self.calculator.times(
                             params.value[2],
-                            totalAmt[params.dataIndex]
+                            self.chartData[params.dataIndex].totalAmt
                           ),
                           1000000
                         )
@@ -154,7 +146,7 @@ export default {
                         .divide(
                           self.calculator.times(
                             params.value[3],
-                            totalAmt[params.dataIndex]
+                            self.chartData[params.dataIndex].totalAmt
                           ),
                           1000000
                         )
@@ -234,7 +226,7 @@ export default {
                 type: "radar",
                 data: [
                   {
-                    name: "八月",
+                    name: self.chartData[0].month,
                     areaStyle: {
                       color: "rgba(255,127,80,0.4)",
                     },
@@ -247,33 +239,15 @@ export default {
                     lineStyle: {
                       color: "rgb(255,127,80)",
                     },
-                    value: [
-                      self.calculator.times(
-                        self.calculator.divide(128888, totalAmt[0]),
+                    value: self.chartData[0].partProportion.map((amt) => {
+                      return self.calculator.times(
+                        self.calculator.divide(amt, self.chartData[0].totalAmt),
                         100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSelection["data"][27].incomeAmt,
-                          totalAmt[0]
-                        ),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(3271, totalAmt[0]),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSmartcard[27].incomeAmt,
-                          totalAmt[0]
-                        ),
-                        100
-                      ),
-                    ],
+                      );
+                    }),
                   },
                   {
-                    name: "九月",
+                    name: self.chartData[1].month,
                     areaStyle: {
                       color: "rgba(127,255,0,0.4)",
                     },
@@ -286,33 +260,15 @@ export default {
                     lineStyle: {
                       color: "rgb(127,255,0)",
                     },
-                    value: [
-                      self.calculator.times(
-                        self.calculator.divide(114218, totalAmt[1]),
+                    value: self.chartData[1].partProportion.map((amt) => {
+                      return self.calculator.times(
+                        self.calculator.divide(amt, self.chartData[1].totalAmt),
                         100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSelection["data"][28].incomeAmt,
-                          totalAmt[1]
-                        ),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(2667, totalAmt[1]),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSmartcard[28].incomeAmt,
-                          totalAmt[1]
-                        ),
-                        100
-                      ),
-                    ],
+                      );
+                    }),
                   },
                   {
-                    name: "十月",
+                    name: self.chartData[2].month,
                     areaStyle: {
                       color: "rgba(0,255,255,0.4)",
                     },
@@ -325,30 +281,12 @@ export default {
                     lineStyle: {
                       color: "rgb(0,255,255)",
                     },
-                    value: [
-                      self.calculator.times(
-                        self.calculator.divide(108726, totalAmt[2]),
+                    value: self.chartData[2].partProportion.map((amt) => {
+                      return self.calculator.times(
+                        self.calculator.divide(amt, self.chartData[2].totalAmt),
                         100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSelection["data"][29].incomeAmt,
-                          totalAmt[2]
-                        ),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(1896, totalAmt[2]),
-                        100
-                      ),
-                      self.calculator.times(
-                        self.calculator.divide(
-                          yuSmartcard[29].incomeAmt,
-                          totalAmt[2]
-                        ),
-                        100
-                      ),
-                    ],
+                      );
+                    }),
                   },
                 ],
               },
@@ -360,7 +298,7 @@ export default {
           autoHover(farmProportionChart, option, 3);
         });
       } catch (err) {
-        this.loading = true;
+        console.log(err);
       }
     },
   },

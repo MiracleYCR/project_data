@@ -35,10 +35,6 @@ export default {
   methods: {
     async getIncomeForceData() {
       try {
-        const self = this;
-
-        console.log(self.chartData);
-
         this.$nextTick(() => {
           const chartDom = document.getElementById("incomeForceChart");
           const incomeForceChart = echarts.init(chartDom);
