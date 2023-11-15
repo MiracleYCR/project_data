@@ -39,27 +39,6 @@ export default {
           const chartDom = document.getElementById("farmProportionChart");
           const farmProportionChart = echarts.init(chartDom);
 
-          console.log(
-            self.chartData[0].partProportion.map((amt) => {
-              return self.calculator.times(
-                self.calculator.divide(amt, self.chartData[0].totalAmt),
-                100
-              );
-            }),
-            self.chartData[1].partProportion.map((amt) => {
-              return self.calculator.times(
-                self.calculator.divide(amt, self.chartData[1].totalAmt),
-                100
-              );
-            }),
-            self.chartData[2].partProportion.map((amt) => {
-              return self.calculator.times(
-                self.calculator.divide(amt, self.chartData[2].totalAmt),
-                100
-              );
-            })
-          );
-
           const option = {
             tooltip: {
               trigger: "item",

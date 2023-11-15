@@ -8,7 +8,10 @@
     </div>
 
     <div style="justify-content: space-between"></div>
-    <div id="incomeForceChart"></div>
+
+    <div class="incomeForceChart_container">
+      <div id="incomeForceChart"></div>
+    </div>
   </div>
 </template>
 
@@ -245,12 +248,22 @@ export default {
     }
   }
 
-  #incomeForceChart {
+  .incomeForceChart_container {
     position: absolute;
     left: 0;
     right: 0;
     top: 65px;
     bottom: 0;
+    padding-left: 45px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #incomeForceChart {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

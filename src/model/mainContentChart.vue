@@ -28,7 +28,7 @@ export default {
     return {
       timer: null,
       loading: true,
-      toggleType: true,
+      toggleType: false,
       incomeForceData: [],
       farmProportionData: [],
 
