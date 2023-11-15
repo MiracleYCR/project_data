@@ -165,6 +165,93 @@ export function autoHover(myChart, option, num, time) {
   });
 }
 
+export function autoHover2(myChart, option, num, time) {
+  let defaultData = {
+    // 设置默认值
+    time: 2000, // 时间间隔
+    num: 100, // 循环次数 - 一般是XData（X轴的坐标次数）或者是data的length
+  };
+  if (!time) {
+    time = defaultData.time;
+  }
+  if (!num) {
+    num = defaultData.num;
+  }
+
+  let count = 9;
+  let timeTicket = null;
+
+  timeTicket && clearInterval(timeTicket);
+
+  timeTicket = setInterval(function () {
+    // 如果之前被销毁就清除定时器 - 处理一个div里面需要做图形切换bug
+    if (myChart.isDisposed()) {
+      clearInterval(timeTicket);
+      return;
+    }
+    myChart.dispatchAction({
+      type: "downplay",
+      seriesIndex: 0, // serieIndex的索引值  可以触发多个
+    });
+    myChart.dispatchAction({
+      type: "highlight", // 高亮
+      seriesIndex: 0,
+      dataIndex: count,
+    });
+    myChart.dispatchAction({
+      type: "showTip", // 展示提示框
+      seriesIndex: 0,
+      dataIndex: count,
+    });
+    count++;
+    if (count >= num) {
+      count = 9;
+    }
+  }, time);
+
+  myChart.on("mouseover", function (params) {
+    clearInterval(timeTicket);
+    myChart.dispatchAction({
+      type: "downplay",
+      seriesIndex: 0,
+    });
+    myChart.dispatchAction({
+      type: "highlight",
+      seriesIndex: 0,
+      dataIndex: params.dataIndex,
+    });
+    myChart.dispatchAction({
+      type: "showTip",
+      seriesIndex: 0,
+      dataIndex: params.dataIndex,
+    });
+  });
+
+  myChart.on("mouseout", function () {
+    timeTicket && clearInterval(timeTicket);
+    timeTicket = setInterval(function () {
+      myChart.dispatchAction({
+        type: "downplay",
+        seriesIndex: 0, // serieIndex的索引值   可以触发多个
+      });
+      myChart.dispatchAction({
+        type: "highlight",
+        seriesIndex: 0,
+        dataIndex: count,
+      });
+      myChart.dispatchAction({
+        type: "showTip",
+        seriesIndex: 0,
+        dataIndex: count,
+      });
+      count++;
+      if (count >= num) {
+        count = 9;
+      }
+    }, 2000);
+  });
+}
+
 export const mapNumberToRange = (number, inMin, inMax, outMin, outMax) => {
   return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
 };

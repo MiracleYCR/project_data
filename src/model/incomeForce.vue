@@ -14,7 +14,7 @@
 
 <script>
 import * as echarts from "echarts";
-import { autoHover } from "@/utils";
+import { autoHover2 } from "@/utils";
 
 export default {
   props: {
@@ -54,6 +54,8 @@ export default {
               borderColor: "rgba(0, 0, 0, 0.6)",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: (params) => {
+                const flag = params.length > 1;
+
                 return `
                 <div style="width:130px;display:flex;flex-direction:column;">
                   <div style="display:flex;align-items:center;margin-bottom:5px;">
@@ -64,13 +66,19 @@ export default {
                   </div>
 
                   <div style="display:flex;align-items:center;justify-content:space-between">
-                    <span style="font-size:12px;font-weight:500;color:#00d3ff;">${params[0].seriesName}</span>
+                    <span style="font-size:12px;font-weight:500;color:#00d3ff;">${
+                      params[0].seriesName
+                    }</span>
                     <span style="font-size:12px;">${params[0].value[1]}</span>
                   </div>
 
                   <div style="display:flex;align-items:center;justify-content:space-between">
-                    <span style="font-size:12px;font-weight:500;color:#FA8072;">${params[1].seriesName}</span>
-                    <span style="font-size:12px;">${params[1].value[1]}</span>
+                    <span style="font-size:12px;font-weight:500;color:#FA8072;">
+                      ${flag ? params[1].seriesName : "平台助农"}
+                    </span>
+                    <span style="font-size:12px;">
+                      ${flag ? params[1].value[1] : "暂无数据"}
+                    </span>
                   </div>
                 </div>
                 `;
@@ -161,7 +169,7 @@ export default {
                 areaStyle: {
                   color: "#00d3ff",
                 },
-                data: this.chartData[0].slice(9, 12),
+                data: this.chartData[0],
               },
               {
                 type: "line",
@@ -175,13 +183,18 @@ export default {
                 areaStyle: {
                   color: "#FA8072",
                 },
-                data: this.chartData[1].slice(9, 12),
+                // data: this.chartData[1],
+                data: [
+                  ["2023-08", 904233],
+                  ["2023-09", 1341255],
+                  ["2023-10", 1196912],
+                ],
               },
             ],
           };
 
           option && incomeForceChart.setOption(option);
-          autoHover(incomeForceChart, option, 12);
+          autoHover2(incomeForceChart, option, 12);
         });
       } catch (err) {
         console.log(err);
