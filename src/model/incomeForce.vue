@@ -86,7 +86,7 @@ export default {
             },
             legend: {
               x: "center",
-              bottom: 0,
+              bottom: 10,
               itemGap: 40,
               itemWidth: 40,
               itemHeight: 20,
