@@ -46,8 +46,6 @@ export default {
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
 
-        console.log(yuSelection);
-
         this.loading = false;
 
         this.$nextTick(() => {
@@ -71,8 +69,6 @@ export default {
             })
             .sort((a, b) => b.value - a.value)
             .slice(0, 8);
-
-          console.log(merchantRankData);
 
           const option = {
             grid: {

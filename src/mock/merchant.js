@@ -470,8 +470,6 @@ export const generateMerchantsValues = (total) => {
     return prev + next;
   }, 0);
 
-  console.log(totalAmtNumbers);
-
   totalOrderNumbers = orderNumbers.reduce((prev, next) => {
     return prev + next;
   }, 0);

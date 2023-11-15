@@ -17,6 +17,13 @@ import * as echarts from "echarts";
 import { autoHover } from "@/utils";
 
 export default {
+  props: {
+    chartData: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data() {
     return {};
   },
@@ -28,6 +35,10 @@ export default {
   methods: {
     async getIncomeForceData() {
       try {
+        const self = this;
+
+        console.log(self.chartData);
+
         this.$nextTick(() => {
           const chartDom = document.getElementById("incomeForceChart");
           const incomeForceChart = echarts.init(chartDom);
@@ -43,7 +54,6 @@ export default {
               borderColor: "rgba(0, 0, 0, 0.6)",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: (params) => {
-                console.log(params);
                 return `
                 <div style="width:130px;display:flex;flex-direction:column;">
                   <div style="display:flex;align-items:center;margin-bottom:5px;">
@@ -55,14 +65,14 @@ export default {
 
                   <div style="display:flex;align-items:center;justify-content:space-between">
                     <span style="font-size:12px;font-weight:500;color:#00d3ff;">${params[0].seriesName}</span>
-                    <span style="font-size:12px;">${params[0].value[1]}万元</span>
+                    <span style="font-size:12px;">${params[0].value[1]}</span>
                   </div>
 
                   <div style="display:flex;align-items:center;justify-content:space-between">
                     <span style="font-size:12px;font-weight:500;color:#FA8072;">${params[1].seriesName}</span>
-                    <span style="font-size:12px;">${params[1].value[1]}万元</span>
+                    <span style="font-size:12px;">${params[1].value[1]}</span>
                   </div>
-                </div>      
+                </div>
                 `;
               },
             },
@@ -151,20 +161,7 @@ export default {
                 areaStyle: {
                   color: "#00d3ff",
                 },
-                data: [
-                  ["2022-11", 550],
-                  ["2022-12", 640],
-                  ["2023-01", 200],
-                  ["2023-02", 100],
-                  ["2023-03", 300],
-                  ["2023-04", 450],
-                  ["2023-05", 300],
-                  ["2023-06", 250],
-                  ["2023-07", 580],
-                  ["2023-08", 200],
-                  ["2023-09", 200],
-                  ["2019-10", 750],
-                ],
+                data: this.chartData[0],
               },
               {
                 type: "line",
@@ -178,20 +175,7 @@ export default {
                 areaStyle: {
                   color: "#FA8072",
                 },
-                data: [
-                  ["2022-11", 350],
-                  ["2022-12", 440],
-                  ["2023-01", 0],
-                  ["2023-02", 0],
-                  ["2023-03", 100],
-                  ["2023-04", 250],
-                  ["2023-05", 100],
-                  ["2023-06", 50],
-                  ["2023-07", 380],
-                  ["2023-08", 0],
-                  ["2023-09", 0],
-                  ["2019-10", 550],
-                ],
+                data: this.chartData[1],
               },
             ],
           };

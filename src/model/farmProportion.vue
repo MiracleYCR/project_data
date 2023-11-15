@@ -78,14 +78,15 @@ export default {
               borderColor: "rgba(0, 0, 0, 0.6)",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: function (params) {
-                console.log(params);
                 return `
                   <div>
                     <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px">
                       <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${
-                        params.color
+                        params.data.lineStyle.color
                       };"></span>
-                      <span>${params.name}</span>
+                      <span style="color:${params.data.lineStyle.color}">
+                        ${params.name}
+                      </span>
                     </div>
                     <div
                       style="
