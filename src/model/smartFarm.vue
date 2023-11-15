@@ -91,7 +91,7 @@ export default {
       },
 
       boardConfig: {
-        header: ["排名", "门店名称", "交易笔数", "交易实收"],
+        header: ["排名", "门店名称", "交易笔数", "交易实收(元)"],
         data: top5stores.map((item, index) => {
           return [`${index + 1}`, item.name, item.orders, item.amt];
         }),
@@ -112,9 +112,9 @@ export default {
 
     this.boardConfig.columnWidth = [
       60,
-      yesterdayDataRankRefDomWidth - 240,
+      yesterdayDataRankRefDomWidth - 260,
       90,
-      90,
+      110,
     ];
 
     this.timer = setInterval(() => {

@@ -161,7 +161,7 @@ export default {
                 areaStyle: {
                   color: "#00d3ff",
                 },
-                data: this.chartData[0],
+                data: this.chartData[0].slice(9, 12),
               },
               {
                 type: "line",
@@ -175,7 +175,7 @@ export default {
                 areaStyle: {
                   color: "#FA8072",
                 },
-                data: this.chartData[1],
+                data: this.chartData[1].slice(9, 12),
               },
             ],
           };

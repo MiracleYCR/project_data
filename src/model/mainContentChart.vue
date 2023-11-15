@@ -26,7 +26,7 @@ export default {
     return {
       timer: null,
       loading: true,
-      toggleType: true,
+      toggleType: false,
       incomeForceData: [],
       farmProportionData: [],
     };
@@ -38,7 +38,7 @@ export default {
     this.timer = setInterval(() => {
       this.toggleType = !this.toggleType;
       this.toggleChangeMainContentChart();
-    }, 60 * 1000);
+    }, 15 * 1000);
   },
 
   destroyed() {

@@ -89,7 +89,7 @@ export default {
       },
 
       boardConfig: {
-        header: ["排名", "商户名称", "交易笔数", "交易实收"],
+        header: ["排名", "商户名称", "交易笔数", "交易实收(元)"],
         data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
@@ -138,7 +138,7 @@ export default {
             this.$refs.smartCardDataRankRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
-            columnWidth: [60, smartCardDataRankRefDomWidth - 240, 90, 90],
+            columnWidth: [60, smartCardDataRankRefDomWidth - 260, 90, 110],
             data: generateStoreTop5().map((item, index) => {
               return [`${index + 1}`, item.name, item.orders, item.amt];
             }),

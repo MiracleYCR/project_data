@@ -86,7 +86,7 @@ export default {
       },
 
       boardConfig: {
-        header: ["排名", "商品名称", "单价", "销售数量"],
+        header: ["排名", "商品名称", "单价(元)", "销售数量(个)"],
         rowNum: 4,
         data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
@@ -123,7 +123,7 @@ export default {
           const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
-            columnWidth: [50, selectGoodsDomWidth - 210, 80, 80],
+            columnWidth: [50, selectGoodsDomWidth - 230, 75, 105],
             data: yuSelectionData.data.map((item, index) => {
               return [
                 `${index + 1}`,
