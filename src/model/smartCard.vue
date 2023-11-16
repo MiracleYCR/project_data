@@ -145,7 +145,7 @@ export default {
                 `${index + 1}`,
                 item.name,
                 item.tradeNumber,
-                item.tradeAmt,
+                item.tradeAmt.toFixed(2),
               ];
             }),
           });

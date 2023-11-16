@@ -33,10 +33,24 @@
         </div>
 
         <div class="farm_product_data_rank" ref="farmProductDataRankRef">
-          <dv-scroll-board
-            style="width: 100%; height: 100%"
-            :config="boardConfig"
-          />
+          <template v-if="boardConfig.data.length > 0">
+            <dv-scroll-board
+              style="width: 100%; height: 100%"
+              :config="boardConfig"
+            />
+          </template>
+
+          <template v-else>
+            <div class="no_data_container">
+              <div class="chart_header">
+                <div>排名</div>
+                <div style="flex: 1; text-align: left">商品名称</div>
+                <div style="width: 85px">单价(元)</div>
+                <div>销售数量(个)</div>
+              </div>
+              <div class="content">暂无数据</div>
+            </div>
+          </template>
         </div>
       </template>
     </div>
@@ -45,7 +59,6 @@
 
 <script>
 import { currency } from "@/utils/index";
-import { generateStoreTop5 } from "@/mock/store2";
 
 export default {
   data() {
@@ -54,7 +67,7 @@ export default {
       loading: false,
 
       merchantNumConfig: {
-        number: [273],
+        number: [50],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -64,7 +77,7 @@ export default {
         },
       },
       tradeNumConfig: {
-        number: [1713],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -74,7 +87,7 @@ export default {
         },
       },
       tradeAmtConfig: {
-        number: [97321212],
+        number: [0],
         content: "{nt}",
         toFixed: 2,
         formatter: (value) => currency(value, 2, true),
@@ -124,9 +137,7 @@ export default {
             this.$refs.farmProductDataRankRef.offsetWidth;
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, farmProductDataRankRefDomWidth - 255, 85, 110],
-            data: generateStoreTop5().map((item, index) => {
-              return [`${index + 1}`, item.name, item.orders, item.amt];
-            }),
+            data: [],
           });
         });
       } catch (err) {
@@ -207,6 +218,41 @@ export default {
 
       ::v-deep(.dv-scroll-board .rows .row-item) {
         color: #0ab8ff;
+      }
+
+      .no_data_container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .chart_header {
+          height: 35px;
+          font-size: 15px;
+          display: flex;
+          align-items: center;
+          background-color: rgba(0, 211, 255, 0.1);
+
+          div {
+            padding: 0 10px;
+            text-align: center;
+
+            &:first-child {
+              width: 60px;
+            }
+
+            &:last-child {
+              width: 110px;
+            }
+          }
+        }
+
+        .content {
+          flex: 1;
+          color: #0ab8ff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
   }
