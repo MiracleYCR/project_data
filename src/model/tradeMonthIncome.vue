@@ -1,9 +1,6 @@
 <template>
   <div class="trade_month_income_container">
-    <div class="title">
-      <span>月净交易实收</span>
-      <span>（元）</span>
-    </div>
+    <div class="title">月净交易实收</div>
 
     <div class="trade_month_income_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
@@ -33,6 +30,8 @@ export default {
   methods: {
     async getTradeMonthIncomeData() {
       try {
+        const self = this;
+
         // 渝卡通
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
@@ -46,11 +45,16 @@ export default {
 
         // 展示数据
         const dataList = monthList.map((date, index) => {
-          return this.calculator.plus(
-            yuSmartcard[index].incomeAmt,
-            yuSelection["data"][index].incomeAmt
-          );
+          return [
+            date,
+            this.calculator.plus(
+              yuSmartcard[index].incomeAmt,
+              yuSelection["data"][index].incomeAmt
+            ),
+          ];
         });
+
+        console.log(dataList.slice(dataList.length - 3, dataList.length));
 
         this.loading = false;
 
@@ -61,8 +65,28 @@ export default {
           const option = {
             tooltip: {
               trigger: "item",
-              formatter: "{c}",
               position: "top",
+              textStyle: {
+                color: "#ffffff",
+              },
+              borderColor: "rgba(0, 0, 0, 0.6)",
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              formatter: (params) => {
+                console.log(params);
+                return `
+                  <div style="display:flex;flex-direction:column;">
+                    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;font-weight:bold;color:orange;font-size:16px">
+                      ${params.value[0]}
+                    </div>
+
+                    <div style="display:flex;align-items:center;justify-content:center;font-weight:500;">
+                      ${self.calculator
+                        .divide(params.value[1], 10000)
+                        .toFixed(2)}万元
+                    </div>
+                  </div>
+                `;
+              },
             },
             grid: {
               top: "10%",
@@ -75,6 +99,9 @@ export default {
               type: "value",
               axisLabel: {
                 color: "rgba(57, 165, 237, 1)",
+                formatter: (value) => {
+                  return `${self.calculator.divide(value, 10000)}万元`;
+                },
               },
               splitLine: {
                 lineStyle: {
@@ -130,14 +157,15 @@ export default {
                     color: "#0ab8ff",
                   },
                 },
-                data: dataList,
+                data: dataList.slice(dataList.length - 3, dataList.length),
+                // data: dataList,
               },
             ],
           };
 
           option && tradeMonthIncomeChart.setOption(option);
 
-          autoHover(tradeMonthIncomeChart, option, 12);
+          autoHover(tradeMonthIncomeChart, option, 0, 3);
         });
       } catch (err) {
         this.loading = true;
@@ -166,12 +194,12 @@ export default {
     display: flex;
     align-items: center;
 
-    span {
-      &:last-child {
-        font-size: 15px;
-        margin-top: -2px;
-      }
-    }
+    // span {
+    //   &:last-child {
+    //     font-size: 15px;
+    //     margin-top: -2px;
+    //   }
+    // }
   }
 
   .trade_month_income_body {

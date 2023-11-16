@@ -78,7 +78,7 @@ export const getRandomSecondsInterval = (callback, start = 1, end = 3) => {
   randomIntervalLoop();
 };
 
-export function autoHover(myChart, option, num, time) {
+export function autoHover(myChart, option, startIndex = 0, num, time) {
   let defaultData = {
     // 设置默认值
     time: 2000, // 时间间隔
@@ -91,7 +91,7 @@ export function autoHover(myChart, option, num, time) {
     num = defaultData.num;
   }
 
-  let count = 0;
+  let count = startIndex;
   let timeTicket = null;
 
   timeTicket && clearInterval(timeTicket);
@@ -118,7 +118,7 @@ export function autoHover(myChart, option, num, time) {
     });
     count++;
     if (count >= num) {
-      count = 0;
+      count = startIndex;
     }
   }, time);
 
@@ -159,7 +159,7 @@ export function autoHover(myChart, option, num, time) {
       });
       count++;
       if (count >= num) {
-        count = 0;
+        count = startIndex;
       }
     }, 2000);
   });

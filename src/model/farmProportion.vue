@@ -274,7 +274,7 @@ export default {
 
           option && farmProportionChart.setOption(option);
 
-          autoHover(farmProportionChart, option, 3);
+          autoHover(farmProportionChart, option, 0, 3);
         });
       } catch (err) {
         console.log(err);
