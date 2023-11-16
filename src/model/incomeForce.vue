@@ -38,6 +38,8 @@ export default {
   methods: {
     async getIncomeForceData() {
       try {
+        const self = this;
+
         this.$nextTick(() => {
           const chartDom = document.getElementById("incomeForceChart");
           const incomeForceChart = echarts.init(chartDom);
@@ -68,7 +70,11 @@ export default {
                     <span style="font-size:12px;font-weight:500;color:#00d3ff;">${
                       params[0].seriesName
                     }</span>
-                    <span style="font-size:12px;">${params[0].value[1]}</span>
+                    <span style="font-size:12px;">
+                      ${self.calculator
+                        .divide(params[0].value[1], 10000)
+                        .toFixed(2)}万元
+                    </span>
                   </div>
 
                   <div style="display:flex;align-items:center;justify-content:space-between">
@@ -76,7 +82,13 @@ export default {
                       ${flag ? params[1].seriesName : "平台助农"}
                     </span>
                     <span style="font-size:12px;">
-                      ${flag ? params[1].value[1] : "暂无数据"}
+                      ${
+                        flag
+                          ? self.calculator
+                              .divide(params[1].value[1], 10000)
+                              .toFixed(2) + "万元"
+                          : "暂无数据"
+                      }
                     </span>
                   </div>
                 </div>
@@ -134,6 +146,7 @@ export default {
                 interval: 0,
                 fontSize: 13,
                 fontWeight: 500,
+                padding: [5, 0, 0, 0],
                 color: "rgba(57, 165, 237, 1)",
               },
             },
@@ -141,8 +154,13 @@ export default {
               type: "value",
               boundaryGap: false,
               axisLabel: {
-                fontSize: 15,
+                fontSize: 14,
+                fontWeight: 500,
+                padding: [0, 5, 0, 0],
                 color: "rgba(57, 165, 237, 1)",
+                formatter: (value) => {
+                  return `${self.calculator.divide(value, 10000)}万元`;
+                },
               },
               splitArea: {
                 interval: "atuo",
