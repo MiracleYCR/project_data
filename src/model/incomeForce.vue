@@ -17,7 +17,7 @@
 
 <script>
 import * as echarts from "echarts";
-import { autoHover2 } from "@/utils";
+import { autoHover } from "@/utils";
 
 export default {
   props: {
@@ -211,7 +211,7 @@ export default {
           };
 
           option && incomeForceChart.setOption(option);
-          autoHover2(incomeForceChart, option, 12);
+          autoHover(incomeForceChart, option, 9, 12);
         });
       } catch (err) {
         console.log(err);
