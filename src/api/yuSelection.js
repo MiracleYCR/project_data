@@ -39,12 +39,4 @@ export default {
       method: "GET",
     });
   },
-
-  // 按天总交易额
-  fetchTradeDaysIncome() {
-    return request({
-      url: "/api_yuselection/api/qstData/dayOrders",
-      method: "GET",
-    });
-  },
 };

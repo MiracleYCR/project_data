@@ -61,8 +61,6 @@ export default {
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
 
-        console.log(yuSmartcard);
-
         // 渝品甄选
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
