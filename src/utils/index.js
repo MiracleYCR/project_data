@@ -78,6 +78,7 @@ export const getRandomSecondsInterval = (callback, start = 1, end = 3) => {
   randomIntervalLoop();
 };
 
+// 图表自动 hover
 export function autoHover(myChart, option, startIndex = 0, num, time) {
   let defaultData = {
     // 设置默认值

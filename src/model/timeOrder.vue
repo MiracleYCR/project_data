@@ -36,7 +36,6 @@
 
 <script>
 import { currency } from "@/utils";
-
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
@@ -58,8 +57,6 @@ export default {
     this.timer = setInterval(() => {
       this.getTimeOrderData();
     }, 30 * 1000);
-
-    // getRandomSecondsInterval(this.initData, 20, 25);
   },
 
   destroyed() {

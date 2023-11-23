@@ -4,8 +4,8 @@
       <span
         v-for="(item, index) in dataList"
         :key="index"
-        @click="getDataInfo(item)"
         :style="{ color: item.color, background: item.bgColor }"
+        @click="getDataInfo(item)"
       >
         {{ item.name }}
       </span>
