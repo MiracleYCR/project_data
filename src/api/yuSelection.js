@@ -17,12 +17,6 @@ export default {
       method: "GET",
     });
   },
-  // fetchSelectedProduction() {
-  //   return request({
-  //     url: "/api_yuselection/api/qstData/products",
-  //     method: "GET",
-  //   });
-  // },
 
   // 月净交易实收
   fetchTradeMonthIncome() {

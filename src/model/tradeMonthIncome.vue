@@ -14,6 +14,7 @@ import * as echarts from "echarts";
 import { autoHover } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   data() {
@@ -40,6 +41,12 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
+        // 农产品展销
+        const { data: farmProduct } =
+          await farmProduct_API.fetchTradeMonthIncome();
+
+        // 智慧农贸
+
         // 展示月份
         const monthList = yuSmartcard.map((item) => item.monthStr);
 
@@ -49,7 +56,8 @@ export default {
             date,
             this.calculator.plus(
               yuSmartcard[index].incomeAmt,
-              yuSelection["data"][index].incomeAmt
+              yuSelection["data"][index].incomeAmt,
+              farmProduct["data"][index].incomeAmt
             ),
           ];
         });
@@ -72,7 +80,6 @@ export default {
               borderColor: "rgba(0, 0, 0, 0.6)",
               backgroundColor: "rgba(0, 0, 0, 0.6)",
               formatter: (params) => {
-                console.log(params);
                 return `
                   <div style="display:flex;flex-direction:column;">
                     <div style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;font-weight:bold;color:orange;font-size:16px">

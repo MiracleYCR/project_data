@@ -19,6 +19,13 @@ module.exports = defineConfig({
           "^/api_yuselection": "",
         },
       },
+      "/api_farmproduct": {
+        target: "http://83456030kf.zicp.fun:47124",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api_farmproduct": "",
+        },
+      },
       "/api_common": {
         target: "https://miracleycr.com:8888/api_common/incomeForce",
         changeOrigin: true,

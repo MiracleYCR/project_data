@@ -12,6 +12,7 @@
 <script>
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   data() {
@@ -31,6 +32,12 @@ export default {
         // 渝卡通数据
         const { data: yuSamrtcard } =
           await yuSmartcard_API.fetchMerchantRatio();
+
+        // 农产品展销
+        const { data: farmProduct } =
+          await farmProduct_API.fetchMerchantRatio();
+
+        // 智慧农贸
 
         this.loading = false;
 
@@ -53,15 +60,14 @@ export default {
               children: [{ name: "渝品甄选商城", value: 1 }],
             },
             {
-              name: "展销馆",
-              value: 50,
-              children: [
-                { name: "大规模生产", value: 2 },
-                { name: "小规模生产", value: 12 },
-                { name: "一般生产", value: 15 },
-                { name: "源头生产", value: 8 },
-                { name: "散户", value: 13 },
-              ],
+              name: farmProduct["data"][0].channel,
+              value: farmProduct["data"][0].count,
+              children: farmProduct["data"][0].category
+                .map((item) => ({
+                  name: item.name,
+                  value: item.count,
+                }))
+                .filter((item) => item.value !== 0),
             },
             {
               name: "农贸市场",
@@ -84,7 +90,7 @@ export default {
               {
                 type: "pie",
                 radius: [0, "50%"],
-                startAngle: -280,
+                startAngle: -200,
                 label: {
                   position: "inside",
                   fontSize: 9,
@@ -113,7 +119,7 @@ export default {
               {
                 type: "pie",
                 radius: ["65%", "80%"],
-                startAngle: -280,
+                startAngle: -200,
                 labelLine: {
                   show: true,
                   lineStyle: {
@@ -123,16 +129,18 @@ export default {
                 label: {
                   alignTo: "edge",
                   minMargin: 2,
-                  edgeDistance: 10,
+                  edgeDistance: 8,
                   lineHeight: 12,
-                  formatter: "{name|{b}}\n{number|{c}}",
+                  formatter: (e) => {
+                    return `{name|${e.data.name}} {number|${e.data.value}}`;
+                  },
                   rich: {
                     name: {
-                      fontSize: 12,
+                      fontSize: 9,
                       color: "rgba(57, 165, 237, 1)",
                     },
                     number: {
-                      fontSize: 11,
+                      fontSize: 9,
                       color: "rgba(0, 241, 255, 1)",
                     },
                   },

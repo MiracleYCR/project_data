@@ -21,6 +21,7 @@
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   computed: {
@@ -62,18 +63,28 @@ export default {
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
+        // 农产品展销
+        const { data: farmProduct } = await farmProduct_API.fetchTotalData();
+        // 智慧农贸
 
         this.totalAmt = this.calculator.plus(
           yuSamrtcard.totalAmt,
-          yuSelection["data"][0].totalAmt
+          yuSelection["data"][0].totalAmt,
+          farmProduct.data.totalAmt
         );
 
         this.tradeNumber = this.calculator.plus(
           yuSamrtcard.tradeNumber,
-          yuSelection["data"][0].tradeNumber
+          yuSelection["data"][0].tradeNumber,
+          farmProduct.data.tradeNumber
         );
 
-        this.merchantNumer = yuSamrtcard.merchantNumer + 1 + 329;
+        this.merchantNumer = this.calculator.plus(
+          yuSamrtcard.merchantNumer,
+          1,
+          farmProduct.data.merchantNumer,
+          285
+        );
       } catch (err) {
         this.totalAmt = 0;
         this.tradeNumber = 0;

@@ -116,8 +116,6 @@ export default {
       try {
         const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
-        console.log(smartCard);
-
         this.loading = false;
 
         this.$nextTick(() => {
@@ -131,8 +129,6 @@ export default {
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
             number: [smartCard.tradeAmt],
           });
-
-          console.log(smartCard.merchantRankList.slice(0, 5));
 
           // 表格
           const smartCardDataRankRefDomWidth =

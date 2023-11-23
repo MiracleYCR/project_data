@@ -35,13 +35,11 @@
 </template>
 
 <script>
-import {
-  currency,
-  // getRandomSecondsInterval
-} from "@/utils";
+import { currency } from "@/utils";
 
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   data() {
@@ -75,9 +73,16 @@ export default {
         const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
+        // 农产品展销
+        const { data: farmProduct } = await farmProduct_API.fetchTimeOrder();
+        // 智慧农贸
 
         // 数据排序
-        this.listData = [...yuSmartcard, ...yuSelection.data]
+        this.listData = [
+          ...yuSmartcard,
+          ...yuSelection.data,
+          ...farmProduct.data,
+        ]
           .map((item) => {
             return {
               date: item.tradeDate,
@@ -89,49 +94,13 @@ export default {
           })
           .sort((a, b) => b.timestamp - a.timestamp);
 
+        console.log(this.listData);
+
         this.loading = false;
       } catch (err) {
         this.loading = true;
       }
     },
-
-    // initData() {
-    //   const currentTime = new Date();
-    //   const curChannelIndex = this.generateChannelRandomNumber();
-    //   const curPaymentIndex = this.generatePaymentRandomNumber();
-
-    //   this.listData.unshift({
-    //     date: `${(currentTime.getMonth() + 1)
-    //       .toString()
-    //       .padStart(2, "0")}-${currentTime
-    //       .getDate()
-    //       .toString()
-    //       .padStart(2, "0")} ${currentTime.toLocaleTimeString()}`,
-    //     amt: currency(Math.random() * (99 - 1 + 1) + 1, 2, true),
-    //     channel: tradeChannel[curChannelIndex],
-    //     payment: payment[curPaymentIndex],
-    //   });
-
-    //   this.$refs.timeOrderBoardRef.reset();
-    // },
-
-    // generateChannelRandomNumber() {
-    //   const randomValue = Math.random();
-    //   if (randomValue < 0.7) {
-    //     return 2;
-    //   } else {
-    //     return Math.random() < 0.6 ? 0 : 1;
-    //   }
-    // },
-
-    // generatePaymentRandomNumber() {
-    //   const randomValue = Math.random();
-    //   if (randomValue < 0.7) {
-    //     return Math.random() < 0.5 ? 0 : 1;
-    //   } else {
-    //     return 2;
-    //   }
-    // },
   },
 };
 </script>

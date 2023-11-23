@@ -59,6 +59,7 @@
 
 <script>
 import { currency } from "@/utils/index";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   data() {
@@ -67,7 +68,7 @@ export default {
       loading: false,
 
       merchantNumConfig: {
-        number: [50],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -127,17 +128,35 @@ export default {
   methods: {
     async getFarmProductData() {
       try {
+        // 农产品展销
+        const { data: farmProduct } =
+          await farmProduct_API.fetchFarmProductDisplay();
+
         this.loading = false;
 
         this.$nextTick(() => {
           // 汇总数据
+          this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+            number: [farmProduct.data.supplyNumber],
+          });
+          this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+            number: [farmProduct.data.tradeNumber],
+          });
+          this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+            number: [farmProduct.data.tradeAmt],
+          });
 
           // 表格
           const farmProductDataRankRefDomWidth =
             this.$refs.farmProductDataRankRef.offsetWidth;
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, farmProductDataRankRefDomWidth - 255, 85, 110],
-            data: [],
+            data: farmProduct.data.goodsRankList.map((item, index) => [
+              `${index + 1}`,
+              item.name,
+              item.price.toFixed(2),
+              item.saleNumber.toFixed(2),
+            ]),
           });
         });
       } catch (err) {

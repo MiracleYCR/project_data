@@ -17,6 +17,7 @@ import { monthDataMap } from "@/config/datamap";
 import common_API from "@/api/common";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
+import farmProduct_API from "@/api/farmProduct";
 
 export default {
   components: {
@@ -65,6 +66,12 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
+        // 农产品展销
+        const { data: farmProduct } =
+          await farmProduct_API.fetchTradeMonthIncome();
+
+        // 智慧农贸
+
         // 增收推力
         const incomeForceData = {
           total: [],
@@ -78,12 +85,14 @@ export default {
           // 增收推力
           const totalAmt = this.calculator.plus(
             item.totalAmt,
-            yuSmartcard[index].incomeAmt,
-            yuSelection["data"][index].incomeAmt
+            yuSmartcard[index].incomeAmt, // 渝卡通
+            yuSelection["data"][index].incomeAmt, // 渝品甄选
+            farmProduct["data"][index].incomeAmt // 农产品展销
           );
           const partAmt = this.calculator.plus(
-            yuSmartcard[index].incomeAmt,
-            yuSelection["data"][index].incomeAmt
+            yuSmartcard[index].incomeAmt, // 渝卡通
+            yuSelection["data"][index].incomeAmt, // 渝品甄选
+            farmProduct["data"][index].incomeAmt // 农产品展销
           );
           incomeForceData.total.push([item.month, totalAmt]);
           incomeForceData.part.push([item.month, partAmt]);
@@ -94,14 +103,14 @@ export default {
               month: monthDataMap[item.month.split("-")[1]],
               totalAmt: this.calculator.plus(
                 this.mockData[index][0] * 30,
-                yuSmartcard[index].incomeAmt,
-                this.mockData[index][1] * 30,
-                yuSelection["data"][index].incomeAmt
+                yuSelection["data"][index].incomeAmt,
+                farmProduct["data"][index].incomeAmt,
+                yuSmartcard[index].incomeAmt
               ),
               partProportion: [
                 this.mockData[index][0] * 30,
                 yuSelection["data"][index].incomeAmt,
-                this.mockData[index][1] * 30,
+                farmProduct["data"][index].incomeAmt,
                 yuSmartcard[index].incomeAmt,
               ],
             };
