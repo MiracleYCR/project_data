@@ -94,8 +94,6 @@ export default {
           })
           .sort((a, b) => b.timestamp - a.timestamp);
 
-        console.log(this.listData);
-
         this.loading = false;
       } catch (err) {
         this.loading = true;
