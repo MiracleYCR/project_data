@@ -62,8 +62,6 @@ export default {
           ];
         });
 
-        console.log(dataList.slice(dataList.length - 3, dataList.length));
-
         this.loading = false;
 
         this.$nextTick(() => {

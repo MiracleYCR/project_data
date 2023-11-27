@@ -133,8 +133,6 @@ export default {
         // 平台助农格式化数据
         this.farmProportionData = farmProportionData;
 
-        console.log(this.farmProportionData);
-
         this.loading = false;
       } catch (err) {
         this.loading = true;
