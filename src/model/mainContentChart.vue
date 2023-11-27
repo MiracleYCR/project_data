@@ -2,8 +2,16 @@
   <div class="main_content_chart_container">
     <dv-loading v-if="loading">Loading...</dv-loading>
     <template v-else>
-      <IncomeForce v-if="!toggleType" :chartData="incomeForceData" />
-      <FarmProportion v-else :chartData="farmProportionData" />
+      <IncomeForce
+        v-if="!toggleType"
+        :chartData="incomeForceData"
+        @changeChartType="handleChangeChartType"
+      />
+      <FarmProportion
+        v-else
+        :chartData="farmProportionData"
+        @changeChartType="handleChangeChartType"
+      />
     </template>
   </div>
 </template>
@@ -131,6 +139,15 @@ export default {
       } catch (err) {
         this.loading = true;
       }
+    },
+
+    handleChangeChartType() {
+      clearInterval(this.timer);
+
+      this.toggleType = !this.toggleType;
+      this.timer = setInterval(() => {
+        this.toggleType = !this.toggleType;
+      }, 15 * 1000);
     },
   },
 };

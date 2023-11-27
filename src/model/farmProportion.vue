@@ -1,6 +1,6 @@
 <template>
   <div class="farmProportion_container">
-    <div class="title">
+    <div class="title" @click="toggleChangeChartType">
       <div class="circle">
         <div class="inner"></div>
       </div>
@@ -280,6 +280,10 @@ export default {
         console.log(err);
       }
     },
+
+    toggleChangeChartType() {
+      this.$emit("changeChartType");
+    },
   },
 };
 </script>
@@ -303,6 +307,7 @@ export default {
     border-radius: 25px;
     border: 1px solid #0ab8ff;
     z-index: 100;
+    cursor: pointer;
 
     .circle {
       width: 35px;
