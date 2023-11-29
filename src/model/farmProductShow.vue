@@ -59,7 +59,8 @@
 
 <script>
 import { currency } from "@/utils/index";
-import farmProduct_API from "@/api/farmProduct";
+import { farmProductShow } from "@/mock/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 
 export default {
   data() {
@@ -129,21 +130,24 @@ export default {
     async getFarmProductData() {
       try {
         // 农产品展销
-        const { data: farmProduct } =
-          await farmProduct_API.fetchFarmProductDisplay();
+        // const { data: farmProduct } =
+        //   await farmProduct_API.fetchFarmProductDisplay();
 
         this.loading = false;
 
         this.$nextTick(() => {
           // 汇总数据
           this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-            number: [farmProduct.data.supplyNumber],
+            // number: [farmProduct.data.supplyNumber],
+            number: [farmProductShow.supplyNumber],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [farmProduct.data.tradeNumber],
+            // number: [farmProduct.data.tradeNumber],
+            number: [farmProductShow.tradeNumber],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [farmProduct.data.tradeAmt],
+            // number: [farmProduct.data.tradeAmt],
+            number: [farmProductShow.tradeAmt],
           });
 
           // 表格
@@ -151,7 +155,15 @@ export default {
             this.$refs.farmProductDataRankRef.offsetWidth;
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, farmProductDataRankRefDomWidth - 255, 85, 110],
-            data: farmProduct.data.goodsRankList.map((item, index) => [
+            // data: farmProduct.data.goodsRankList.map((item, index) => [
+            //   `${index + 1}`,
+            //   `<div style="display:flex;align-items:center;cursor:pointer;">
+            //     <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+            //   </div>`,
+            //   item.price.toFixed(2),
+            //   item.saleNumber,
+            // ]),
+            data: farmProductShow.goodsRankList.map((item, index) => [
               `${index + 1}`,
               `<div style="display:flex;align-items:center;cursor:pointer;">
                 <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>

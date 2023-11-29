@@ -21,7 +21,7 @@
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
 
 export default {
@@ -65,7 +65,7 @@ export default {
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
         // 农产品展销
-        const { data: farmProduct } = await farmProduct_API.fetchTotalData();
+        // const { data: farmProduct } = await farmProduct_API.fetchTotalData();
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTotalData();
 
@@ -96,7 +96,8 @@ export default {
         this.merchantNumer = this.calculator.plus(
           yuSamrtcard.merchantNumer,
           1,
-          farmProduct.data.merchantNumer,
+          45,
+          // farmProduct.data.merchantNumer,
           smartFarm.merchantNumer
         );
       } catch (err) {

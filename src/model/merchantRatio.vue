@@ -12,7 +12,7 @@
 <script>
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
-import farmProduct_API from "@/api/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
 
 export default {
@@ -35,8 +35,8 @@ export default {
           await yuSmartcard_API.fetchMerchantRatio();
 
         // 农产品展销
-        const { data: farmProduct } =
-          await farmProduct_API.fetchMerchantRatio();
+        // const { data: farmProduct } =
+        //   await farmProduct_API.fetchMerchantRatio();
 
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
@@ -64,15 +64,33 @@ export default {
               value: 1,
               children: [{ name: "渝品甄选商城", value: 1 }],
             },
+            // {
+            //   name: farmProduct["data"][0].channel,
+            //   value: farmProduct["data"][0].count,
+            //   children: farmProduct["data"][0].category
+            //     .map((item) => ({
+            //       name: item.name,
+            //       value: Number(item.count),
+            //     }))
+            //     .filter((item) => item.value !== 0),
+            // },
             {
-              name: farmProduct["data"][0].channel,
-              value: farmProduct["data"][0].count,
-              children: farmProduct["data"][0].category
-                .map((item) => ({
-                  name: item.name,
-                  value: Number(item.count),
-                }))
-                .filter((item) => item.value !== 0),
+              name: "农展品展销",
+              value: 71,
+              children: [
+                { name: "小家电", value: 1 },
+                { name: "食品", value: 21 },
+                { name: "干货", value: 13 },
+                { name: "酒水", value: 8 },
+                { name: "饮料", value: 1 },
+                { name: "保健", value: 3 },
+                { name: "禽蛋", value: 3 },
+                { name: "茶叶", value: 7 },
+                { name: "水果", value: 2 },
+                { name: "粮油", value: 10 },
+                { name: "工艺品", value: 1 },
+                { name: "蔬菜", value: 1 },
+              ],
             },
             {
               name: smartFarm[0].channel,

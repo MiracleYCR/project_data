@@ -25,7 +25,7 @@ import { monthDataMap } from "@/config/datamap";
 import common_API from "@/api/common";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
 
 export default {
@@ -41,12 +41,6 @@ export default {
       toggleType: false,
       incomeForceData: [],
       farmProportionData: [],
-
-      mockData: {
-        9: [128888, 3271],
-        10: [114218, 2667],
-        11: [98721, 1896],
-      },
     };
   },
 
@@ -76,8 +70,8 @@ export default {
           await yuSelection_API.fetchTradeMonthIncome();
 
         // 农产品展销
-        const { data: farmProduct } =
-          await farmProduct_API.fetchTradeMonthIncome();
+        // const { data: farmProduct } =
+        //   await farmProduct_API.fetchTradeMonthIncome();
 
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();

@@ -38,7 +38,7 @@
 import { currency } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
 
 export default {
@@ -72,7 +72,7 @@ export default {
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
         // 农产品展销
-        const { data: farmProduct } = await farmProduct_API.fetchTimeOrder();
+        // const { data: farmProduct } = await farmProduct_API.fetchTimeOrder();
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTimeOrder();
 
@@ -80,7 +80,7 @@ export default {
         this.listData = [
           ...yuSmartcard,
           ...yuSelection.data,
-          ...farmProduct.data,
+          // ...farmProduct.data,
           ...smartFarm,
         ]
           .map((item) => {

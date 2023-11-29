@@ -17,7 +17,7 @@ import * as echarts from "echarts";
 import { currency } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
+// import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
 
 export default {
@@ -48,7 +48,7 @@ export default {
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
         // 农产品展销
-        const { data: farmProduct } = await farmProduct_API.fetchMerchantRank();
+        // const { data: farmProduct } = await farmProduct_API.fetchMerchantRank();
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchMerchantRank();
 
@@ -60,7 +60,7 @@ export default {
 
           const allMerchantRankData = [
             ...yuSamrtcard.slice(0, 8),
-            ...farmProduct.data.slice(0, 8),
+            // ...farmProduct.data.slice(0, 8),
             ...smartFarm.slice(0, 8),
             {
               merchant: "渝品甄选商城",
