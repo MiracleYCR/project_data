@@ -49,7 +49,7 @@ export default {
 
     this.timer = setInterval(() => {
       this.toggleType = !this.toggleType;
-    }, 15 * 1000);
+    }, 20 * 1000);
   },
 
   destroyed() {
@@ -154,7 +154,6 @@ export default {
 
     handleChangeChartType() {
       clearInterval(this.timer);
-
       this.toggleType = !this.toggleType;
       this.timer = setInterval(() => {
         this.toggleType = !this.toggleType;
