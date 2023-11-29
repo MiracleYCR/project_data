@@ -16,7 +16,7 @@
           <div class="data_item2">
             <div class="title2">总交易笔数</div>
             <dv-digital-flop
-              :config="yesterdayTradeNumConfig"
+              :config="tradeNumConfig"
               style="width: 100%; height: 32px"
             />
           </div>
@@ -24,7 +24,7 @@
           <div class="data_item3">
             <div class="title2">交易总金额(元)</div>
             <dv-digital-flop
-              :config="yesterdayTradeAmtConfig"
+              :config="tradeAmtConfig"
               style="width: 100%; height: 32px"
             />
           </div>
@@ -66,26 +66,26 @@ export default {
       loading: false,
 
       storeNumConfig: {
-        number: [271],
-        content: "{nt}",
-        formatter: (value) => currency(value, 0, true),
-        textAlign: "center",
-        style: {
-          fontSize: 26,
-          fill: "#00d3ff",
-        },
-      },
-      yesterdayTradeNumConfig: {
         number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
         style: {
           fontSize: 26,
-          fill: "#00d3ff",
+          fill: "#0ab8ff",
         },
       },
-      yesterdayTradeAmtConfig: {
+      tradeNumConfig: {
+        number: [0],
+        content: "{nt}",
+        formatter: (value) => currency(value, 0, true),
+        textAlign: "center",
+        style: {
+          fontSize: 26,
+          fill: "#0ab8ff",
+        },
+      },
+      tradeAmtConfig: {
         number: [0],
         toFixed: 2,
         content: "{nt}",
@@ -93,7 +93,7 @@ export default {
         textAlign: "center",
         style: {
           fontSize: 26,
-          fill: "#00d3ff",
+          fill: "#0ab8ff",
         },
       },
 
@@ -135,7 +135,7 @@ export default {
 
         this.$nextTick(() => {
           // 汇总数据
-          this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+          this.storeNumConfig = Object.assign({}, this.storeNumConfig, {
             number: [smartFarm.merchantNumber],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
@@ -218,7 +218,7 @@ export default {
       }
 
       .data_item2 {
-        width: 180px;
+        width: 140px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -227,7 +227,7 @@ export default {
       }
 
       .data_item3 {
-        width: calc(100% - 260px);
+        width: calc(100% - 220px);
         height: 100%;
         display: flex;
         align-items: center;
