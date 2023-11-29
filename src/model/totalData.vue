@@ -72,15 +72,25 @@ export default {
         this.totalAmt = this.calculator.plus(
           yuSamrtcard.totalAmt,
           yuSelection["data"][0].totalAmt,
-          farmProduct.data.totalAmt,
-          smartFarm.totalAmt
+          smartFarm.totalAmt,
+
+          // farmProduct.data.totalAmt
+          // 农展馆写死数据
+          118675.02,
+          470782,
+          361317
         );
 
         this.tradeNumber = this.calculator.plus(
           yuSamrtcard.tradeNumber,
           yuSelection["data"][0].tradeNumber,
-          farmProduct.data.tradeNumber,
-          smartFarm.tradeNumber
+          smartFarm.tradeNumber,
+
+          // farmProduct.data.tradeNumber
+          // 农展馆写死数据
+          10781,
+          10855,
+          10251
         );
 
         this.merchantNumer = this.calculator.plus(

@@ -137,11 +137,11 @@ export default {
             data: yuSelectionData.data.goodsRankList.map((item, index) => {
               return [
                 `${index + 1}`,
-                `<div style="display: flex; align-items: center">
+                `<div style="display:flex;align-items:center;cursor:pointer">
                   <img style="width: 30px; height: 30px; object-fit: cover" src="${item.productImage}">
-                  <span style="margin-left: 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.productName}</span>
+                  <div title='${item.productName}' style="display:inline-block;margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.productName}</div>
                 </div>`,
-                `${item.price}`,
+                `${item.price.toFixed(2)}`,
                 `${item.orderNumber}`,
               ];
             }),
@@ -228,14 +228,6 @@ export default {
         color: #0ab8ff;
       }
     }
-
-    // #select_goods_chart {
-    //   width: 100%;
-    //   height: 100%;
-    //   ::v-deep(.dv-scroll-board .rows .row-item) {
-    //     color: #0ab8ff;
-    //   }
-    // }
   }
 }
 </style>

@@ -153,7 +153,9 @@ export default {
             columnWidth: [60, farmProductDataRankRefDomWidth - 255, 85, 110],
             data: farmProduct.data.goodsRankList.map((item, index) => [
               `${index + 1}`,
-              item.name,
+              `<div style="display:flex;align-items:center;cursor:pointer;">
+                <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+              </div>`,
               item.price.toFixed(2),
               item.saleNumber,
             ]),

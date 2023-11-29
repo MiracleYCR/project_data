@@ -151,7 +151,9 @@ export default {
             columnWidth: [60, smartFarmDataRankRefDomWidth - 260, 85, 115],
             data: smartFarm.merchantRankList.map((item, index) => [
               `${index + 1}`,
-              item.name,
+              `<div style="display:flex;align-items:center;cursor:pointer;">
+                <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+              </div>`,
               item.tradeNumber,
               item.tradeAmt,
             ]),

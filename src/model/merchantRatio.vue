@@ -94,7 +94,7 @@ export default {
                 startAngle: 100,
                 label: {
                   position: "inside",
-                  fontSize: 9,
+                  fontSize: 10,
                   color: "#fff",
                   formatter: (params) => {
                     return `${params.name}\n${params.percent}%`;
@@ -137,11 +137,11 @@ export default {
                   },
                   rich: {
                     name: {
-                      fontSize: 9,
+                      fontSize: 11,
                       color: "rgba(57, 165, 237, 1)",
                     },
                     number: {
-                      fontSize: 9,
+                      fontSize: 11,
                       color: "rgba(0, 241, 255, 1)",
                     },
                   },

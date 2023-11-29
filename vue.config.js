@@ -41,5 +41,9 @@ module.exports = defineConfig({
         },
       },
     },
+
+    client: {
+      overlay: false,
+    },
   },
 });

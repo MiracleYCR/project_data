@@ -92,23 +92,38 @@ export default {
         const farmProportionData = [];
 
         supply.forEach((item, index) => {
-          // 增收推力
+          let farmProductIncomeAmt = 0;
 
+          if (index === 9) {
+            farmProductIncomeAmt = 118675.02;
+          }
+
+          if (index === 10) {
+            farmProductIncomeAmt = 470782;
+          }
+
+          if (index === 11) {
+            farmProductIncomeAmt = 361317;
+          }
+
+          // 增收推力
           // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
             yuSmartcard[index].incomeAmt, // 渝卡通
             yuSelection["data"][index].incomeAmt, // 渝品甄选
-            farmProduct["data"][index].incomeAmt, // 农产品展销
-            smartFarm[index].incomeAmt // 智慧农贸
+            smartFarm[index].incomeAmt, // 智慧农贸
+            // farmProduct["data"][index].incomeAmt, // 农产品展销
+            farmProductIncomeAmt
           );
 
           // 四方数据
           const partAmt = this.calculator.plus(
             yuSmartcard[index].incomeAmt, // 渝卡通
             yuSelection["data"][index].incomeAmt, // 渝品甄选
-            farmProduct["data"][index].incomeAmt, // 农产品展销
-            smartFarm[index].incomeAmt // 智慧农贸
+            smartFarm[index].incomeAmt, // 智慧农贸
+            // farmProduct["data"][index].incomeAmt // 农产品展销
+            farmProductIncomeAmt
           );
           incomeForceData.total.push([item.month, totalAmt]);
           incomeForceData.part.push([item.month, partAmt]);
@@ -121,7 +136,8 @@ export default {
               partProportion: [
                 smartFarm[index].incomeAmt,
                 yuSelection["data"][index].incomeAmt,
-                farmProduct["data"][index].incomeAmt,
+                // farmProduct["data"][index].incomeAmt,
+                farmProductIncomeAmt,
                 yuSmartcard[index].incomeAmt,
               ],
             };
