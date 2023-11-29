@@ -19,10 +19,10 @@
 
 <script>
 import { currency } from "@/utils/index";
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
+// import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSelection_API from "@/api/yuSelection";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   computed: {
@@ -61,45 +61,45 @@ export default {
     async getTotalData() {
       try {
         // 渝卡通
-        const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
+        // const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
         // 渝品甄选
-        const { data: yuSelection } = await yuSelection_API.fetchTotalData();
+        // const { data: yuSelection } = await yuSelection_API.fetchTotalData();
         // 农产品展销
         // const { data: farmProduct } = await farmProduct_API.fetchTotalData();
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchTotalData();
+        // const { data: smartFarm } = await smartFarm_API.fetchTotalData();
 
-        this.totalAmt = this.calculator.plus(
-          yuSamrtcard.totalAmt,
-          yuSelection["data"][0].totalAmt,
-          smartFarm.totalAmt,
+        this.merchantNumer = 425;
+        this.totalAmt = 83919440.57;
+        this.tradeNumber = 937568;
 
-          // farmProduct.data.totalAmt
-          // 农展馆写死数据
-          118675.02,
-          470782,
-          361317
-        );
-
-        this.tradeNumber = this.calculator.plus(
-          yuSamrtcard.tradeNumber,
-          yuSelection["data"][0].tradeNumber,
-          smartFarm.tradeNumber,
-
-          // farmProduct.data.tradeNumber
-          // 农展馆写死数据
-          10781,
-          10855,
-          10251
-        );
-
-        this.merchantNumer = this.calculator.plus(
-          yuSamrtcard.merchantNumer,
-          1,
-          45,
-          // farmProduct.data.merchantNumer,
-          smartFarm.merchantNumer
-        );
+        // this.totalAmt = this.calculator.plus(
+        //   yuSamrtcard.totalAmt,
+        //   yuSelection["data"][0].totalAmt,
+        //   smartFarm.totalAmt,
+        //   // farmProduct.data.totalAmt
+        //   // 农展馆写死数据
+        //   118675.02,
+        //   470782,
+        //   361317
+        // );
+        // this.tradeNumber = this.calculator.plus(
+        //   yuSamrtcard.tradeNumber,
+        //   yuSelection["data"][0].tradeNumber,
+        //   smartFarm.tradeNumber,
+        //   // farmProduct.data.tradeNumber
+        //   // 农展馆写死数据
+        //   10781,
+        //   10855,
+        //   10251
+        // );
+        // this.merchantNumer = this.calculator.plus(
+        //   yuSamrtcard.merchantNumer,
+        //   1,
+        //   45,
+        //   // farmProduct.data.merchantNumer,
+        //   smartFarm.merchantNumer
+        // );
       } catch (err) {
         this.totalAmt = 0;
         this.tradeNumber = 0;

@@ -12,10 +12,15 @@
 <script>
 import * as echarts from "echarts";
 import { autoHover } from "@/utils";
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
+
+import { monthListData } from "@/mock/smartCard";
+import { smartFarmMonthData } from "@/mock/smartFarm";
+import { yuSelectionMonthData } from "@/mock/selectGoods";
+
+// import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSelection_API from "@/api/yuSelection";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -35,22 +40,22 @@ export default {
         const self = this;
 
         // 渝卡通
-        const { data: yuSmartcard } =
-          await yuSmartcard_API.fetchTradeMonthIncome();
+        // const { data: yuSmartcard } =
+        //   await yuSmartcard_API.fetchTradeMonthIncome();
 
         // 渝品甄选
-        const { data: yuSelection } =
-          await yuSelection_API.fetchTradeMonthIncome();
+        // const { data: yuSelection } =
+        //   await yuSelection_API.fetchTradeMonthIncome();
 
         // 农产品展销
         // const { data: farmProduct } =
         //   await farmProduct_API.fetchTradeMonthIncome();
 
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
+        // const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
         // 展示月份
-        const monthList = yuSmartcard.map((item) => item.monthStr);
+        const monthList = monthListData.map((item) => item.monthStr);
 
         // 展示数据
         const dataList = monthList.map((date, index) => {
@@ -71,9 +76,9 @@ export default {
           return [
             date,
             this.calculator.plus(
-              yuSmartcard[index].incomeAmt,
-              yuSelection["data"][index].incomeAmt,
-              smartFarm[index].incomeAmt,
+              monthListData[index].incomeAmt,
+              yuSelectionMonthData[index].incomeAmt,
+              smartFarmMonthData[index].incomeAmt,
 
               // farmProduct["data"][index].incomeAmt,
               farmProductIncomeAmt

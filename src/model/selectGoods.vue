@@ -45,7 +45,9 @@
 
 <script>
 import { currency } from "@/utils/index";
-import yuSelection_API from "@/api/yuSelection";
+import { selectGoodsShow } from "@/mock/selectGoods";
+
+// import yuSelection_API from "@/api/yuSelection";
 
 export default {
   data() {
@@ -54,7 +56,7 @@ export default {
       loading: true,
 
       farmGoodsNumConfig: {
-        number: [273],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -64,7 +66,7 @@ export default {
         },
       },
       tradeNumConfig: {
-        number: [1713],
+        number: [0],
         content: "{nt}",
         formatter: (value) => currency(value, 0, true),
         textAlign: "center",
@@ -74,7 +76,7 @@ export default {
         },
       },
       tradeAmtConfig: {
-        number: [22120337.1],
+        number: [0],
         toFixed: 2,
         content: "{nt}",
         formatter: (value) => currency(value, 2, true),
@@ -114,27 +116,30 @@ export default {
   methods: {
     async getSelectedProduction() {
       try {
-        const { data: yuSelectionData } =
-          await yuSelection_API.fetchSelectedProduction();
+        // const { data: yuSelectionData } =
+        //   await yuSelection_API.fetchSelectedProduction();
 
         this.loading = false;
 
         this.$nextTick(() => {
           this.farmGoodsNumConfig = Object.assign({}, this.farmGoodsNumConfig, {
-            number: [yuSelectionData.data.goodsNumber],
+            number: [selectGoodsShow.goodsNumber],
+            // number: [selectGoodsShow.goodsNumber],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [yuSelectionData.data.tradeNumber],
+            number: [selectGoodsShow.tradeNumber],
+            // number: [selectGoodsShow.tradeNumber],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [yuSelectionData.data.tradeAmt],
+            number: [selectGoodsShow.tradeAmt],
+            // number: [selectGoodsShow.tradeAmt],
           });
 
           const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [50, selectGoodsDomWidth - 230, 75, 105],
-            data: yuSelectionData.data.goodsRankList.map((item, index) => {
+            data: selectGoodsShow.goodsRankList.map((item, index) => {
               return [
                 `${index + 1}`,
                 `<div style="display:flex;align-items:center;cursor:pointer">
@@ -145,6 +150,17 @@ export default {
                 `${item.orderNumber}`,
               ];
             }),
+            // data: yuSelectionData.data.goodsRankList.map((item, index) => {
+            //   return [
+            //     `${index + 1}`,
+            //     `<div style="display:flex;align-items:center;cursor:pointer">
+            //       <img style="width: 30px; height: 30px; object-fit: cover" src="${item.productImage}">
+            //       <div title='${item.productName}' style="display:inline-block;margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.productName}</div>
+            //     </div>`,
+            //     `${item.price.toFixed(2)}`,
+            //     `${item.orderNumber}`,
+            //   ];
+            // }),
           });
         });
       } catch (err) {

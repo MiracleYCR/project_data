@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import { currency } from "@/utils";
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
+// import { currency } from "@/utils";
+// import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSelection_API from "@/api/yuSelection";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -68,31 +68,64 @@ export default {
     async getTimeOrderData() {
       try {
         // 渝卡通
-        const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
+        // const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
         // 渝品甄选
-        const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
+        // const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
         // 农产品展销
         // const { data: farmProduct } = await farmProduct_API.fetchTimeOrder();
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchTimeOrder();
+        // const { data: smartFarm } = await smartFarm_API.fetchTimeOrder();
 
         // 数据排序
+        // this.listData = [
+        //   // ...yuSmartcard,
+        //   // ...yuSelection.data,
+        //   // ...farmProduct.data,
+        //   // ...smartFarm,
+        // ]
+        //   .map((item) => {
+        //     return {
+        //       date: item.tradeDate,
+        //       amt: currency(item.tradeAmt, 2, true),
+        //       channel: item.tradeChannel,
+        //       payment: item.payment,
+        //       timestamp: item.timestamp,
+        //     };
+        //   })
+        //   .sort((a, b) => b.timestamp - a.timestamp);
+
         this.listData = [
-          ...yuSmartcard,
-          ...yuSelection.data,
-          // ...farmProduct.data,
-          ...smartFarm,
-        ]
-          .map((item) => {
-            return {
-              date: item.tradeDate,
-              amt: currency(item.tradeAmt, 2, true),
-              channel: item.tradeChannel,
-              payment: item.payment,
-              timestamp: item.timestamp,
-            };
-          })
-          .sort((a, b) => b.timestamp - a.timestamp);
+          {
+            date: "11-30 08:51:07",
+            amt: "904.00",
+            channel: "智慧农贸",
+            payment: "微信支付",
+          },
+          {
+            date: "11-30 08:38:50",
+            amt: "879.00",
+            channel: "智慧农贸",
+            payment: "微信支付",
+          },
+          {
+            date: "11-30 08:19:30",
+            amt: "300.00",
+            channel: "智慧农贸",
+            payment: "支付宝支付",
+          },
+          {
+            date: "11-29 22:15:41",
+            amt: "141.00",
+            channel: "智慧农贸",
+            payment: "支付宝支付",
+          },
+          {
+            date: "11-29 21:05:28",
+            amt: "21.00",
+            channel: "智慧渝卡通",
+            payment: "渝卡通支付",
+          },
+        ];
 
         this.loading = false;
       } catch (err) {

@@ -11,9 +11,9 @@
 
 <script>
 import * as echarts from "echarts";
-import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSmartcard_API from "@/api/yuSmartcard";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -31,16 +31,16 @@ export default {
     async getMerchantRatioData() {
       try {
         // 渝卡通数据
-        const { data: yuSamrtcard } =
-          await yuSmartcard_API.fetchMerchantRatio();
+        // const { data: yuSamrtcard } =
+        //   await yuSmartcard_API.fetchMerchantRatio();
 
         // 农产品展销
         // const { data: farmProduct } =
         //   await farmProduct_API.fetchMerchantRatio();
 
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
-        console.log(smartFarm);
+        // const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
+        // console.log(smartFarm);
 
         this.loading = false;
 
@@ -49,15 +49,25 @@ export default {
           const merchantRatioChart = echarts.init(chartDom);
 
           const merchantRatioData = [
+            // {
+            //   name: yuSamrtcard[0].channel,
+            //   value: yuSamrtcard[0].count,
+            //   children: yuSamrtcard[0].category
+            //     .map((item) => ({
+            //       name: item.name,
+            //       value: Number(item.count),
+            //     }))
+            //     .filter((item) => item.value !== 0),
+            // },
             {
-              name: yuSamrtcard[0].channel,
-              value: yuSamrtcard[0].count,
-              children: yuSamrtcard[0].category
-                .map((item) => ({
-                  name: item.name,
-                  value: Number(item.count),
-                }))
-                .filter((item) => item.value !== 0),
+              name: "渝卡通",
+              value: 87,
+              children: [
+                { name: "餐饮住宿", value: 41 },
+                { name: "商超百货", value: 27 },
+                { name: "各景区景点", value: 6 },
+                { name: "生鲜蔬菜店", value: 13 },
+              ],
             },
             {
               name: "渝品甄选",
@@ -93,15 +103,25 @@ export default {
               ],
             },
             {
-              name: smartFarm[0].channel,
-              value: smartFarm[0].count,
-              children: smartFarm[0].category
-                .map((item) => ({
-                  name: item.name,
-                  value: Number(item.count),
-                }))
-                .filter((item) => item.value !== 0),
+              name: "智慧农贸",
+              value: 292,
+              children: [
+                { name: "分宜星鲜谷农贸市场", value: 243 },
+                { name: "城南农贸市场", value: 40 },
+                { name: "悦嘉福", value: 7 },
+                { name: "未分组", value: 2 },
+              ],
             },
+            // {
+            //   name: smartFarm[0].channel,
+            //   value: smartFarm[0].count,
+            //   children: smartFarm[0].category
+            //     .map((item) => ({
+            //       name: item.name,
+            //       value: Number(item.count),
+            //     }))
+            //     .filter((item) => item.value !== 0),
+            // },
           ];
 
           const option = {

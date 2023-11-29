@@ -15,10 +15,10 @@
 <script>
 import * as echarts from "echarts";
 import { currency } from "@/utils";
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
+// import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSelection_API from "@/api/yuSelection";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -44,13 +44,13 @@ export default {
     async getMerchantRankData() {
       try {
         // 渝卡通
-        const { data: yuSamrtcard } = await yuSmartcard_API.fetchMerchantRank();
+        // const { data: yuSamrtcard } = await yuSmartcard_API.fetchMerchantRank();
         // 渝品甄选
-        const { data: yuSelection } = await yuSelection_API.fetchTotalData();
+        // const { data: yuSelection } = await yuSelection_API.fetchTotalData();
         // 农产品展销
         // const { data: farmProduct } = await farmProduct_API.fetchMerchantRank();
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchMerchantRank();
+        // const { data: smartFarm } = await smartFarm_API.fetchMerchantRank();
 
         this.loading = false;
 
@@ -59,12 +59,45 @@ export default {
           const merchantRankChart = echarts.init(chartDom);
 
           const allMerchantRankData = [
-            ...yuSamrtcard.slice(0, 8),
+            // ...yuSamrtcard.slice(0, 8),
             // ...farmProduct.data.slice(0, 8),
-            ...smartFarm.slice(0, 8),
+            // ...smartFarm.slice(0, 8),
+            // {
+            //   merchant: "渝品甄选商城",
+            //   salesAmt: yuSelection["data"][0].totalAmt,
+            // },
+
             {
-              merchant: "渝品甄选商城",
-              salesAmt: yuSelection["data"][0].totalAmt,
+              merchant: "胡春珠冷冻CN204-207",
+              salesAmt: 6482084.69,
+            },
+            {
+              merchant: "彭小江蔬菜CN14-17",
+              salesAmt: 5239679.5,
+            },
+            {
+              merchant: "喻细牙猪肉CN109-111",
+              salesAmt: 4740728.6,
+            },
+            {
+              merchant: "邹晓玲CN145-146",
+              salesAmt: 3823233.73,
+            },
+            {
+              merchant: "何下下卤味8#",
+              salesAmt: 3344223.98,
+            },
+            {
+              merchant: "张小红螺丝CN...",
+              salesAmt: 3178566.5,
+            },
+            {
+              merchant: "1621-16...",
+              salesAmt: 2785193.51,
+            },
+            {
+              merchant: "蒋根女CN14...",
+              salesAmt: 2281894.11,
             },
           ];
 

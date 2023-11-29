@@ -45,7 +45,7 @@
 
 <script>
 import { currency } from "@/utils/index";
-import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSmartcard_API from "@/api/yuSmartcard";
 
 export default {
   data() {
@@ -114,20 +114,23 @@ export default {
   methods: {
     async getSmartCardData() {
       try {
-        const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
+        // const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
         this.loading = false;
 
         this.$nextTick(() => {
           // 汇总数据
           this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-            number: [smartCard.merchantNumer],
+            // number: [smartCard.merchantNumer],
+            number: [87],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [smartCard.tradeNumber],
+            // number: [smartCard.tradeNumber],
+            number: [101255],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [smartCard.tradeAmt],
+            // number: [smartCard.tradeAmt],
+            number: [6328841.25],
           });
 
           // 表格
@@ -136,14 +139,21 @@ export default {
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartCardDataRankRefDomWidth - 260, 90, 110],
-            data: smartCard.merchantRankList.slice(0, 5).map((item, index) => {
-              return [
-                `${index + 1}`,
-                item.name,
-                item.tradeNumber,
-                item.tradeAmt.toFixed(2),
-              ];
-            }),
+            // data: smartCard.merchantRankList.slice(0, 5).map((item, index) => {
+            //   return [
+            //     `${index + 1}`,
+            //     item.name,
+            //     item.tradeNumber,
+            //     item.tradeAmt.toFixed(2),
+            //   ];
+            // }),
+            data: [
+              [1, "秀才商行", 17265, 1231635.87],
+              [2, "江钢暨阳店", 7063, 913057.6],
+              [3, "鹏泰超市", 5739, 672699.77],
+              [4, "江钢抱石店", 3729, 450149.57],
+              [5, "渝控供应链", 6908, 346810.1],
+            ],
           });
         });
       } catch (err) {

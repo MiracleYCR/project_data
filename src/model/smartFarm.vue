@@ -57,7 +57,8 @@
 
 <script>
 import { currency } from "@/utils/index";
-import smartFarm_API from "@/api/smartFarm";
+import { smartFarmShow } from "@/mock/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -126,21 +127,23 @@ export default {
   methods: {
     async getSmartFarmData() {
       try {
-        // 农产品展销
-        const { data: smartFarm } = await smartFarm_API.fetchSmartFarmDisplay();
+        // const { data: smartFarm } = await smartFarm_API.fetchSmartFarmDisplay();
 
         this.loading = false;
 
         this.$nextTick(() => {
           // 汇总数据
           this.storeNumConfig = Object.assign({}, this.storeNumConfig, {
-            number: [smartFarm.merchantNumber],
+            // number: [smartFarm.merchantNumber],
+            number: [smartFarmShow.merchantNumber],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [smartFarm.tradeNumber],
+            // number: [smartFarm.tradeNumber],
+            number: [smartFarmShow.tradeNumber],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [smartFarm.tradeAmt],
+            // number: [smartFarm.tradeAmt],
+            number: [smartFarmShow.tradeAmt],
           });
 
           // 表格
@@ -149,7 +152,15 @@ export default {
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartFarmDataRankRefDomWidth - 260, 85, 115],
-            data: smartFarm.merchantRankList.map((item, index) => [
+            // data: smartFarm.merchantRankList.map((item, index) => [
+            //   `${index + 1}`,
+            //   `<div style="display:flex;align-items:center;cursor:pointer;">
+            //     <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+            //   </div>`,
+            //   item.tradeNumber,
+            //   item.tradeAmt,
+            // ]),
+            data: smartFarmShow.merchantRankList.map((item, index) => [
               `${index + 1}`,
               `<div style="display:flex;align-items:center;cursor:pointer;">
                 <div title='${item.name}' style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>

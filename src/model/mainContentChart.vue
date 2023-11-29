@@ -23,10 +23,15 @@ import FarmProportion from "./farmProportion.vue";
 import { monthDataMap } from "@/config/datamap";
 
 import common_API from "@/api/common";
-import yuSmartcard_API from "@/api/yuSmartcard";
-import yuSelection_API from "@/api/yuSelection";
+
+import { monthListData } from "@/mock/smartCard";
+import { yuSelectionMonthData } from "@/mock/selectGoods";
+import { smartFarmMonthData } from "@/mock/smartFarm";
+
+// import yuSmartcard_API from "@/api/yuSmartcard";
+// import yuSelection_API from "@/api/yuSelection";
 // import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+// import smartFarm_API from "@/api/smartFarm";
 
 export default {
   components: {
@@ -62,19 +67,19 @@ export default {
         const { data: supply } = await common_API.fetchIncomeForceData();
 
         // 渝卡通
-        const { data: yuSmartcard } =
-          await yuSmartcard_API.fetchTradeMonthIncome();
+        // const { data: yuSmartcard } =
+        //   await yuSmartcard_API.fetchTradeMonthIncome();
 
         // 渝品甄选
-        const { data: yuSelection } =
-          await yuSelection_API.fetchTradeMonthIncome();
+        // const { data: yuSelection } =
+        //   await yuSelection_API.fetchTradeMonthIncome();
 
         // 农产品展销
         // const { data: farmProduct } =
         //   await farmProduct_API.fetchTradeMonthIncome();
 
         // 智慧农贸
-        const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
+        // const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
         // 增收推力
         const incomeForceData = {
@@ -104,18 +109,18 @@ export default {
           // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
-            yuSmartcard[index].incomeAmt, // 渝卡通
-            yuSelection["data"][index].incomeAmt, // 渝品甄选
-            smartFarm[index].incomeAmt, // 智慧农贸
+            monthListData[index].incomeAmt, // 渝卡通
+            yuSelectionMonthData[index].incomeAmt, // 渝品甄选
+            smartFarmMonthData[index].incomeAmt, // 智慧农贸
             // farmProduct["data"][index].incomeAmt, // 农产品展销
             farmProductIncomeAmt
           );
 
           // 四方数据
           const partAmt = this.calculator.plus(
-            yuSmartcard[index].incomeAmt, // 渝卡通
-            yuSelection["data"][index].incomeAmt, // 渝品甄选
-            smartFarm[index].incomeAmt, // 智慧农贸
+            monthListData[index].incomeAmt, // 渝卡通
+            yuSelectionMonthData[index].incomeAmt, // 渝品甄选
+            smartFarmMonthData[index].incomeAmt, // 智慧农贸
             // farmProduct["data"][index].incomeAmt // 农产品展销
             farmProductIncomeAmt
           );
@@ -128,11 +133,11 @@ export default {
               month: monthDataMap[item.month.split("-")[1]],
               totalAmt: partAmt,
               partProportion: [
-                smartFarm[index].incomeAmt,
-                yuSelection["data"][index].incomeAmt,
+                smartFarmMonthData[index].incomeAmt,
+                yuSelectionMonthData[index].incomeAmt,
                 // farmProduct["data"][index].incomeAmt,
                 farmProductIncomeAmt,
-                yuSmartcard[index].incomeAmt,
+                monthListData[index].incomeAmt,
               ],
             };
 
