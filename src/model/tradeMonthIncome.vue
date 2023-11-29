@@ -49,8 +49,6 @@ export default {
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
-        console.log(smartFarm);
-
         // 展示月份
         const monthList = yuSmartcard.map((item) => item.monthStr);
 

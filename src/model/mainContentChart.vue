@@ -82,8 +82,6 @@ export default {
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
-        console.log(smartFarm);
-
         // 增收推力
         const incomeForceData = {
           total: [],
@@ -150,7 +148,7 @@ export default {
       this.toggleType = !this.toggleType;
       this.timer = setInterval(() => {
         this.toggleType = !this.toggleType;
-      }, 15 * 1000);
+      }, 20 * 1000);
     },
   },
 };

@@ -131,8 +131,6 @@ export default {
         // 农产品展销
         const { data: smartFarm } = await smartFarm_API.fetchSmartFarmDisplay();
 
-        console.log(smartFarm);
-
         this.loading = false;
 
         this.$nextTick(() => {
