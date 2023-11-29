@@ -13,7 +13,7 @@ export default {
   // 商户占比
   fetchMerchantRatio() {
     return request({
-      url: "/api_smartfarm/yukongtong/",
+      url: "/api_smartfarm/yukongtong/merchant-percent",
       method: "GET",
     });
   },

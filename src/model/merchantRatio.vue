@@ -13,7 +13,7 @@
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import farmProduct_API from "@/api/farmProduct";
-// import smartFarm_API from "@/api/smartFarm";
+import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -39,8 +39,8 @@ export default {
           await farmProduct_API.fetchMerchantRatio();
 
         // 智慧农贸
-        // const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
-        // console.log(smartFarm);
+        const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
+        console.log(smartFarm);
 
         this.loading = false;
 
@@ -52,10 +52,12 @@ export default {
             {
               name: yuSamrtcard[0].channel,
               value: yuSamrtcard[0].count,
-              children: yuSamrtcard[0].category.map((item) => ({
-                name: item.name,
-                value: item.count,
-              })),
+              children: yuSamrtcard[0].category
+                .map((item) => ({
+                  name: item.name,
+                  value: Number(item.count),
+                }))
+                .filter((item) => item.value !== 0),
             },
             {
               name: "渝品甄选",
@@ -68,23 +70,19 @@ export default {
               children: farmProduct["data"][0].category
                 .map((item) => ({
                   name: item.name,
-                  value: item.count,
+                  value: Number(item.count),
                 }))
                 .filter((item) => item.value !== 0),
             },
             {
-              name: "农贸市场",
-              value: 271,
-              children: [
-                { name: "蔬菜瓜果", value: 103 },
-                { name: "水产品", value: 56 },
-                { name: "禽蛋", value: 23 },
-                { name: "肉类及其制品", value: 12 },
-                { name: "粮食及其制品", value: 26 },
-                { name: "豆制品", value: 18 },
-                { name: "熟食", value: 24 },
-                { name: "调味品、土特产", value: 9 },
-              ],
+              name: smartFarm[0].channel,
+              value: smartFarm[0].count,
+              children: smartFarm[0].category
+                .map((item) => ({
+                  name: item.name,
+                  value: Number(item.count),
+                }))
+                .filter((item) => item.value !== 0),
             },
           ];
 
@@ -93,7 +91,7 @@ export default {
               {
                 type: "pie",
                 radius: [0, "50%"],
-                startAngle: -200,
+                startAngle: 100,
                 label: {
                   position: "inside",
                   fontSize: 9,
@@ -122,7 +120,7 @@ export default {
               {
                 type: "pie",
                 radius: ["65%", "80%"],
-                startAngle: -200,
+                startAngle: 100,
                 labelLine: {
                   show: true,
                   lineStyle: {
