@@ -41,12 +41,6 @@ export default {
       toggleType: false,
       incomeForceData: [],
       farmProportionData: [],
-
-      mockData: {
-        9: [128888, 3271],
-        10: [114218, 2667],
-        11: [98721, 1896],
-      },
     };
   },
 
@@ -55,7 +49,7 @@ export default {
 
     this.timer = setInterval(() => {
       this.toggleType = !this.toggleType;
-    }, 15 * 1000);
+    }, 20 * 1000);
   },
 
   destroyed() {
