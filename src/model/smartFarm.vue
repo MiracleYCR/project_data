@@ -115,9 +115,7 @@ export default {
     this.getSmartFarmData();
 
     this.timer = setInterval(() => {
-      this.boardConfig = Object.assign({}, this.boardConfig, {
-        data: [],
-      });
+      this.getSmartFarmData();
     }, 30 * 1000);
   },
 

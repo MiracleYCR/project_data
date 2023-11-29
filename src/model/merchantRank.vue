@@ -52,8 +52,6 @@ export default {
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchMerchantRank();
 
-        console.log(smartFarm);
-
         this.loading = false;
 
         this.$nextTick(() => {
