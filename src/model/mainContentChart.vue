@@ -78,6 +78,7 @@ export default {
         // 农产品展销
         const { data: farmProduct } =
           await farmProduct_API.fetchTradeMonthIncome();
+        console.log(farmProduct);
 
         // 智慧农贸
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
