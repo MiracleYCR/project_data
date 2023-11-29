@@ -26,6 +26,7 @@ import common_API from "@/api/common";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
+import smartFarm_API from "@/api/smartFarm";
 
 export default {
   components: {
@@ -79,6 +80,9 @@ export default {
           await farmProduct_API.fetchTradeMonthIncome();
 
         // 智慧农贸
+        const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
+
+        console.log(smartFarm);
 
         // 增收推力
         const incomeForceData = {
@@ -91,16 +95,22 @@ export default {
 
         supply.forEach((item, index) => {
           // 增收推力
+
+          // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
             yuSmartcard[index].incomeAmt, // 渝卡通
             yuSelection["data"][index].incomeAmt, // 渝品甄选
-            farmProduct["data"][index].incomeAmt // 农产品展销
+            farmProduct["data"][index].incomeAmt, // 农产品展销
+            smartFarm[index].incomeAmt // 智慧农贸
           );
+
+          // 四方数据
           const partAmt = this.calculator.plus(
             yuSmartcard[index].incomeAmt, // 渝卡通
             yuSelection["data"][index].incomeAmt, // 渝品甄选
-            farmProduct["data"][index].incomeAmt // 农产品展销
+            farmProduct["data"][index].incomeAmt, // 农产品展销
+            smartFarm[index].incomeAmt // 智慧农贸
           );
           incomeForceData.total.push([item.month, totalAmt]);
           incomeForceData.part.push([item.month, partAmt]);
@@ -109,14 +119,9 @@ export default {
           if (index > supply.length - 4) {
             const curObj = {
               month: monthDataMap[item.month.split("-")[1]],
-              totalAmt: this.calculator.plus(
-                this.mockData[index][0] * 30,
-                yuSelection["data"][index].incomeAmt,
-                farmProduct["data"][index].incomeAmt,
-                yuSmartcard[index].incomeAmt
-              ),
+              totalAmt: partAmt,
               partProportion: [
-                this.mockData[index][0] * 30,
+                smartFarm[index].incomeAmt,
                 yuSelection["data"][index].incomeAmt,
                 farmProduct["data"][index].incomeAmt,
                 yuSmartcard[index].incomeAmt,

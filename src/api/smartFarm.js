@@ -5,7 +5,7 @@ export default {
   // 顶部全部数据
   fetchTotalData() {
     return request({
-      url: "",
+      url: "/api_smartfarm/yukongtong/stats",
       method: "GET",
     });
   },
@@ -21,7 +21,7 @@ export default {
   // 商户排行
   fetchMerchantRank() {
     return request({
-      url: "",
+      url: "/api_smartfarm/yukongtong/merchant-rank",
       method: "GET",
     });
   },
@@ -29,7 +29,7 @@ export default {
   // 月净交易实收
   fetchTradeMonthIncome() {
     return request({
-      url: "",
+      url: "/api_smartfarm/yukongtong/year-stats",
       method: "GET",
     });
   },
@@ -37,7 +37,7 @@ export default {
   // 实时订单
   fetchTimeOrder() {
     return request({
-      url: "",
+      url: "/api_smartfarm/yukongtong/recent-trade",
       method: "GET",
     });
   },
@@ -45,7 +45,7 @@ export default {
   // 智慧农贸
   fetchSmartFarmDisplay() {
     return request({
-      url: "",
+      url: "/api_smartfarm/yukongtong/summary-top",
       method: "GET",
     });
   },

@@ -155,7 +155,7 @@ export default {
               `${index + 1}`,
               item.name,
               item.price.toFixed(2),
-              item.saleNumber.toFixed(2),
+              item.saleNumber,
             ]),
           });
         });

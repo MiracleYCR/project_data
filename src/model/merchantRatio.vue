@@ -13,6 +13,7 @@
 import * as echarts from "echarts";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import farmProduct_API from "@/api/farmProduct";
+import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -38,6 +39,9 @@ export default {
           await farmProduct_API.fetchMerchantRatio();
 
         // 智慧农贸
+        const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
+
+        console.log(smartFarm);
 
         this.loading = false;
 

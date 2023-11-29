@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="yesterday_data_rank" ref="yesterdayDataRankRef">
+        <div class="yesterday_data_rank" ref="smartFarmDataRankRef">
           <template v-if="boardConfig.data.length > 0">
             <dv-scroll-board
               style="width: 100%; height: 100%"
@@ -57,6 +57,7 @@
 
 <script>
 import { currency } from "@/utils/index";
+import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -111,15 +112,7 @@ export default {
   },
 
   mounted() {
-    const yesterdayDataRankRefDomWidth =
-      this.$refs.yesterdayDataRankRef.offsetWidth;
-
-    this.boardConfig.columnWidth = [
-      60,
-      yesterdayDataRankRefDomWidth - 260,
-      90,
-      110,
-    ];
+    this.getSmartFarmData();
 
     this.timer = setInterval(() => {
       this.boardConfig = Object.assign({}, this.boardConfig, {
@@ -130,6 +123,48 @@ export default {
 
   destroyed() {
     clearInterval(this.timer);
+  },
+
+  methods: {
+    async getSmartFarmData() {
+      try {
+        // 农产品展销
+        const { data: smartFarm } = await smartFarm_API.fetchSmartFarmDisplay();
+
+        console.log(smartFarm);
+
+        this.loading = false;
+
+        this.$nextTick(() => {
+          // 汇总数据
+          this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
+            number: [smartFarm.merchantNumber],
+          });
+          this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
+            number: [smartFarm.tradeNumber],
+          });
+          this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
+            number: [smartFarm.tradeAmt],
+          });
+
+          // 表格
+          const smartFarmDataRankRefDomWidth =
+            this.$refs.smartFarmDataRankRef.offsetWidth;
+
+          this.boardConfig = Object.assign({}, this.boardConfig, {
+            columnWidth: [60, smartFarmDataRankRefDomWidth - 260, 85, 115],
+            data: smartFarm.merchantRankList.map((item, index) => [
+              `${index + 1}`,
+              item.name,
+              item.tradeNumber,
+              item.tradeAmt,
+            ]),
+          });
+        });
+      } catch (err) {
+        this.loading = true;
+      }
+    },
   },
 };
 </script>

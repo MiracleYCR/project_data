@@ -33,6 +33,13 @@ module.exports = defineConfig({
           "^/api_common": "",
         },
       },
+      "/api_smartfarm": {
+        target: "https://szdashboardapi.uphicoo.com",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api_smartfarm": "",
+        },
+      },
     },
   },
 });

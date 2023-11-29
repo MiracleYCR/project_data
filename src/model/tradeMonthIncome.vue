@@ -15,6 +15,7 @@ import { autoHover } from "@/utils";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
+import smartFarm_API from "@/api/smartFarm";
 
 export default {
   data() {
@@ -46,6 +47,9 @@ export default {
           await farmProduct_API.fetchTradeMonthIncome();
 
         // 智慧农贸
+        const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
+
+        console.log(smartFarm);
 
         // 展示月份
         const monthList = yuSmartcard.map((item) => item.monthStr);
@@ -57,7 +61,8 @@ export default {
             this.calculator.plus(
               yuSmartcard[index].incomeAmt,
               yuSelection["data"][index].incomeAmt,
-              farmProduct["data"][index].incomeAmt
+              farmProduct["data"][index].incomeAmt,
+              smartFarm[index].incomeAmt
             ),
           ];
         });
