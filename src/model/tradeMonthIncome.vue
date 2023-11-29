@@ -54,7 +54,6 @@ export default {
 
         // 展示数据
         const dataList = monthList.map((date, index) => {
-          console.log(index);
           let farmProductIncomeAmt = 0;
 
           if (index === 9) {
