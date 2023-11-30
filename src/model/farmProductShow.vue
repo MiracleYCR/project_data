@@ -59,7 +59,9 @@
 
 <script>
 import { currency } from "@/utils/index";
+
 import farmProduct_API from "@/api/farmProduct";
+import { farmProductSummaryData } from "@/mock/farmProduct";
 
 export default {
   data() {
@@ -135,15 +137,25 @@ export default {
         this.loading = false;
 
         this.$nextTick(() => {
+          const totalTradeNumber = this.calculator.plus(
+            farmProduct.data.tradeNumber,
+            farmProductSummaryData.tradeNumber
+          );
+
+          const totalTradeAmt = this.calculator.plus(
+            farmProduct.data.tradeAmt,
+            farmProductSummaryData.tradeAmt
+          );
+
           // 汇总数据
           this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
             number: [farmProduct.data.supplyNumber],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [farmProduct.data.tradeNumber],
+            number: [totalTradeNumber],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [farmProduct.data.tradeAmt],
+            number: [totalTradeAmt],
           });
 
           // 表格

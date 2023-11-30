@@ -19,10 +19,13 @@
 
 <script>
 import { currency } from "@/utils/index";
+
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
+
+import farmProduct_API from "@/api/farmProduct";
+import { farmProductSummaryData } from "@/mock/farmProduct";
 
 export default {
   computed: {
@@ -74,11 +77,8 @@ export default {
           yuSelection["data"][0].totalAmt,
           smartFarm.totalAmt,
 
-          // farmProduct.data.totalAmt
-          // 农展馆写死数据
-          118675.02,
-          470782,
-          361317
+          farmProduct.data.totalAmt,
+          farmProductSummaryData.tradeAmt
         );
 
         this.tradeNumber = this.calculator.plus(
@@ -86,11 +86,8 @@ export default {
           yuSelection["data"][0].tradeNumber,
           smartFarm.tradeNumber,
 
-          // farmProduct.data.tradeNumber
-          // 农展馆写死数据
-          10781,
-          10855,
-          10251
+          farmProduct.data.tradeNumber,
+          farmProductSummaryData.tradeNumber
         );
 
         this.merchantNumer = this.calculator.plus(

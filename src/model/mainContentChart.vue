@@ -25,8 +25,10 @@ import { monthDataMap } from "@/config/datamap";
 import common_API from "@/api/common";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
+
+import farmProduct_API from "@/api/farmProduct";
+import { farmProductMonthIncomeData } from "@/mock/farmProduct";
 
 export default {
   components: {
@@ -87,39 +89,39 @@ export default {
         const farmProportionData = [];
 
         supply.forEach((item, index) => {
-          let farmProductIncomeAmt = 0;
-
-          if (index === 9) {
-            farmProductIncomeAmt = 118675.02;
-          }
-
-          if (index === 10) {
-            farmProductIncomeAmt = 470782;
-          }
-
-          if (index === 11) {
-            farmProductIncomeAmt = 361317;
-          }
+          const flag = index === 9 || index === 10 || index === 11;
 
           // 增收推力
           // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
-            yuSmartcard[index].incomeAmt, // 渝卡通
-            yuSelection["data"][index].incomeAmt, // 渝品甄选
-            smartFarm[index].incomeAmt, // 智慧农贸
-            // farmProduct["data"][index].incomeAmt, // 农产品展销
-            farmProductIncomeAmt
+            // 渝卡通
+            flag ? yuSmartcard[index].incomeAmt : 0,
+            // 渝品甄选
+            flag ? yuSelection["data"][index].incomeAmt : 0,
+            // 智慧农贸
+            flag ? smartFarm[index].incomeAmt : 0,
+            // 农产品展销
+            flag
+              ? farmProductMonthIncomeData[item.month] ||
+                  farmProduct["data"][index].incomeAmt
+              : 0
           );
 
           // 四方数据
           const partAmt = this.calculator.plus(
-            yuSmartcard[index].incomeAmt, // 渝卡通
-            yuSelection["data"][index].incomeAmt, // 渝品甄选
-            smartFarm[index].incomeAmt, // 智慧农贸
-            // farmProduct["data"][index].incomeAmt // 农产品展销
-            farmProductIncomeAmt
+            // 渝卡通
+            yuSmartcard[index].incomeAmt,
+            // 渝品甄选
+            yuSelection["data"][index].incomeAmt,
+            // 智慧农贸
+            smartFarm[index].incomeAmt,
+            // 农产品展销
+            farmProductMonthIncomeData[item.month] ||
+              farmProduct["data"][index].incomeAmt
           );
+
+          // 表格数据
           incomeForceData.total.push([item.month, totalAmt]);
           incomeForceData.part.push([item.month, partAmt]);
 
@@ -131,8 +133,8 @@ export default {
               partProportion: [
                 smartFarm[index].incomeAmt,
                 yuSelection["data"][index].incomeAmt,
-                // farmProduct["data"][index].incomeAmt,
-                farmProductIncomeAmt,
+                farmProductMonthIncomeData[item.month] ||
+                  farmProduct["data"][index].incomeAmt,
                 yuSmartcard[index].incomeAmt,
               ],
             };
@@ -142,7 +144,7 @@ export default {
         });
 
         // 增收推力格式化数据
-        this.incomeForceData = [incomeForceData.total, incomeForceData.partAmt];
+        this.incomeForceData = [incomeForceData.total, incomeForceData.part];
 
         // 平台助农格式化数据
         this.farmProportionData = farmProportionData;
