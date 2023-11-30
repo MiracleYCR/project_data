@@ -6,7 +6,7 @@
       <div id="time_order_chart">
         <div class="chart_header">
           <div>交易时间</div>
-          <div>交易金额</div>
+          <div>订单金额</div>
           <div>交易渠道</div>
           <div>交易方式</div>
         </div>

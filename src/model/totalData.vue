@@ -6,7 +6,7 @@
     </div>
 
     <div class="center">
-      <div class="title">交易总金额（元）</div>
+      <div class="title">交易总实收（元）</div>
       <div class="totalAmtNumber">{{ formatTotalAmt }}</div>
     </div>
 

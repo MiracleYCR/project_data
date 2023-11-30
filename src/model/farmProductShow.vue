@@ -24,7 +24,7 @@
           </div>
 
           <div class="data_item3">
-            <div class="title2">交易总金额 (元)</div>
+            <div class="title2">交易总实收 (元)</div>
             <dv-digital-flop
               :config="tradeAmtConfig"
               style="width: 100%; height: 32px"
@@ -45,7 +45,7 @@
               <div class="chart_header">
                 <div>排名</div>
                 <div style="flex: 1; text-align: left">商品名称</div>
-                <div style="width: 85px">单价(元)</div>
+                <div style="width: 85px">销售单价(元)</div>
                 <div>销售数量(个)</div>
               </div>
               <div class="content">暂无数据</div>
@@ -102,7 +102,7 @@ export default {
       },
 
       boardConfig: {
-        header: ["排名", "商品名称", "单价(元)", "销售数量(个)"],
+        header: ["排名", "商品名称", "销售单价(元)", "销售数量(个)"],
         data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
         oddRowBGC: "",
@@ -162,7 +162,7 @@ export default {
           const farmProductDataRankRefDomWidth =
             this.$refs.farmProductDataRankRef.offsetWidth;
           this.boardConfig = Object.assign({}, this.boardConfig, {
-            columnWidth: [60, farmProductDataRankRefDomWidth - 255, 85, 110],
+            columnWidth: [60, farmProductDataRankRefDomWidth - 270, 105, 105],
             data: farmProduct.data.goodsRankList.map((item, index) => [
               `${index + 1}`,
               `<div style="display:flex;align-items:center;cursor:pointer;">

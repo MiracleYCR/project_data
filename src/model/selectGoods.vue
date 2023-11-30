@@ -24,7 +24,7 @@
           </div>
 
           <div class="data_item3">
-            <div class="title2">交易总金额(元)</div>
+            <div class="title2">交易总实收(元)</div>
             <dv-digital-flop
               :config="tradeAmtConfig"
               style="width: 100%; height: 32px"
@@ -86,7 +86,7 @@ export default {
       },
 
       boardConfig: {
-        header: ["排名", "商品名称", "单价(元)", "销售数量(个)"],
+        header: ["排名", "商品名称", "销售单价(元)", "销售数量(个)"],
         rowNum: 4,
         data: [],
         headerBGC: "rgba(0, 211, 255, 0.1)",
@@ -133,13 +133,13 @@ export default {
           const selectGoodsDomWidth = this.$refs.selectGoodsRef.offsetWidth;
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
-            columnWidth: [50, selectGoodsDomWidth - 230, 75, 105],
+            columnWidth: [50, selectGoodsDomWidth - 260, 105, 105],
             data: yuSelectionData.data.goodsRankList.map((item, index) => {
               return [
                 `${index + 1}`,
                 `<div style="display:flex;align-items:center;cursor:pointer">
-                  <img style="width: 30px; height: 30px; object-fit: cover" src="${item.productImage}">
-                  <div title='${item.productName}' style="display:inline-block;margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.productName}</div>
+                  <img style="width: 28px; height: 28px; object-fit: cover" src="${item.productImage}">
+                  <div title='${item.productName}' style="display:inline-block;margin-left:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.productName}</div>
                 </div>`,
                 `${item.price.toFixed(2)}`,
                 `${item.orderNumber}`,

@@ -9,6 +9,10 @@
       <dv-loading v-if="loading">Loading...</dv-loading>
       <div v-else id="merchant_rank_chart"></div>
     </div>
+
+    <div v-show="yAxisTipVisible" class="yAxis-tip" :style="yAxisTipStyle">
+      {{ yAxisTipText }}
+    </div>
   </div>
 </template>
 
@@ -25,6 +29,13 @@ export default {
     return {
       timer: null,
       loading: true,
+
+      yAxisTipVisible: false,
+      yAxisTipText: "",
+      yAxisTipStyle: {
+        left: "0px",
+        top: "0px",
+      },
     };
   },
 
@@ -83,7 +94,7 @@ export default {
               top: "12%", // 上边距
               bottom: "0", // 下边距
               left: "0", // 左边距
-              right: "18%",
+              right: "16%",
               containLabel: true,
             },
             xAxis: {
@@ -107,12 +118,14 @@ export default {
                 color: "rgba(57, 165, 237, 1)",
               },
               data: merchantRankData.map((item) => item.name).reverse(),
+              triggerEvent: true,
             },
             series: [
               {
                 type: "bar",
+                barGap: 36,
                 itemStyle: {
-                  barWidth: 20,
+                  barWidth: 30,
                   color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                     {
                       offset: 0,
@@ -144,6 +157,23 @@ export default {
               },
             ],
           };
+
+          merchantRankChart.on("mouseover", "yAxis.category", (e) => {
+            this.yAxisTipText = e.value;
+            this.yAxisTipStyle = Object.assign(this.yAxisTipStyle, {
+              top: `${e.event.offsetY}px`,
+              left: `${e.event.offsetX}px`,
+            });
+            this.yAxisTipVisible = true;
+          });
+          merchantRankChart.on("mouseout", "yAxis.category", () => {
+            this.yAxisTipText = "";
+            this.yAxisTipStyle = Object.assign(this.yAxisTipStyle, {
+              top: "0px",
+              left: "0px",
+            });
+            this.yAxisTipVisible = false;
+          });
 
           option && merchantRankChart.setOption(option);
         });
@@ -192,6 +222,17 @@ export default {
       width: 100%;
       height: 100%;
     }
+  }
+
+  .yAxis-tip {
+    position: absolute;
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 18px;
+    color: #ffffff;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   }
 }
 </style>

@@ -166,7 +166,6 @@ export default {
                   },
                 },
                 data: dataList.slice(dataList.length - 3, dataList.length),
-                // data: dataList,
               },
             ],
           };
@@ -201,13 +200,6 @@ export default {
     margin-left: 19px;
     display: flex;
     align-items: center;
-
-    // span {
-    //   &:last-child {
-    //     font-size: 15px;
-    //     margin-top: -2px;
-    //   }
-    // }
   }
 
   .trade_month_income_body {

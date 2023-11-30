@@ -24,7 +24,7 @@
           </div>
 
           <div class="data_item3">
-            <div class="title2">交易总金额(元)</div>
+            <div class="title2">交易总实收(元)</div>
             <dv-digital-flop
               :config="tradeAmtConfig"
               style="width: 100%; height: 32px"
