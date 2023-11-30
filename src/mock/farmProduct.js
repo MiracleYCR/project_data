@@ -1,7 +1,7 @@
 export const farmProductShow = {
   supplyNumber: 45,
-  tradeNumber: 2903,
-  tradeAmt: 163215.13,
+  tradeNumber: 31887,
+  tradeAmt: 950774.02,
   goodsRankList: [
     {
       name: "三只猴散装鸡蛋",

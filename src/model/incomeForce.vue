@@ -200,12 +200,10 @@ export default {
                 areaStyle: {
                   color: "#FA8072",
                 },
-                // data: this.chartData[1],
-                data: [
-                  ["2023-08", 904233],
-                  ["2023-09", 1341255],
-                  ["2023-10", 1196912],
-                ],
+                data: this.chartData[1].slice(
+                  this.chartData[1].length - 3,
+                  this.chartData[1].length
+                ),
               },
             ],
           };

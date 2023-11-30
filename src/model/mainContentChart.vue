@@ -87,27 +87,44 @@ export default {
 
         supply.forEach((item, index) => {
           let farmProductIncomeAmt = 0;
+          let yuSmartcardIncomeAmt = 0;
+          let yuSelectionIncomeAmt = 0;
+          let smartFarmIncomeAmt = 0;
 
           if (index === 9) {
             farmProductIncomeAmt = 118675.02;
+            yuSmartcardIncomeAmt = yuSmartcard[index].incomeAmt;
+            yuSelectionIncomeAmt = yuSelection["data"][index].incomeAmt;
+            smartFarmIncomeAmt = smartFarm[index].incomeAmt;
           }
 
           if (index === 10) {
             farmProductIncomeAmt = 470782;
+            yuSmartcardIncomeAmt = yuSmartcard[index].incomeAmt;
+            yuSelectionIncomeAmt = yuSelection["data"][index].incomeAmt;
+            smartFarmIncomeAmt = smartFarm[index].incomeAmt;
           }
 
           if (index === 11) {
             farmProductIncomeAmt = 361317;
+            yuSmartcardIncomeAmt = yuSmartcard[index].incomeAmt;
+            yuSelectionIncomeAmt = yuSelection["data"][index].incomeAmt;
+            smartFarmIncomeAmt = smartFarm[index].incomeAmt;
           }
 
           // 增收推力
           // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
-            yuSmartcard[index].incomeAmt, // 渝卡通
-            yuSelection["data"][index].incomeAmt, // 渝品甄选
-            smartFarm[index].incomeAmt, // 智慧农贸
+            // yuSmartcard[index].incomeAmt, // 渝卡通
+            // yuSelection["data"][index].incomeAmt, // 渝品甄选
+            // smartFarm[index].incomeAmt, // 智慧农贸
             // farmProduct["data"][index].incomeAmt, // 农产品展销
+
+            yuSmartcardIncomeAmt,
+            yuSelectionIncomeAmt,
+            smartFarmIncomeAmt,
+
             farmProductIncomeAmt
           );
 
@@ -141,7 +158,7 @@ export default {
         });
 
         // 增收推力格式化数据
-        this.incomeForceData = [incomeForceData.total, incomeForceData.partAmt];
+        this.incomeForceData = [incomeForceData.total, incomeForceData.part];
 
         // 平台助农格式化数据
         this.farmProportionData = farmProportionData;
