@@ -42,11 +42,11 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } =
           await farmProduct_API.fetchTradeMonthIncome();
 
-        // 智慧农贸
+        // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
         // 展示月份

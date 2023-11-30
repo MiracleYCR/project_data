@@ -67,9 +67,9 @@ export default {
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } = await farmProduct_API.fetchTotalData();
-        // 智慧农贸
+        // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchTotalData();
 
         this.totalAmt = this.calculator.plus(

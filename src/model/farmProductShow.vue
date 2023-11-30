@@ -1,6 +1,6 @@
 <template>
   <div class="farm_product_show_container">
-    <div class="title">农产品展销</div>
+    <div class="title">渝水农产品展销</div>
 
     <div class="merchant_rank_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
@@ -130,7 +130,7 @@ export default {
   methods: {
     async getFarmProductData() {
       try {
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } =
           await farmProduct_API.fetchFarmProductDisplay();
 
@@ -184,16 +184,16 @@ export default {
 <style lang="scss" scoped>
 .farm_product_show_container {
   position: relative;
-  width: 456px;
+  width: 463px;
   height: 338px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  background-image: url("../assets/images/box.png");
+  background-image: url("../assets/images/box@2x.png");
 
   .title {
     height: 20px;
-    margin-top: 9px;
-    margin-left: 16px;
+    margin-top: 10px;
+    margin-left: 11px;
     display: flex;
     align-items: center;
     font-size: 20px;

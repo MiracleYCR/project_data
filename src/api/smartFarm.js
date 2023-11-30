@@ -1,6 +1,6 @@
 import request from "./http";
 
-// 智慧农贸（渝控通）
+// 渝控通（渝控通）
 export default {
   // 顶部全部数据
   fetchTotalData() {
@@ -42,7 +42,7 @@ export default {
     });
   },
 
-  // 智慧农贸
+  // 渝控通
   fetchSmartFarmDisplay() {
     return request({
       url: "/api_smartfarm/yukongtong/summary-top",

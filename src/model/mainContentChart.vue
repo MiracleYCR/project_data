@@ -71,12 +71,12 @@ export default {
         const { data: yuSelection } =
           await yuSelection_API.fetchTradeMonthIncome();
 
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } =
           await farmProduct_API.fetchTradeMonthIncome();
         console.log(farmProduct);
 
-        // 智慧农贸
+        // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchTradeMonthIncome();
 
         // 增收推力
@@ -99,9 +99,9 @@ export default {
             flag ? yuSmartcard[index].incomeAmt : 0,
             // 渝品甄选
             flag ? yuSelection["data"][index].incomeAmt : 0,
-            // 智慧农贸
+            // 渝控通
             flag ? smartFarm[index].incomeAmt : 0,
-            // 农产品展销
+            // 渝水农产品展销
             flag
               ? farmProductMonthIncomeData[item.month] ||
                   farmProduct["data"][index].incomeAmt
@@ -114,9 +114,9 @@ export default {
             yuSmartcard[index].incomeAmt,
             // 渝品甄选
             yuSelection["data"][index].incomeAmt,
-            // 智慧农贸
+            // 渝控通
             smartFarm[index].incomeAmt,
-            // 农产品展销
+            // 渝水农产品展销
             farmProductMonthIncomeData[item.month] ||
               farmProduct["data"][index].incomeAmt
           );

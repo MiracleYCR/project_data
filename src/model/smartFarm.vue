@@ -1,6 +1,6 @@
 <template>
   <div class="smart_farm_container">
-    <div class="title">智慧农贸</div>
+    <div class="title">渝控通</div>
     <div class="smart_farm_body">
       <dv-loading v-if="loading">Loading...</dv-loading>
       <template v-else>
@@ -126,7 +126,7 @@ export default {
   methods: {
     async getSmartFarmData() {
       try {
-        // 农产品展销
+        // 渝水农产品展销
         const { data: smartFarm } = await smartFarm_API.fetchSmartFarmDisplay();
 
         this.loading = false;
@@ -170,7 +170,7 @@ export default {
 <style lang="scss" scoped>
 .smart_farm_container {
   position: relative;
-  width: 456px;
+  width: 450px;
   height: 338px;
   background-size: 100% 100%;
   background-repeat: no-repeat;

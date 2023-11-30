@@ -26,7 +26,7 @@ export default {
     });
   },
 
-  // 智慧渝卡通
+  // 渝卡通
   fetchSmartCard() {
     return request({
       url: "/api_yusmartcard/ysqzn/external/getSmartCardData",

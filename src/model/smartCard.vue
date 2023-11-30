@@ -1,6 +1,6 @@
 <template>
   <div class="smart_card_container">
-    <div class="title">智慧渝卡通</div>
+    <div class="title">渝卡通</div>
 
     <div class="smart_card_content">
       <dv-loading v-if="loading">Loading...</dv-loading>

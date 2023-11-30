@@ -1,6 +1,6 @@
 import request from "./http";
 
-// 农产品展销
+// 渝水农产品展销
 export default {
   // 顶部全部数据
   fetchTotalData() {
@@ -57,7 +57,7 @@ export default {
     });
   },
 
-  // 农产品展销馆
+  // 渝水农产品展销
   fetchFarmProductDisplay() {
     return request({
       url: "/api_farmproduct/middlewareweb/largescreen",

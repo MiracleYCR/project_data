@@ -47,9 +47,9 @@ export default {
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchMerchantRank();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } = await farmProduct_API.fetchMerchantRank();
-        // 智慧农贸
+        // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchMerchantRank();
 
         this.loading = false;
@@ -159,7 +159,7 @@ export default {
 .merchant_rank_container {
   position: relative;
   width: 504px;
-  height: 240px;
+  height: 250px;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-image: url("../assets/images/box2@2x.png");

@@ -66,7 +66,7 @@ export default {
                         align-items: center;
                       "
                     >
-                      <span style="margin-right: 50px">智慧农贸</span>
+                      <span style="margin-right: 50px">渝控通</span>
                       <span>${self.calculator
                         .divide(
                           self.calculator.times(
@@ -102,7 +102,7 @@ export default {
                         align-items: center;
                       "
                     >
-                      <span>农产品展销</span>
+                      <span>渝水农产品展销</span>
                       <span>${self.calculator
                         .divide(
                           self.calculator.times(
@@ -120,7 +120,7 @@ export default {
                         align-items: center;
                       "
                     >
-                      <span>智慧渝卡通</span>
+                      <span>渝卡通</span>
                       <span>${self.calculator
                         .divide(
                           self.calculator.times(
@@ -143,7 +143,7 @@ export default {
             radar: {
               indicator: [
                 {
-                  name: "智慧农贸",
+                  name: "渝控通",
                   max: 100,
                 },
                 {
@@ -151,11 +151,11 @@ export default {
                   max: 1,
                 },
                 {
-                  name: "农产品展销",
+                  name: "渝水农产品展销",
                   max: 80,
                 },
                 {
-                  name: "智慧渝卡通",
+                  name: "渝卡通",
                   max: 70,
                 },
               ],

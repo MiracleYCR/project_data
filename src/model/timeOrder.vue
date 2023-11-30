@@ -71,9 +71,9 @@ export default {
         const { data: yuSmartcard } = await yuSmartcard_API.fetchTimeOrder();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTimeOrder();
-        // 农产品展销
+        // 渝水农产品展销
         const { data: farmProduct } = await farmProduct_API.fetchTimeOrder();
-        // 智慧农贸
+        // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchTimeOrder();
 
         // 数据排序
