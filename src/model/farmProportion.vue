@@ -66,7 +66,7 @@ export default {
                         align-items: center;
                       "
                     >
-                      <span style="margin-right: 50px">渝控通</span>
+                      <span style="margin-right: 80px">渝控通</span>
                       <span>${self.calculator
                         .divide(
                           self.calculator.times(
@@ -181,19 +181,19 @@ export default {
               },
               data: [
                 {
-                  name: "八月",
+                  name: self.chartData[0].month,
                   itemStyle: {
                     color: "rgb(255,127,80)",
                   },
                 },
                 {
-                  name: "九月",
+                  name: self.chartData[1].month,
                   itemStyle: {
                     color: "rgb(127,255,0)",
                   },
                 },
                 {
-                  name: "十月",
+                  name: self.chartData[2].month,
                   itemStyle: {
                     color: "rgb(0,255,255)",
                   },
