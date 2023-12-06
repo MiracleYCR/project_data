@@ -200,16 +200,20 @@ export default {
                 areaStyle: {
                   color: "#FA8072",
                 },
-                data: this.chartData[1].slice(
-                  this.chartData[1].length - 3,
-                  this.chartData[1].length
-                ),
+                data: this.chartData[1],
               },
             ],
           };
-
           option && incomeForceChart.setOption(option);
-          autoHover(incomeForceChart, option, 9, 12);
+
+          // 自动提示下标
+          const tipIndexList = this.chartData[1]
+            .map((item, index) => {
+              return item[1] === null ? index : null;
+            })
+            .filter((item) => item !== null)
+            .sort((a, b) => b - a);
+          autoHover(incomeForceChart, option, tipIndexList[0] + 1, 12);
         });
       } catch (err) {
         console.log(err);
