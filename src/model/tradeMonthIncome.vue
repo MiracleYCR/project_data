@@ -16,6 +16,7 @@ import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
 import smartFarm_API from "@/api/smartFarm";
+import { defaultIncomeAmt } from "@/mock/incomeForce";
 
 export default {
   data() {
@@ -54,15 +55,24 @@ export default {
 
         // 展示数据
         const dataList = monthList.map((date, index) => {
-          return [
-            date,
-            this.calculator.plus(
-              yuSmartcard[index].incomeAmt,
+          const amt = this.calculator.plus(
+            // 渝卡通
+            defaultIncomeAmt.yuSmartcard[date] || yuSmartcard[index].incomeAmt,
+            // 渝品甄选
+            defaultIncomeAmt.yuSelection[date] ||
               yuSelection["data"][index].incomeAmt,
-              farmProduct["data"][index].incomeAmt,
-              smartFarm[index].incomeAmt
-            ),
-          ];
+            // 渝控通
+            defaultIncomeAmt.smartFarm[date] || smartFarm[index].incomeAmt,
+            // 渝水农产品展销
+            defaultIncomeAmt.smartFarm[date]
+              ? this.calculator.plus(
+                  defaultIncomeAmt.smartFarm[date],
+                  farmProduct["data"][index].incomeAmt
+                )
+              : farmProduct["data"][index].incomeAmt
+          );
+
+          return amt === 0 ? null : [date, amt];
         });
 
         this.loading = false;
@@ -165,14 +175,21 @@ export default {
                     color: "#0ab8ff",
                   },
                 },
-                data: dataList.slice(dataList.length - 3, dataList.length),
+                data: dataList,
               },
             ],
           };
 
           option && tradeMonthIncomeChart.setOption(option);
 
-          autoHover(tradeMonthIncomeChart, option, 0, 3);
+          // 自动下标
+          const tipIndexList = dataList
+            .map((item, index) => {
+              return item === null ? index : null;
+            })
+            .filter((item) => item !== null)
+            .sort((a, b) => b - a);
+          autoHover(tradeMonthIncomeChart, option, tipIndexList[0] + 1, 12);
         });
       } catch (err) {
         this.loading = true;
