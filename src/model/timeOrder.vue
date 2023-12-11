@@ -182,6 +182,9 @@ export default {
               padding: 0 5px;
               text-align: center;
               width: calc((100% - 220px) / 2);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
 
               &:first-child {
                 width: 110px;
