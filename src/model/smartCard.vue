@@ -171,7 +171,7 @@ export default {
 
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartCardDataRankRefDomWidth - 260, 90, 110],
-            data: smartCard.merchantRankList.slice(0, 4).map((item, index) => {
+            data: smartCard.merchantRankList.slice(0, 5).map((item, index) => {
               return [
                 `${index + 1}`,
                 item.name,

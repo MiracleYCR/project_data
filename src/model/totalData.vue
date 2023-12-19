@@ -20,11 +20,13 @@
 <script>
 import { currency } from "@/utils/index";
 
+import common_API from "@/api/common";
+import smartFarm_API from "@/api/smartFarm";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
-import smartFarm_API from "@/api/smartFarm";
-
 import farmProduct_API from "@/api/farmProduct";
+
+import { smartCardDefaultData } from "@/mock/smartCard";
 import { farmProductSummaryData } from "@/mock/farmProduct";
 
 export default {
@@ -64,6 +66,8 @@ export default {
     async getTotalData() {
       try {
         // 渝卡通
+        const { data: defaultSmartCard } =
+          await common_API.fetchSmartCardDefaultData();
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
@@ -74,6 +78,12 @@ export default {
 
         this.totalAmt = this.calculator.plus(
           yuSamrtcard.totalAmt,
+          smartCardDefaultData.tradeAmt,
+          defaultSmartCard.reduce(
+            (pre, next) => this.calculator.plus(pre, next.tradeAmt),
+            0
+          ),
+
           yuSelection["data"][0].totalAmt,
           smartFarm.totalAmt,
 
@@ -83,6 +93,12 @@ export default {
 
         this.tradeNumber = this.calculator.plus(
           yuSamrtcard.tradeNumber,
+          smartCardDefaultData.tradeNumber,
+          defaultSmartCard.reduce(
+            (pre, next) => this.calculator.plus(pre, next.tradeNumber),
+            0
+          ),
+
           yuSelection["data"][0].tradeNumber,
           smartFarm.tradeNumber,
 
