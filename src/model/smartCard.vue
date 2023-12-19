@@ -121,25 +121,24 @@ export default {
 
         const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
-        let defaultTradeAmt = 0;
-        let defaultTradeNumber = 0;
-
+        // 接口数据
         const tradeNumber = this.calculator.plus(
           smartCard.tradeNumber,
           smartCardDefaultData.tradeNumber
         );
-
         const tradeAmt = this.calculator.plus(
           smartCard.tradeAmt,
           smartCardDefaultData.tradeAmt
         );
 
+        // 手动维护数据
+        let defaultTradeAmt = smartCardDefaultData.tradeAmt;
+        let defaultTradeNumber = smartCardDefaultData.tradeNumber;
         defaultSmartCard.forEach((item) => {
           defaultTradeAmt = this.calculator.plus(
             defaultTradeAmt,
             item.tradeAmt
           );
-
           defaultTradeNumber = this.calculator.plus(
             defaultTradeNumber,
             item.tradeNumber
