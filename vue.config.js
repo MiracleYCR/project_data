@@ -26,13 +26,6 @@ module.exports = defineConfig({
           "^/api_farmproduct": "",
         },
       },
-      "/api_common": {
-        target: "https://miracleycr.com:8888/api_common/incomeForce",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api_common": "",
-        },
-      },
       "/api_smartfarm": {
         target: "https://szdashboardapi.uphicoo.com",
         changeOrigin: true,

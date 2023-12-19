@@ -46,6 +46,8 @@
 <script>
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
+import common_API from "@/api/common";
+import { smartCardDefaultData } from "@/mock/smartCard";
 
 export default {
   data() {
@@ -114,29 +116,63 @@ export default {
   methods: {
     async getSmartCardData() {
       try {
+        const { data: defaultSmartCard } =
+          await common_API.fetchSmartCardDefaultData();
+
         const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
+
+        let defaultTradeAmt = 0;
+        let defaultTradeNumber = 0;
+
+        const tradeNumber = this.calculator.plus(
+          smartCard.tradeNumber,
+          smartCardDefaultData.tradeNumber
+        );
+
+        const tradeAmt = this.calculator.plus(
+          smartCard.tradeAmt,
+          smartCardDefaultData.tradeAmt
+        );
+
+        defaultSmartCard.forEach((item) => {
+          defaultTradeAmt = this.calculator.plus(
+            defaultTradeAmt,
+            item.tradeAmt
+          );
+
+          defaultTradeNumber = this.calculator.plus(
+            defaultTradeNumber,
+            item.tradeNumber
+          );
+        });
 
         this.loading = false;
 
         this.$nextTick(() => {
           // 汇总数据
           this.merchantNumConfig = Object.assign({}, this.merchantNumConfig, {
-            number: [smartCard.merchantNumer],
+            number: [smartCard.merchantNumer + 1],
           });
           this.tradeNumConfig = Object.assign({}, this.tradeNumConfig, {
-            number: [smartCard.tradeNumber],
+            number: [tradeNumber],
           });
           this.tradeAmtConfig = Object.assign({}, this.tradeAmtConfig, {
-            number: [smartCard.tradeAmt],
+            number: [tradeAmt],
           });
 
           // 表格
           const smartCardDataRankRefDomWidth =
             this.$refs.smartCardDataRankRef.offsetWidth;
 
+          smartCard.merchantRankList.unshift({
+            name: "江南红",
+            tradeNumber: defaultTradeNumber,
+            tradeAmt: defaultTradeAmt,
+          });
+
           this.boardConfig = Object.assign({}, this.boardConfig, {
             columnWidth: [60, smartCardDataRankRefDomWidth - 260, 90, 110],
-            data: smartCard.merchantRankList.slice(0, 5).map((item, index) => {
+            data: smartCard.merchantRankList.slice(0, 4).map((item, index) => {
               return [
                 `${index + 1}`,
                 item.name,

@@ -7,4 +7,11 @@ export default {
       method: "GET",
     });
   },
+
+  fetchSmartCardDefaultData() {
+    return request({
+      url: "/api_common/smartCard",
+      method: "GET",
+    });
+  },
 };
