@@ -26,7 +26,7 @@ import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
 
-import { smartCardDefaultData } from "@/mock/smartCard";
+import { jiangNanHongDefaultData } from "@/mock/smartCard";
 import { farmProductSummaryData } from "@/mock/farmProduct";
 
 export default {
@@ -66,7 +66,7 @@ export default {
     async getTotalData() {
       try {
         // 渝卡通
-        const { data: defaultSmartCard } =
+        const { data: jiangNanHongData } =
           await common_API.fetchSmartCardDefaultData();
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchTotalData();
         // 渝品甄选
@@ -78,9 +78,11 @@ export default {
 
         this.totalAmt = this.calculator.plus(
           yuSamrtcard.totalAmt,
-          smartCardDefaultData.tradeAmt,
-          defaultSmartCard.reduce(
-            (pre, next) => this.calculator.plus(pre, next.tradeAmt),
+
+          // 江南红数据
+          jiangNanHongDefaultData.tradeAmt,
+          Object.entries(jiangNanHongData).reduce(
+            (pre, next) => this.calculator.plus(pre, next[1].tradeAmt),
             0
           ),
 
@@ -93,9 +95,11 @@ export default {
 
         this.tradeNumber = this.calculator.plus(
           yuSamrtcard.tradeNumber,
-          smartCardDefaultData.tradeNumber,
-          defaultSmartCard.reduce(
-            (pre, next) => this.calculator.plus(pre, next.tradeNumber),
+
+          // 江南红数据
+          jiangNanHongDefaultData.tradeNumber,
+          Object.entries(jiangNanHongData).reduce(
+            (pre, next) => this.calculator.plus(pre, next[1].tradeNumber),
             0
           ),
 

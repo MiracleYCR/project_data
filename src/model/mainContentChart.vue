@@ -64,6 +64,8 @@ export default {
         const { data: supply } = await common_API.fetchIncomeForceData();
 
         // 渝卡通
+        const { data: jiangNanHongData } =
+          await common_API.fetchSmartCardDefaultData();
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
 
@@ -88,13 +90,18 @@ export default {
         const farmProportionData = [];
 
         supply.forEach((item, index) => {
+          const curDateJiangNanHongData = jiangNanHongData[item.month];
+
           // 增收推力
           // 四方数据+本方数据
           const totalAmt = this.calculator.plus(
             item.totalAmt,
             // 渝卡通
             defaultIncomeAmt.yuSmartcard[item.month] ||
-              yuSmartcard[index].incomeAmt,
+              this.calculator.plus(
+                yuSmartcard[index].incomeAmt,
+                curDateJiangNanHongData ? curDateJiangNanHongData.tradeAmt : 0
+              ),
             // 渝品甄选
             defaultIncomeAmt.yuSelection[item.month] ||
               yuSelection["data"][index].incomeAmt,
@@ -114,7 +121,10 @@ export default {
           const partAmt = this.calculator.plus(
             // 渝卡通
             defaultIncomeAmt.yuSmartcard[item.month] ||
-              yuSmartcard[index].incomeAmt,
+              this.calculator.plus(
+                yuSmartcard[index].incomeAmt,
+                curDateJiangNanHongData ? curDateJiangNanHongData.tradeAmt : 0
+              ),
             // 渝品甄选
             defaultIncomeAmt.yuSelection[item.month] ||
               yuSelection["data"][index].incomeAmt,
@@ -139,19 +149,28 @@ export default {
 
           // 平台助农
           if (index > supply.length - 4) {
+            const curDateJiangNanHongData = jiangNanHongData[item.month];
+
             const curObj = {
               month: monthDataMap[item.month.split("-")[1]],
               totalAmt: partAmt,
               partProportion: [
                 smartFarm[index].incomeAmt,
+
                 yuSelection["data"][index].incomeAmt,
+
                 defaultIncomeAmt.smartFarm[item.month]
                   ? this.calculator.plus(
                       defaultIncomeAmt.smartFarm[item.month],
                       farmProduct["data"][index].incomeAmt
                     )
                   : farmProduct["data"][index].incomeAmt,
-                yuSmartcard[index].incomeAmt,
+
+                // 渝卡通 + 江南红数据
+                this.calculator.plus(
+                  yuSmartcard[index].incomeAmt,
+                  curDateJiangNanHongData ? curDateJiangNanHongData.tradeAmt : 0
+                ),
               ],
             };
 

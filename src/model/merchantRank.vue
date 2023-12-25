@@ -19,10 +19,13 @@
 <script>
 import * as echarts from "echarts";
 import { currency } from "@/utils";
+import common_API from "@/api/common";
+import smartFarm_API from "@/api/smartFarm";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
+
+import { jiangNanHongDefaultData } from "@/mock/smartCard";
 
 export default {
   data() {
@@ -55,6 +58,8 @@ export default {
     async getMerchantRankData() {
       try {
         // 渝卡通
+        const { data: jiangNanHongData } =
+          await common_API.fetchSmartCardDefaultData();
         const { data: yuSamrtcard } = await yuSmartcard_API.fetchMerchantRank();
         // 渝品甄选
         const { data: yuSelection } = await yuSelection_API.fetchTotalData();
@@ -70,7 +75,17 @@ export default {
           const merchantRankChart = echarts.init(chartDom);
 
           const allMerchantRankData = [
-            ...yuSamrtcard.slice(0, 8),
+            {
+              merchant: "江南红",
+              salesAmt: this.calculator.plus(
+                jiangNanHongDefaultData.tradeAmt,
+                Object.entries(jiangNanHongData).reduce(
+                  (pre, next) => this.calculator.plus(pre, next[1].tradeAmt),
+                  0
+                )
+              ),
+            },
+            ...yuSamrtcard.slice(0, 7),
             ...farmProduct.data.slice(0, 8),
             ...smartFarm.slice(0, 8),
             {

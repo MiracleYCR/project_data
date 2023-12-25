@@ -47,7 +47,7 @@
 import { currency } from "@/utils/index";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import common_API from "@/api/common";
-import { smartCardDefaultData } from "@/mock/smartCard";
+import { jiangNanHongDefaultData } from "@/mock/smartCard";
 
 export default {
   data() {
@@ -116,34 +116,34 @@ export default {
   methods: {
     async getSmartCardData() {
       try {
-        const { data: defaultSmartCard } =
+        const { data: jiangNanHongData } =
           await common_API.fetchSmartCardDefaultData();
 
         const { data: smartCard } = await yuSmartcard_API.fetchSmartCard();
 
+        // 江南红手动维护数据
+        let jiangNanHongTradeAmt = jiangNanHongDefaultData.tradeAmt;
+        let jiangNanHongTradeNumber = jiangNanHongDefaultData.tradeNumber;
+        Object.entries(jiangNanHongData).forEach(([, v]) => {
+          jiangNanHongTradeAmt = this.calculator.plus(
+            jiangNanHongTradeAmt,
+            v.tradeAmt
+          );
+          jiangNanHongTradeNumber = this.calculator.plus(
+            jiangNanHongTradeNumber,
+            v.tradeNumber
+          );
+        });
+
         // 接口数据
         const tradeNumber = this.calculator.plus(
           smartCard.tradeNumber,
-          smartCardDefaultData.tradeNumber
+          jiangNanHongTradeNumber
         );
         const tradeAmt = this.calculator.plus(
           smartCard.tradeAmt,
-          smartCardDefaultData.tradeAmt
+          jiangNanHongTradeAmt
         );
-
-        // 手动维护数据
-        let defaultTradeAmt = smartCardDefaultData.tradeAmt;
-        let defaultTradeNumber = smartCardDefaultData.tradeNumber;
-        defaultSmartCard.forEach((item) => {
-          defaultTradeAmt = this.calculator.plus(
-            defaultTradeAmt,
-            item.tradeAmt
-          );
-          defaultTradeNumber = this.calculator.plus(
-            defaultTradeNumber,
-            item.tradeNumber
-          );
-        });
 
         this.loading = false;
 
@@ -165,8 +165,8 @@ export default {
 
           smartCard.merchantRankList.unshift({
             name: "江南红",
-            tradeNumber: defaultTradeNumber,
-            tradeAmt: defaultTradeAmt,
+            tradeNumber: jiangNanHongTradeNumber,
+            tradeAmt: jiangNanHongTradeAmt,
           });
 
           this.boardConfig = Object.assign({}, this.boardConfig, {

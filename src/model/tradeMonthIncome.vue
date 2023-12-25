@@ -12,10 +12,12 @@
 <script>
 import * as echarts from "echarts";
 import { autoHover } from "@/utils";
+
+import common_API from "@/api/common";
+import smartFarm_API from "@/api/smartFarm";
 import yuSmartcard_API from "@/api/yuSmartcard";
 import yuSelection_API from "@/api/yuSelection";
 import farmProduct_API from "@/api/farmProduct";
-import smartFarm_API from "@/api/smartFarm";
 import { defaultIncomeAmt } from "@/mock/incomeForce";
 
 export default {
@@ -36,6 +38,8 @@ export default {
         const self = this;
 
         // 渝卡通
+        const { data: jiangNanHongData } =
+          await common_API.fetchSmartCardDefaultData();
         const { data: yuSmartcard } =
           await yuSmartcard_API.fetchTradeMonthIncome();
 
@@ -55,9 +59,16 @@ export default {
 
         // 展示数据
         const dataList = monthList.map((date, index) => {
+          // 渝卡通江南红数据
+          const curDateJiangNanHongData = jiangNanHongData[date];
+
           const amt = this.calculator.plus(
             // 渝卡通
-            defaultIncomeAmt.yuSmartcard[date] || yuSmartcard[index].incomeAmt,
+            defaultIncomeAmt.yuSmartcard[date] ||
+              this.calculator.plus(
+                yuSmartcard[index].incomeAmt,
+                curDateJiangNanHongData ? curDateJiangNanHongData.tradeAmt : 0
+              ),
             // 渝品甄选
             defaultIncomeAmt.yuSelection[date] ||
               yuSelection["data"][index].incomeAmt,

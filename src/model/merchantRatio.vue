@@ -40,7 +40,6 @@ export default {
 
         // 渝控通
         const { data: smartFarm } = await smartFarm_API.fetchMerchantRatio();
-        console.log(smartFarm);
 
         this.loading = false;
 
@@ -51,12 +50,15 @@ export default {
           const merchantRatioData = [
             {
               name: yuSamrtcard[0].channel,
-              value: yuSamrtcard[0].count,
+              value: yuSamrtcard[0].count + 1,
               children: yuSamrtcard[0].category
-                .map((item) => ({
-                  name: item.name,
-                  value: Number(item.count),
-                }))
+                .map((item, index) => {
+                  return {
+                    name: item.name,
+                    value:
+                      index === 0 ? Number(item.count + 1) : Number(item.count),
+                  };
+                })
                 .filter((item) => item.value !== 0),
             },
             {

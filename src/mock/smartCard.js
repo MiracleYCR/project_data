@@ -1,5 +1,5 @@
-export const smartCardDefaultData = {
+export const jiangNanHongDefaultData = {
   merchantNumber: 1,
-  tradeNumber: 254489,
-  tradeAmt: 9714609.39,
+  tradeNumber: 216033, // 起始 - 2023-07
+  tradeAmt: 8402201.25, // 起始 - 2023-07
 };

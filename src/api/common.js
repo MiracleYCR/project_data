@@ -10,6 +10,7 @@ export default {
 
   fetchSmartCardDefaultData() {
     return request({
+      // url: "/aaaa/smartCard",
       url: "/api_common/smartCard",
       method: "GET",
     });

@@ -33,6 +33,20 @@ module.exports = defineConfig({
           "^/api_smartfarm": "",
         },
       },
+      // "/api_common": {
+      //   target: "https://miracleycr.com:8888/api_common/incomeForce",
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     "^/api_common": "",
+      //   },
+      // },
+      // "/aaaa": {
+      //   target: "https://miracleycr.com:8888/aaaa/smartCard",
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     "^/aaaa": "",
+      //   },
+      // },
     },
 
     client: {
