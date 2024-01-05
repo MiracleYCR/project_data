@@ -72,7 +72,7 @@ export default {
                     }</span>
                     <span style="font-size:12px;">
                       ${self.calculator
-                        .divide(params[0].value[1], 10000)
+                        .divide(params[0].value[1] || 0, 10000)
                         .toFixed(2)}万元
                     </span>
                   </div>
@@ -85,7 +85,7 @@ export default {
                       ${
                         flag
                           ? self.calculator
-                              .divide(params[1].value[1], 10000)
+                              .divide(params[1].value[1] || 0, 10000)
                               .toFixed(2) + "万元"
                           : "暂无数据"
                       }
