@@ -75,9 +75,9 @@ export default {
             // 渝控通
             defaultIncomeAmt.smartFarm[date] || smartFarm[index].incomeAmt,
             // 渝水农产品展销
-            defaultIncomeAmt.smartFarm[date]
+            defaultIncomeAmt.farmProduct[date]
               ? this.calculator.plus(
-                  defaultIncomeAmt.smartFarm[date],
+                  defaultIncomeAmt.farmProduct[date],
                   farmProduct["data"][index].incomeAmt
                 )
               : farmProduct["data"][index].incomeAmt

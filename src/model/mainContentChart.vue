@@ -109,9 +109,9 @@ export default {
             defaultIncomeAmt.smartFarm[item.month] ||
               smartFarm[index].incomeAmt,
             // 渝水农产品展销
-            defaultIncomeAmt.smartFarm[item.month]
+            defaultIncomeAmt.farmProduct[item.month]
               ? this.calculator.plus(
-                  defaultIncomeAmt.smartFarm[item.month],
+                  defaultIncomeAmt.farmProduct[item.month],
                   farmProduct["data"][index].incomeAmt
                 )
               : farmProduct["data"][index].incomeAmt
@@ -132,9 +132,9 @@ export default {
             defaultIncomeAmt.smartFarm[item.month] ||
               smartFarm[index].incomeAmt,
             // 渝水农产品展销
-            defaultIncomeAmt.smartFarm[item.month]
+            defaultIncomeAmt.farmProduct[item.month]
               ? this.calculator.plus(
-                  defaultIncomeAmt.smartFarm[item.month],
+                  defaultIncomeAmt.farmProduct[item.month],
                   farmProduct["data"][index].incomeAmt
                 )
               : farmProduct["data"][index].incomeAmt
@@ -159,9 +159,9 @@ export default {
 
                 yuSelection["data"][index].incomeAmt,
 
-                defaultIncomeAmt.smartFarm[item.month]
+                defaultIncomeAmt.farmProduct[item.month]
                   ? this.calculator.plus(
-                      defaultIncomeAmt.smartFarm[item.month],
+                      defaultIncomeAmt.farmProduct[item.month],
                       farmProduct["data"][index].incomeAmt
                     )
                   : farmProduct["data"][index].incomeAmt,
