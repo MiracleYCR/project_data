@@ -20,7 +20,7 @@ module.exports = defineConfig({
         },
       },
       "/api_farmproduct": {
-        target: "http://83456030kf.zicp.fun:47124",
+        target: "http://47.116.207.65:47124",
         changeOrigin: true,
         pathRewrite: {
           "^/api_farmproduct": "",
